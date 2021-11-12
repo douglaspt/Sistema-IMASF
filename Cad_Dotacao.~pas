@@ -1,0 +1,129 @@
+unit Cad_Dotacao;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Classes, Graphics, Controls, Forms, Dialogs,
+  Bas_Cadastro, ComCtrls, PDJButton, ExtCtrls, DCChoice, StdCtrls, QuickRpt,
+  jpeg, Mask;
+
+type
+  TFrm_Cad_Dotacao = class(TFrm_Bas_Cadastro)
+    Panel4: TPanel;
+    edt_cod_dotacaoBase: TDCChoiceEdit;
+    Panel5: TPanel;
+    Panel1: TPanel;
+    edt_cod_DtcFuncao: TDCEdit;
+    Panel6: TPanel;
+    edt_cod_DtcSubFuncao: TDCEdit;
+    Panel8: TPanel;
+    edt_descProjeto_dtc: TDCEdit;
+    Panel9: TPanel;
+    edt_descEspecial_dtc: TDCEdit;
+    Panel10: TPanel;
+    edt_cod_DtcPrograma: TDCEdit;
+    Panel7: TPanel;
+    edt_cod_DtcProjAtividade: TDCEdit;
+    Panel11: TPanel;
+    edt_descAtividade_dtc: TDCEdit;
+    edt_cod_DtcCategEconomica: TMaskEdit;
+    procedure FormCreate(Sender: TObject);
+    procedure edt_cod_dotacaoBaseButtonClick(Sender: TObject);
+    procedure edt_cod_DtcFuncaoExit(Sender: TObject);
+    procedure edt_cod_DtcSubFuncaoExit(Sender: TObject);
+    procedure edt_cod_DtcProgramaExit(Sender: TObject);
+    procedure edt_cod_DtcProjAtividadeExit(Sender: TObject);
+    procedure btn_salvarClick(Sender: TObject);
+    procedure btn_novoClick(Sender: TObject);
+    procedure btn_alterarClick(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+    function BAS_ValidarCadastro: boolean ;             override ;
+  end;
+
+var
+  Frm_Cad_Dotacao: TFrm_Cad_Dotacao;
+
+implementation
+uses Constantes, Fun_Str;
+{$R *.DFM}
+
+procedure TFrm_Cad_Dotacao.FormCreate(Sender: TObject);
+begin
+  FTitulo       := 'Cadastro de Dotação' ;
+  FEditChave    := 'edt_cod_dotacaoBase' ;
+  FEditAlteracao:= 'edt_cod_DtcCategEconomica' ;
+  FUltFoco      := 'edt_descEspecial_dtc' ;
+  FTitPesquisa  := 'Localizar Dotação' ;
+  FPesquisa     := 'cod_dotacaoBase, cod_DtcCategEconomica,'+
+  ' cod_DtcFuncao, cod_DtcSubFuncao, cod_DtcPrograma, cod_DtcProjAtividade' ;
+  FPesquisaTit  := 'Cod. Dotação, Categ. Econo., Função, Sub Função, Programa, Proj. Atividade' ;
+  inherited;
+
+end;
+
+function TFrm_Cad_Dotacao.BAS_ValidarCadastro: boolean ;
+begin
+  result := true ;
+  if (not BAS_ValidarCampo(edt_cod_DtcCategEconomica.name, 'O campo Categoria Economica deve ser preenchido !', VLD_Preenchido )) or
+    (not BAS_ValidarCampo(edt_cod_DtcFuncao.name, 'O campo Função deve ser preenchido !', VLD_Preenchido )) or
+    (not BAS_ValidarCampo(edt_cod_DtcSubFuncao.name, 'O campo Sub Função deve ser preenchido !', VLD_Preenchido )) or
+    (not BAS_ValidarCampo(edt_cod_DtcPrograma.name, 'O campo Programa deve ser preenchido !', VLD_Preenchido )) or
+    (not BAS_ValidarCampo(edt_cod_DtcProjAtividade.name, 'O campo Projeto / Atividade deve ser preenchido !', VLD_Preenchido )) or
+    (not BAS_ValidarCampo(edt_descProjeto_dtc.name, 'O campo Projeto deve ser preenchido !', VLD_Preenchido )) or
+    (not BAS_ValidarCampo(edt_descAtividade_dtc.name, 'O campo Atividades deve ser preenchido !', VLD_Preenchido )) then
+    Exit;
+  result := false ;
+end;
+
+procedure TFrm_Cad_Dotacao.edt_cod_dotacaoBaseButtonClick(Sender: TObject);
+begin
+  inherited;
+  btn_alterarClick(self);
+end;
+
+procedure TFrm_Cad_Dotacao.edt_cod_DtcFuncaoExit(Sender: TObject);
+begin
+  inherited;
+  edt_cod_DtcFuncao.text := STR_AddZeros(edt_cod_DtcFuncao.Text,2);
+end;
+
+procedure TFrm_Cad_Dotacao.edt_cod_DtcSubFuncaoExit(Sender: TObject);
+begin
+  inherited;
+  edt_cod_DtcSubFuncao.text := STR_AddZeros(edt_cod_DtcSubFuncao.Text,3);
+end;
+
+procedure TFrm_Cad_Dotacao.edt_cod_DtcProgramaExit(Sender: TObject);
+begin
+  inherited;
+  edt_cod_DtcPrograma.text := STR_AddZeros(edt_cod_DtcPrograma.Text,4);
+end;
+
+procedure TFrm_Cad_Dotacao.edt_cod_DtcProjAtividadeExit(Sender: TObject);
+begin
+  inherited;
+  edt_cod_DtcProjAtividade.text := STR_AddZeros(edt_cod_DtcProjAtividade.Text,3);
+end;
+
+procedure TFrm_Cad_Dotacao.btn_salvarClick(Sender: TObject);
+begin
+  STR_RemoveChar(edt_cod_DtcCategEconomica.text, '.');
+  inherited;
+end;
+
+procedure TFrm_Cad_Dotacao.btn_novoClick(Sender: TObject);
+begin
+  inherited;
+  edt_cod_dotacaoBase.Enabled := false;
+end;
+
+procedure TFrm_Cad_Dotacao.btn_alterarClick(Sender: TObject);
+begin
+  inherited;
+  edt_cod_dotacaoBase.Enabled := false;
+end;
+
+end.

@@ -1,0 +1,19 @@
+program stConven;
+
+uses
+  Forms,
+  Principal in 'Principal.pas' {Frm_Principal},
+  Imp_Resumo in 'Imp_Resumo.pas' {Frm_Imp_Resumo},
+  Dlg_NovaDigitacao in 'Dlg_NovaDigitacao.pas' {Frm_Dlg_NovaDigitacao},
+  Dlg_Sobre in 'Dlg_Sobre.pas' {Frm_Sobre};
+
+{$R *.RES}
+
+begin
+  Application.Initialize;
+  Application.CreateForm(TFrm_Principal, Frm_Principal);
+  Application.CreateForm(TFrm_Imp_Resumo, Frm_Imp_Resumo);
+  Application.CreateForm(TFrm_Dlg_NovaDigitacao, Frm_Dlg_NovaDigitacao);
+  Application.CreateForm(TFrm_Sobre, Frm_Sobre);
+  Application.Run;
+end.

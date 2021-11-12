@@ -1,0 +1,77 @@
+inherited Frm_Cad_tiposeguro: TFrm_Cad_tiposeguro
+  Left = 2
+  Top = 15
+  Caption = 'Frm_Cad_tiposeguro'
+  ClientHeight = 551
+  ClientWidth = 798
+  PixelsPerInch = 96
+  TextHeight = 13
+  inherited Pnl_Titulo: TPanel
+    Width = 798
+    inherited Image1: TImage
+      Width = 796
+    end
+  end
+  inherited Panel2: TPanel
+    Top = 499
+    Width = 798
+    inherited Image3: TImage
+      Width = 796
+    end
+  end
+  inherited Panel3: TPanel
+    Width = 798
+    Height = 458
+    object Panel4: TPanel
+      Tag = -2
+      Left = 1
+      Top = 1
+      Width = 796
+      Height = 32
+      Align = alTop
+      Alignment = taLeftJustify
+      Caption = '    Tipo de Seguro'
+      TabOrder = 0
+      object edt_cod_tiposeguro: TDCChoiceEdit
+        Tag = -2
+        Left = 120
+        Top = 5
+        Width = 93
+        Height = 21
+        Hint = 
+          'Digite o código que se deseja alterar ou clique no botão para pe' +
+          'squisar'
+        MaxLength = 10
+        TabOrder = 0
+        Alignment = taRightJustify
+        OnButtonClick = edt_cod_tiposeguroButtonClick
+        EditMask = '9999999'
+      end
+    end
+    object Panel5: TPanel
+      Tag = -1
+      Left = 1
+      Top = 33
+      Width = 796
+      Height = 32
+      Align = alTop
+      Alignment = taLeftJustify
+      Caption = '     Descrição'
+      TabOrder = 1
+      object edt_nome_tps: TDCEdit
+        Tag = -1
+        Left = 120
+        Top = 5
+        Width = 185
+        Height = 21
+        MaxLength = 35
+        TabOrder = 0
+        Text = 'DCEdit1'
+      end
+    end
+  end
+  inherited StB_Principal: TStatusBar
+    Top = 532
+    Width = 798
+  end
+end

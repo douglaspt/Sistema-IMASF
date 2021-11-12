@@ -1,0 +1,64 @@
+inherited Frm_Cad_formaadm: TFrm_Cad_formaadm
+  Left = -2
+  Top = 60
+  Caption = 'Frm_Cad_formaadm'
+  ClientHeight = 505
+  PixelsPerInch = 96
+  TextHeight = 13
+  inherited Panel2: TPanel
+    Top = 453
+  end
+  inherited Panel3: TPanel
+    Height = 412
+    object Panel4: TPanel
+      Tag = -2
+      Left = 1
+      Top = 1
+      Width = 798
+      Height = 32
+      Align = alTop
+      Alignment = taLeftJustify
+      Caption = '    Forma de Admissão'
+      TabOrder = 0
+      object edt_cod_formaadm: TDCChoiceEdit
+        Tag = -2
+        Left = 120
+        Top = 5
+        Width = 93
+        Height = 21
+        Hint = 
+          'Digite o código que se deseja alterar ou clique no botão para pe' +
+          'squisar'
+        MaxLength = 10
+        TabOrder = 0
+        Alignment = taRightJustify
+        OnButtonClick = edt_cod_formaadmButtonClick
+        EditMask = '9999999'
+      end
+    end
+    object Panel5: TPanel
+      Tag = -1
+      Left = 1
+      Top = 33
+      Width = 798
+      Height = 32
+      Align = alTop
+      Alignment = taLeftJustify
+      Caption = '     Descrição'
+      TabOrder = 1
+      object edt_nome_fad: TDCEdit
+        Tag = -1
+        Left = 120
+        Top = 5
+        Width = 185
+        Height = 21
+        MaxLength = 12
+        TabOrder = 0
+        Text = 'DCEdit1'
+      end
+    end
+  end
+  inherited StB_Principal: TStatusBar
+    Top = 486
+  end
+end

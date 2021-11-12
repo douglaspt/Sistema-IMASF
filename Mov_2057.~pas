@@ -1,0 +1,213 @@
+unit Mov_2057;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Classes, Graphics, Controls, Forms, Dialogs,
+  Bas_TelaPadrao, ComCtrls, PDJButton, ExtCtrls, StdCtrls, DCChoice, DB,
+  Grids, DBGrids, Buttons, Mask, DBCtrls, jpeg, BEdit, BComboBox, ImgList;
+
+type
+  TFrm_Mov_2057 = class(TFrm_Bas_TelaPadrao)
+    Panel4: TPanel;
+    edt_inscricao: TDCEdit;
+    edt_carteirinha: TDCEdit;
+    PDJButton3: TPDJButton;
+    Panel6: TPanel;
+    btn_limpar: TPDJButton;
+    dbg_conveniado: TDBGrid;
+    DataSource1: TDataSource;
+    Label1: TLabel;
+    lbl_total: TLabel;
+    ckb_confirmarTodos: TCheckBox;
+    edt_cod_beneficiario: TDBEdit;
+    Label9: TLabel;
+    pnl_alerta: TPanel;
+    btn_alterar: TPDJButton;
+    PDJButton1: TPDJButton;
+    procedure btn_alterarClick(Sender: TObject);
+    procedure edt_nossonumero_flhKeyDown(Sender: TObject; var Key: Word;
+      Shift: TShiftState);
+    procedure PDJButton3Click(Sender: TObject);
+    procedure PDJButton1Click(Sender: TObject);
+    procedure btn_limparClick(Sender: TObject);
+    procedure edt_cod_beneficiarioChange(Sender: TObject);
+    procedure edt_inscricaoKeyDown(Sender: TObject; var Key: Word;
+      Shift: TShiftState);
+    procedure Btn_FecharClick(Sender: TObject);
+  private
+    { Private declarations }
+    wCod_Beneficiario, wInscricao : String;
+    procedure AtualizaBeneficiarios;
+  public
+    { Public declarations }
+
+  end;
+
+var
+  Frm_Mov_2057: TFrm_Mov_2057;
+
+implementation
+
+uses Fun_Obj, Fun_ConsCadastro, Fun_DB, Fun_Acesso, Constantes, Fun_str,
+  dtm_principal6, Bas_Impressao, Dlg_Mensagem, Fun_Beneficiario, Mov_2056,
+  dtm_principal2;
+{$R *.DFM}
+
+
+
+procedure TFrm_Mov_2057.btn_alterarClick(Sender: TObject);
+begin
+  inherited;
+  if Dlg_YesNo('Tem certeza que Deseja Confirmar o Recebimento?',self) then
+  begin
+    if edt_cod_beneficiario.Text <> '' then
+    begin
+      if ckb_confirmarTodos.Checked then
+      begin
+        with Fdt_principal2.spc_cons_adm_emissaocarteiraUnimed02 do
+        begin
+          Prior;
+          while not Eof do
+          begin
+            DB_ExecSQL('update tbl_histcarteiraUnimed set cod_statuscarteira = 10, dtconfirmacao_hcu = getdate() '+
+            ' where cod_beneficiario = '+edt_cod_beneficiario.Text+' and dtemissao_hcu = '+
+            ' (select max(dtemissao_hcu) from tbl_histcarteiraUnimed where cod_beneficiario = '+
+            edt_cod_beneficiario.Text+')');
+            Next;
+          end;
+        end;
+      end
+      else begin
+        DB_ExecSQL('update tbl_histcarteiraUnimed set cod_statuscarteira = 10, dtconfirmacao_hcu = getdate() '+
+        ' where cod_beneficiario = '+edt_cod_beneficiario.Text+' and dtemissao_hcu = '+
+        ' (select max(dtemissao_hcu) from tbl_histcarteiraUnimed where cod_beneficiario = '+
+         edt_cod_beneficiario.Text+')');
+      end;
+   //   btn_limparClick(self);
+    Dlg_Ok('Recebimento Confirmado com Sucesso!',self);
+    end;
+  end;
+end;
+
+procedure TFrm_Mov_2057.edt_nossonumero_flhKeyDown(Sender: TObject;
+  var Key: Word; Shift: TShiftState);
+var
+  Fplano : String;
+begin
+  inherited;
+  if Key = 13 then begin
+    if edt_carteirinha.Text <> '' then begin
+      edt_inscricao.Text := copy(edt_carteirinha.text, 10, 6);
+      AtualizaBeneficiarios;
+    end;
+  end;
+end;
+
+procedure TFrm_Mov_2057.PDJButton3Click(Sender: TObject);
+begin
+  inherited;
+    Hide;
+    Frm_Mov_2056 := TFrm_Mov_2056.Create(Self);
+    Frm_Mov_2056.wInscricao := edt_inscricao.Text;
+    Frm_Mov_2056.ShowModal;
+    Frm_Mov_2056.Release;
+    Show;
+end;
+
+procedure TFrm_Mov_2057.PDJButton1Click(Sender: TObject);
+begin
+  inherited;
+  if Dlg_YesNo('Confirmar a Entrega da Carteirinha?',self) then
+  begin
+    if edt_cod_beneficiario.Text <> '' then
+    begin
+      if ckb_confirmarTodos.Checked then
+      begin
+        with Fdt_principal2.spc_cons_adm_emissaocarteiraUnimed02 do
+        begin
+          Prior;
+          while not Eof do
+          begin
+            DB_ExecSQL('update tbl_histcarteiraUnimed set cod_statuscarteira = 11, dtentrega_hcu = getdate()'+
+            ' where cod_beneficiario = '+edt_cod_beneficiario.Text+' and dtemissao_hcu = '+
+            ' (select max(dtemissao_hcu) from tbl_histcarteiraUnimed where cod_beneficiario = '+
+            edt_cod_beneficiario.Text+')');
+            Next;
+          end;
+        end;
+      end
+      else begin
+        DB_ExecSQL('update tbl_histcarteiraUnimed set cod_statuscarteira = 11, dtentrega_hcu = getdate()'+
+        ' where cod_beneficiario = '+edt_cod_beneficiario.Text+' and dtemissao_hcu = '+
+        ' (select max(dtemissao_hcu) from tbl_histcarteiraUnimed where cod_beneficiario = '+
+        edt_cod_beneficiario.Text+')');
+      end;
+    //  btn_limparClick(self);
+    Dlg_Ok('Entraga Confirmada com Sucesso!',self);
+    end;
+  end;
+end;
+
+procedure TFrm_Mov_2057.btn_limparClick(Sender: TObject);
+begin
+  inherited;
+  Obj_EmptyEditTag(self,0);
+  pnl_alerta.Visible := false;
+  ckb_confirmarTodos.Checked := false;
+  Fdt_principal2.spc_cons_adm_emissaocarteiraUnimed02.close;
+  edt_carteirinha.SetFocus;
+end;
+
+procedure TFrm_Mov_2057.edt_cod_beneficiarioChange(Sender: TObject);
+begin
+  inherited;
+  if edt_cod_beneficiario.Text <> '' then
+  begin
+    if Fdt_principal2.spc_cons_adm_emissaocarteiraUnimed02.FieldByName('cod_sitbeneficiario').AsString <> '' then begin
+      DB_OpenSql('select nome_sit, tipo_sit from tbl_sitbeneficiario where cod_sitbeneficiario = '+
+      Fdt_principal2.spc_cons_adm_emissaocarteiraUnimed02.FieldByName('cod_sitbeneficiario').AsString);
+      pnl_alerta.Caption := '***  Situação : '+Tab.FieldByName('nome_sit').AsString+'  ***';
+      case Tab.FieldByName('tipo_sit').AsInteger of
+        1 : pnl_alerta.color := clYellow;
+        2 : pnl_alerta.color := clRed;
+      end;
+      pnl_alerta.visible := Tab.FieldByName('tipo_sit').AsInteger > 0 ;
+      DB_ClearSQL;
+    end;
+  end;
+end;
+
+procedure TFrm_Mov_2057.AtualizaBeneficiarios;
+begin
+  with Fdt_principal2.spc_cons_adm_emissaocarteiraUnimed02 do
+  begin
+    close;
+    ParamByName('@inscricao_ben').AsString := edt_inscricao.text;
+    open;
+    lbl_total.Caption := IntToStr(RecordCount);
+    if RecordCount < 1 then
+      Dlg_Alerta('Inscrição não Encontrada ou Beneficiario pode estar Cancelado!',self);
+  end;
+end;
+
+procedure TFrm_Mov_2057.edt_inscricaoKeyDown(Sender: TObject;
+  var Key: Word; Shift: TShiftState);
+begin
+  inherited;
+  if Key = 13 then
+    if edt_inscricao.Text <> '' then
+      AtualizaBeneficiarios;
+
+end;
+
+procedure TFrm_Mov_2057.Btn_FecharClick(Sender: TObject);
+begin
+  inherited;
+  Fdt_principal2.spc_cons_adm_emissaocarteiraUnimed02.close;
+end;
+
+end.
+
+
+

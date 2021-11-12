@@ -1,0 +1,112 @@
+unit Mov_2030;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Classes, Graphics, Controls, Forms, Dialogs,
+  Bas_TelaPadrao, ComCtrls, PDJButton, ExtCtrls, StdCtrls, DCChoice, DB,
+  Grids, DBGrids, Buttons, Mask, DBCtrls, jpeg;
+
+type
+  TFrm_Mov_2030 = class(TFrm_Bas_TelaPadrao)
+    Panel7: TPanel;
+    edt_cod_descontofolha: TDCEdit;
+    edt_parcelan_par: TDCEdit;
+    SpeedButton6: TSpeedButton;
+    Panel1: TPanel;
+    edt_nome_ben: TDCEdit;
+    edt_carteira: TDCEdit;
+    Panel24: TPanel;
+    edt_matricula: TDCEdit;
+    edt_digito: TDCEdit;
+    Panel8: TPanel;
+    edt_nome_emp: TDCEdit;
+    edt_nome_tar: TDCEdit;
+    Panel11: TPanel;
+    edt_dtdesconto_flh: TDCDateEdit;
+    Panel4: TPanel;
+    edt_nparcela_par: TDCEdit;
+    edt_parcelan_par2: TDCEdit;
+    Panel5: TPanel;
+    edt_vldesconto_adf: TDCEdit;
+    Panel6: TPanel;
+    btn_alterar: TPDJButton;
+    edt_nossonumero_flh: TDCEdit;
+    edt_valorpagar_par: TDCEdit;
+    procedure SpeedButton6Click(Sender: TObject);
+    procedure btn_alterarClick(Sender: TObject);
+  private
+    { Private declarations }
+    function CriticaParametros : Boolean ;
+  public
+    { Public declarations }
+    wCod_Desconto, wParcela : String ;
+  end;
+
+var
+  Frm_Mov_2030: TFrm_Mov_2030;
+
+implementation
+uses dtm_principal, DLG_Mensagem, Fun_DB, FUN_STR, Constantes, Fun_beneficiario, Fun_Acesso,
+ dtm_principal4 ;
+
+{$R *.DFM}
+
+
+function TFrm_Mov_2030.CriticaParametros : Boolean ;
+begin
+  result :=(not BAS_ValidarCampo(edt_cod_descontofolha.name, 'O Código do Desconto deve ser Preenchido !', VLD_Preenchido )) or
+  (not BAS_ValidarCampo(edt_parcelan_par.name, 'O Parcelamento deve ser Preenchido !', VLD_Preenchido ));
+
+end;
+
+procedure TFrm_Mov_2030.SpeedButton6Click(Sender: TObject);
+begin
+  inherited;
+  with fdt_principal4.spc_cons_adm_altecaonossoNumero do
+  begin
+    Close;
+    ParamByName('@cod_descontofolha').AsString := edt_cod_descontofolha.text;
+    ParamByName('@parcelan_par').AsString := edt_parcelan_par.text;
+    Open;
+    edt_carteira.text := FormatarCarteirinha(
+    FieldByName('cod_empresa').AsString+FieldByName('cod_plano').AsString+
+    STR_RightAlign(FieldByName('inscricao_ben').AsString,#48,5)+
+    STR_RightAlign(FieldByName('titulacartei_ben').AsString,#48,2)+
+    FieldByName('digito_ben').AsString) ;
+    edt_nome_ben.Text := fieldbyname('nome_ben').AsString;
+    edt_matricula.Text := fieldByname('matriculadebito_seg').AsString;
+    edt_digito.Text := fieldbyname('digitomatdeb_seg').AsString;
+    edt_nome_emp.Text := fieldbyname('nome_emp').AsString;
+    edt_nome_tar.Text := fieldbyname('nome_tar').AsString;
+    edt_dtdesconto_flh.Text := fieldbyname('dtdesconto_flh').AsString;
+    edt_vldesconto_adf.Text := FormatFloat('###,###,##0.00', fieldbyname('vldesconto_adf').AsFloat);
+    edt_nossonumero_flh.text := fieldbyname('nossonumero_flh').AsString;
+    edt_nparcela_par.Text := FieldByName('nparcela_par').AsString;
+    edt_parcelan_par2.Text := FieldByname('parcelan_par').AsString;
+    edt_valorpagar_par.Text := FormatFloat('###,###,##0.00',FieldByName('valorpagar_par').AsFloat);
+  end;
+end;
+
+procedure TFrm_Mov_2030.btn_alterarClick(Sender: TObject);
+var
+  result : boolean;
+begin
+  inherited;
+  if trim(edt_parcelan_par.text) = '' then
+    result := DB_ExecSQL('update tbl_descontofolha set nossonumero_flh = '''+edt_nossonumero_flh.Text+
+    ''' where cod_descontofolha = '+edt_cod_descontofolha.Text)
+  else
+    result := DB_ExecSQL('update tbl_parcelamento set nossonumero_par = '''+edt_nossonumero_flh.Text+
+    ''' where cod_descontofolha = '+edt_cod_descontofolha.Text+' and parcelan_par = '+
+    edt_parcelan_par.text);
+  if result then
+    Dlg_Ok('Alteração Efetuada !', self)
+  else
+    Dlg_Erro('Não foi possível efetuar a altareção !', self);
+end;
+
+end.
+
+
+

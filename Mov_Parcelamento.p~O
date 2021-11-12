@@ -1,0 +1,415 @@
+unit Mov_Parcelamento;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Classes, Graphics, Controls, Forms, Dialogs,
+  Bas_TelaPadrao, ComCtrls, PDJButton, ExtCtrls, StdCtrls, DCChoice, DB,
+  Grids, DBGrids, Buttons, Mask, DBCtrls, jpeg;
+
+type
+  TFrm_Mov_Parcelamento = class(TFrm_Bas_TelaPadrao)
+    btn_cancelar: TPDJButton;
+    btn_salvar: TPDJButton;
+    btn_novo: TPDJButton;
+    DataSource3: TDataSource;
+    panel: TPanel;
+    ed2_cod_beneficiario: TDCChoiceEdit;
+    ed2_inscricao_ben: TDCChoiceEdit;
+    PageControl: TPageControl;
+    TbS_Novo: TTabSheet;
+    TbS_Consulta: TTabSheet;
+    Panel10: TPanel;
+    cb2_cod_tarifa: TDCComboBox;
+    edt_codtarifa: TDCEdit;
+    Panel12: TPanel;
+    edt_dtdesconto_flh: TDCDateEdit;
+    Panel7: TPanel;
+    edt_dtparcela1: TDCDateEdit;
+    Panel11: TPanel;
+    edt_vldesconto_adf: TDCEdit;
+    Panel1: TPanel;
+    edt_nparcelas: TDCEdit;
+    Panel5: TPanel;
+    edt_vlparcelar: TDCEdit;
+    Panel17: TPanel;
+    edt_obs_flh: TDCEdit;
+    DBGrid5: TDBGrid;
+    PDJButton1: TPDJButton;
+    btn_cancelaParcelamento: TPDJButton;
+    edt_txjuro: TDCEdit;
+    edt_vlparcelado: TDCEdit;
+    PDJButton3: TPDJButton;
+    tbs_branco: TTabSheet;
+    Label1: TLabel;
+    Panel6: TPanel;
+    Panel8: TPanel;
+    cbx_cod_empresafolha: TDCComboBox;
+    Panel24: TPanel;
+    edt_matricula: TDCEdit;
+    edt_digito: TDCEdit;
+    Panel9: TPanel;
+    edt_nome: TDCEdit;
+    edt_carteira: TDCEdit;
+    Label2: TLabel;
+    cbx_cod_indice: TDCComboBox;
+    Panel4: TPanel;
+    edt_vltotal: TDCEdit;
+    Panel13: TPanel;
+    edt_primParcela: TDCEdit;
+    Panel14: TPanel;
+    edt_demaisParcela: TDCEdit;
+    Button1: TButton;
+    RadioButton2: TRadioButton;
+    rdb_beneficiario: TRadioButton;
+    edt_matriculadebito: TDCEdit;
+    edt_digitodebito: TDCEdit;
+    procedure FormCreate(Sender: TObject);
+    procedure FormShow(Sender: TObject);
+    procedure ed2_inscricao_benButtonClick(Sender: TObject);
+    procedure btn_novoClick(Sender: TObject);
+    procedure btn_salvarClick(Sender: TObject);
+    procedure btn_cancelarClick(Sender: TObject);
+    procedure FormClose(Sender: TObject; var Action: TCloseAction);
+    procedure ed2_inscricao_benKeyDown(Sender: TObject; var Key: Word;
+      Shift: TShiftState);
+    procedure edt_codtarifaKeyDown(Sender: TObject; var Key: Word;
+      Shift: TShiftState);
+    procedure edt_obs_flhKeyDown(Sender: TObject; var Key: Word;
+      Shift: TShiftState);
+    procedure PDJButton1Click(Sender: TObject);
+    procedure btn_cancelaParcelamentoClick(Sender: TObject);
+    procedure PDJButton3Click(Sender: TObject);
+    procedure Button1Click(Sender: TObject);
+    procedure edt_digitodebitoExit(Sender: TObject);
+  private
+    { Private declarations }
+    FPesquisaSQLDefalt : String ;
+    procedure BotoesOnOff(b:boolean);
+    function  CriticaParametros : Boolean ;
+  public
+    { Public declarations }
+    wCod_Beneficiario : String ;
+  end;
+
+var
+  Frm_Mov_Parcelamento: TFrm_Mov_Parcelamento;
+
+implementation
+uses dtm_principal, DLG_Mensagem, Fun_DB, FUN_STR, Constantes, Fun_beneficiario,
+Fun_ConsCadastro, Fun_obj, Cad_Segurado, Cad_Dependente, Fun_Numero, dtm_principal2,
+Fun_Acesso, Fun_Contabil, Fun_Test, Fun_desconto;
+
+{$R *.DFM}
+
+
+procedure TFrm_Mov_Parcelamento.BotoesOnOff(b:boolean);
+begin
+  btn_novo.Enabled := not b ;
+  btn_salvar.Enabled := b ;
+  btn_cancelar.Enabled := b ;
+  Btn_Fechar.Enabled := not b ;
+  btn_minim.Enabled := not b ;
+  btn_close.Enabled := not b ;
+//  Panel3.Visible := b ;
+end;
+
+procedure TFrm_Mov_Parcelamento.FormCreate(Sender: TObject);
+begin
+  FTitulo       := 'Lançamentos de Descontos em Folha de Pagamento' ;
+//  FEditChave    := 'edt_cod_conveniado' ;
+  FPesquisaTit  := 'Código, Inscrição, Nome, Processo, Situação' ;
+  FPesquisaSQLDefalt := 'select b.cod_beneficiario, b.inscricao_ben, b.nome_ben, b.processo_ben, s.nome_sit '+
+  'from tbl_beneficiario b, tbl_sitbeneficiario s '+
+  'where b.cod_sitbeneficiario = s.cod_sitbeneficiario ';
+  inherited;
+end;
+
+procedure TFrm_Mov_Parcelamento.FormShow(Sender: TObject);
+begin
+  inherited;
+  Fdt_principal.spc_cons_adm_descontofolha02.close;
+  BAS_CarregarCombo('cbx_cod_mes', 'nome_mes');
+  BAS_CarregarCombo('cbx_cod_empresafolha', 'nome_emp');
+  BAS_CarregarCombo('cbx_cod_indice', 'nome_ind');
+  Obj_LoadCombo(Self, 'cb2_cod_tarifa', 'cast(cod_tarifa as char(3)) + '' - '' + nome_tar', 'cod_tarifa', 'tbl_tarifa');
+end;
+
+procedure TFrm_Mov_Parcelamento.ed2_inscricao_benButtonClick(
+  Sender: TObject);
+begin
+  inherited;
+  if FStatus <> FST_Novo then exit ;
+  if ed2_inscricao_ben.text = '' then
+    FPesquisaSQL  := FPesquisaSQLDefalt
+  else
+    FPesquisaSQL  := FPesquisaSQLDefalt+' and b.inscricao_ben = '+ed2_inscricao_ben.text;
+  if wCod_Beneficiario = '' then
+    ed2_cod_beneficiario.text := Cons_ConsultaCadastro(self, 'tbl'+Copy(FEditChave,8,length(FEditChave)), FPesquisa, FPesquisaTit, FTitPesquisa, FPesquisaSQL, false)
+  else
+    ed2_cod_beneficiario.text := wCod_Beneficiario ;
+  if ed2_cod_beneficiario.text = '' then begin
+    edt_carteira.text := '' ;
+    edt_nome.text := '' ;
+    edt_matricula.text := '' ;
+  end else begin
+    DB_OpenSQL('select b.cod_beneficiario, b.inscricao_ben, b.nome_ben, b.cod_empresa, '+
+    ' b.cod_plano, b.inscricao_ben, b.titulacartei_ben, b.digito_ben, m.matriculadebito_seg, m.digitomatdeb_seg '+
+    ' from tbl_beneficiario b, tbl_beneficiario b2, tbl_segurado m where b2.cod_beneficiario = m.cod_beneficiario '+
+    ' and b2.inscricao_ben = b.inscricao_ben and b.cod_beneficiario = '+ed2_cod_beneficiario.text);
+    with Fdt_principal.spc_cons_adm_beneficiario001 do begin
+      close;
+      parambyname('@cod_beneficiario').AsString := ed2_cod_beneficiario.text ;
+      open;
+      edt_carteira.text := FormatarCarteirinha(
+      FieldByName('cod_empresa').AsString+FieldByName('cod_plano').AsString+
+      STR_RightAlign(FieldByName('inscricao_ben').AsString,#48,5)+
+      STR_RightAlign(FieldByName('titulacartei_ben').AsString,#48,2)+
+      FieldByName('digito_ben').AsString) ;
+      edt_nome.text := FieldByNAme('nome_ben').AsString;
+      ed2_inscricao_ben.text := FieldByNAme('inscricao_ben').AsString;
+      edt_matricula.text := FieldByNAme('matriculadebito_seg').AsString;
+      edt_digito.text := FieldByNAme('digitomatdeb_seg').AsString;
+      Obj_SetFormObjValueByName(self, cbx_cod_empresafolha.name, FieldByName('cod_empresafolha').AsString);
+    end;
+  end;
+end;
+
+procedure TFrm_Mov_Parcelamento.btn_novoClick(Sender: TObject);
+begin
+  inherited;
+  if rdb_beneficiario.Checked then begin
+    edt_matriculadebito.visible := false ;
+    edt_digitodebito.visible := false ;
+    panel.Caption := '   Inscrição' ;
+    ed2_inscricao_ben.SetFocus;
+  end else begin
+    edt_matriculadebito.visible := true ;
+    edt_digitodebito.visible := true ;
+    panel.Caption := '   Matrícula de Débito                                                                              Digito' ;
+    ed2_cod_beneficiario.text := '0';
+    edt_matriculadebito.setfocus;
+  end;                                          
+  PageControl.ActivePage := TbS_Novo ;
+  ed2_cod_beneficiario.Text := '' ;
+  ed2_inscricao_ben.text := '' ;
+  edt_carteira.text := '' ;
+  edt_nome.text := '' ;
+  edt_matricula.text := '' ;
+  edt_vldesconto_adf.text := '' ;
+  edt_nparcelas.text := '' ;
+  edt_vlparcelar.text := '' ;
+  edt_obs_flh.text := '' ;
+  Obj_SetFormObjValueByName(self, cbx_cod_indice.name, '1');
+  BotoesOnOff(true);
+  FStatus := FST_Novo ;
+  EscreveLog(btn_novo.Name);
+end;
+
+function TFrm_Mov_Parcelamento.CriticaParametros : Boolean ;
+begin
+  result := (not BAS_ValidarCampo(edt_carteira.name, 'Um beneficiário deve ser selecionado !', VLD_Preenchido )) or
+  (not BAS_ValidarCampo(cbx_cod_empresafolha.name, 'Empresa para folha (local de desconto) deve ser preenchido!', VLD_Preenchido )) or
+  (not BAS_ValidarCampo(cb2_cod_tarifa.name, 'Código de Tarifa deve ser preenchida !', VLD_Preenchido )) or
+  (not BAS_ValidarCampo(cbx_cod_indice.name, 'Um índice de pesquisa deve ser selecionado !', VLD_Preenchido )) or
+  (not BAS_ValidarCampo(edt_dtdesconto_flh.name, 'Data de Desconto deve ser uma data válida ! Verifique se o campo não está em branco, ou se o Dia ou Mês ou Ano digitados são validos ', VLD_DataPreenchida )) or
+  (not BAS_ValidarCampo(edt_dtparcela1.name, 'Data da primeira parcela tem q ser uma data válida ! Verifique se o campo não está em branco, ou se o Dia ou Mês ou Ano digitados são validos', VLD_DataPreenchida )) or
+  (not BAS_ValidarCampo(edt_vldesconto_adf.name, 'Entre com um valor de desconto !', VLD_Preenchido )) or
+  (not BAS_ValidarCampo(edt_nparcelas.name, 'Número de Parcelas deve ser preenchido !', VLD_Preenchido )) or
+  (not BAS_ValidarCampo(edt_txjuro.name, 'Percentual de taxa de juros deve ser preenchida !', VLD_Preenchido )) or
+  (not BAS_ValidarCampo(edt_vlparcelar.name, 'Clique no Calcular Parcela, para depois salvar !', VLD_Preenchido ));
+end;
+
+procedure TFrm_Mov_Parcelamento.btn_salvarClick(Sender: TObject);
+  var
+    uF : TDateTime ;
+    permiteAlterar : boolean ;
+    executado : boolean;
+begin
+  inherited;
+  permiteAlterar := Acs_AcessoEspecial('201501');
+  if CriticaParametros then
+    Exit;
+  uF := Ctb_DtUltimoEnvioGerado(cbx_cod_empresafolha.valueitem);
+  if Test_DataValida6meses(edt_dtdesconto_flh.text) then begin
+    Dlg_Alerta('Data do Desconto inválida. Data superior a 6 meses!',self);
+    Exit;
+  end;
+  if Test_DataValida6meses(edt_dtparcela1.text) then begin
+    Dlg_Alerta('Data da 1º Parcela inválida. Data superior a 6 meses!',self);
+    Exit;
+  end;
+  if ((FormatDateTime('yyyymm', edt_dtdesconto_flh.date) <= FormatDateTime('yyyymm', uF)) or
+  (FormatDateTime('yyyymm', edt_dtparcela1.date) <= FormatDateTime('yyyymm', uF))) and
+  (not permiteAlterar) then begin
+     Dlg_OK('A folha para este mês informado já foi gerada e enviada, assim não se pode mais efetuar lançamentos para neste mês',self);
+     exit;
+  end;
+  if (cbx_cod_empresafolha.valueitem = '99') and (cb2_cod_tarifa.valueitem <> '516') and (cb2_cod_tarifa.valueitem <> '596') and
+  (cb2_cod_tarifa.valueitem <> '518') and (cb2_cod_tarifa.valueitem <> '634') and (cb2_cod_tarifa.valueitem <> '604') then begin
+    Dlg_Ok('O código "'+cb2_cod_tarifa.valueitem+'" não é um código de parcelamento !',self);
+    edt_codtarifa.setfocus;
+    exit;
+  end;
+  if DB_OpenSQL('select * from tbl_cotacaoindice where cod_indice = '+
+  cbx_cod_indice.valueitem+' and dtcota_cti = '+DB_FormatDataSQL(edt_dtdesconto_flh.text, ftdate)) < 1 then begin
+    Dlg_Ok('É Necessário Atualizar a Tabela de Índice de Reajuste (Cod. Tela 1028)',self);
+    edt_dtdesconto_flh.SetFocus;
+    exit;
+  end;
+  DB_BeginTrans;
+  executado := DB_ExecSQL('exec spc_adm_parcelamento '+ed2_cod_beneficiario.text+', '+
+  edt_matricula.text+', '+edt_digito.text+', '+
+  cb2_cod_tarifa.valueitem+', '+cbx_cod_empresafolha.valueitem+', '+
+  cbx_cod_indice.valueitem+', '+DB_FormatDataSQL(edt_dtparcela1.text, ftdate)+', '''+
+  Formatdatetime('mm', edt_dtdesconto_flh.date) + '/01/'+ Formatdatetime('yyyy', edt_dtdesconto_flh.date)+''', '+
+  DB_FormatDataSQL(edt_vlparcelado.text, ftfloat) + ', ' + edt_nparcelas.text + ', '+
+  IntToStr(FCod_Usuario)+','+DB_FormatDataSQL(edt_txjuro.Text,ftFloat));
+  if executado then begin
+    executado := Set_HistoricoDesconto(Get_UltimoDesconto(FCod_Usuario), Fcod_usuario, FCod_TelaSistema, 1);
+    if executado then
+      DB_Commit
+    else begin
+      DB_RollBack;
+    end;
+//      DB_ExecSQL('exec spc_adm_calcularparcela '''+Formatdatetime('mm', edt_dtparcela1.date) + '/01/'+ Formatdatetime('yyyy', edt_dtparcela1.date)+'''');
+//      DB_ExecSQL('exec spc_adm_calcularparcela '''+Formatdatetime('mm', edt_dtdesconto_flh.date) + '/01/'+ Formatdatetime('yyyy', edt_dtdesconto_flh.date)+'''');
+  end;
+  btn_cancelarClick(self);
+  EscreveLog(btn_salvar.Name);
+end;
+
+procedure TFrm_Mov_Parcelamento.btn_cancelarClick(Sender: TObject);
+begin
+  inherited;
+  DB_RollBack;
+  PageControl.ActivePage := TbS_Branco ;
+  edt_dtdesconto_flh.Enabled := true ;
+  BotoesOnOff(false);
+//  Fdt_principal.spc_cons_adm_descontofolha02.close;
+//  Fdt_principal.spc_cons_adm_descontofolha02.open;
+  FStatus := 0 ;
+  EscreveLog(btn_cancelar.Name);
+end;
+
+procedure TFrm_Mov_Parcelamento.FormClose(Sender: TObject;
+  var Action: TCloseAction);
+begin
+  inherited;
+  Fdt_principal.spc_cons_adm_descontofolha02.close;
+end;
+
+procedure TFrm_Mov_Parcelamento.ed2_inscricao_benKeyDown(Sender: TObject;
+  var Key: Word; Shift: TShiftState);
+begin
+  inherited;
+  if key = 13 then
+      ed2_inscricao_benButtonClick(self);
+end;
+
+procedure TFrm_Mov_Parcelamento.edt_codtarifaKeyDown(Sender: TObject;
+  var Key: Word; Shift: TShiftState);
+begin
+  inherited;
+  if key = 13 then
+    Obj_SetFormObjValueByName(self, cb2_cod_tarifa.name, edt_codtarifa.text);
+end;
+
+procedure TFrm_Mov_Parcelamento.edt_obs_flhKeyDown(Sender: TObject;
+  var Key: Word; Shift: TShiftState);
+begin
+  inherited;
+  if (key = 13) and (FStatus = FST_novo) then
+    btn_salvarClick(self);
+end;
+
+procedure TFrm_Mov_Parcelamento.PDJButton1Click(Sender: TObject);
+begin
+  inherited;
+  with Fdt_principal.spc_cons_adm_descontofolha02 do begin
+    close;
+    if ed2_inscricao_ben.text = '' then
+      parambyname('@inscricao_ben').AsString := '0'
+    else
+      parambyname('@inscricao_ben').AsString := ed2_inscricao_ben.text ;
+    parambyname('@dtreferenciaInicial_flh').AsString := '' ;
+    parambyname('@dtreferenciaFinal_flh').AsString := '' ;
+    parambyname('@cod_tarifa').AsString := '0';
+    parambyname('@cod_sitdesconto').AsString := '0';
+    if cbx_cod_empresafolha.text = '' then
+      parambyname('@cod_empresafolha').AsString := '0'
+    else
+      parambyname('@cod_empresafolha').AsString := cbx_cod_empresafolha.valueitem ;
+    parambyname('@dtpagto_flh').AsString := '';
+    parambyname('@dtdesconto_flh').AsString := '';
+    parambyname('@cod_order').AsInteger := 1 ;
+    parambyname('@parcelas').AsInteger := 1 ;
+    open;
+  end;
+end;
+
+procedure TFrm_Mov_Parcelamento.btn_cancelaParcelamentoClick(Sender: TObject);
+begin
+  inherited;
+  if Dlg_YesNo('Confirma o Cancelamento de TODAS AS PARCELAS deste cancelamento ?', self) then begin
+    if DB_ExecSQL('spc_adm_cancelaparcelamento '+
+    Fdt_principal.spc_cons_adm_descontofolha02.fieldbyname('cod_descontofolha').asstring) then begin
+      Dlg_Ok('Cancelamento Efetuado !', self);
+      Fdt_principal.spc_cons_adm_descontofolha02.close;
+      Fdt_principal.spc_cons_adm_descontofolha02.open;
+    end else
+      Dlg_Alerta('Erro ao cancelar Boleto', self);
+  end;
+  EscreveLog(btn_cancelaParcelamento.Name);
+end;
+
+procedure TFrm_Mov_Parcelamento.PDJButton3Click(Sender: TObject);
+begin
+  inherited;
+  edt_vlparcelar.text := FormatFloat('###,###,##0.00', (strToFloat(edt_vldesconto_adf.text)*
+  (Num_JuroComposto(strtofloat(edt_txjuro.text), str_strtoint(edt_nparcelas.text)))));
+  edt_vlparcelado.text := FormatFloat('###,###,##0.00', str_strtoint(edt_nparcelas.text)*(strToFloat(edt_vldesconto_adf.text)*
+  (Num_JuroComposto(strtofloat(edt_txjuro.text), str_strtoint(edt_nparcelas.text)))));
+  with Fdt_principal2.spc_cont_simulareajuste do begin
+    parambyname('@dtcotaIni').asstring := FormatDateTime('mm/01/yyyy',edt_dtdesconto_flh.date);
+    parambyname('@dtcotaFin').asstring := FormatDateTime('mm/01/yyyy',edt_dtparcela1.date) ;
+    parambyname('@cod_indice').asstring := cbx_cod_indice.valueitem ;
+    parambyname('@valor').asstring := FormatFloat('########0,00', (strToFloat(edt_vldesconto_adf.text)*
+    (Num_JuroComposto(strtofloat(edt_txjuro.text), str_strtoint(edt_nparcelas.text)))));
+    open;
+    edt_primParcela.text   := FormatFloat('###,###,##0.00', FieldByName('vlreajustado').AsFloat);
+    edt_demaisParcela.text := edt_primParcela.text;
+    edt_vltotal.text   := FormatFloat('###,###,##0.00', FieldByName('vlreajustado').AsFloat*str_strtoint(edt_nparcelas.text));
+    close;
+  end;
+end;
+
+procedure TFrm_Mov_Parcelamento.Button1Click(Sender: TObject);
+begin
+  inherited;
+  edt_vldesconto_adf.text := FormatFloat('########0.00', strToFloat(edt_vldesconto_adf.text)/((Num_JuroComposto(strtofloat(edt_txjuro.text), str_strtoint(edt_nparcelas.text)))*str_strtoint(edt_nparcelas.text)));
+  PDJButton3click(self);
+end;
+
+procedure TFrm_Mov_Parcelamento.edt_digitodebitoExit(Sender: TObject);
+begin
+  inherited;
+  if DB_OpenSQL('select nome_fpm, cod_empresafolha from tbl_fpm where matricula_mte = '+
+  edt_matriculadebito.text+' and digito_mte = '+edt_digitodebito.text) > 0 then begin
+    edt_carteira.text := 'Não Segurado' ;
+    edt_nome.text := Tab.FieldByName('nome_fpm').AsString;
+    edt_matricula.text := edt_matriculadebito.text;
+    edt_digito.text := edt_digitodebito.text;
+    Obj_SetFormObjValueByName(self, cbx_cod_empresafolha.name, Tab.FieldByName('cod_empresafolha').AsString);
+    ed2_cod_beneficiario.text := '0' ;
+  end else begin
+    Dlg_Alerta('Não foi possível encontrar no Cadastro de Servidores !',self);
+    edt_matriculadebito.SetFocus;
+  end;
+  DB_ClearSQL;
+end;
+
+end.
+
+
+

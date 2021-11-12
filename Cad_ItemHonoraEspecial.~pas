@@ -1,0 +1,161 @@
+unit Cad_ItemHonoraEspecial;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Classes, Graphics, Controls, Forms, Dialogs,
+  Bas_TelaPadrao, ComCtrls, PDJButton, ExtCtrls, StdCtrls, DCChoice, DB,
+  Grids, DBGrids, Buttons, Mask, DBCtrls, jpeg;
+
+type
+  TFrm_Cad_ItemHonoraEspecial = class(TFrm_Bas_TelaPadrao)
+    Panel9: TPanel;
+    edt_nome_con: TDCEdit;
+    edt_cod_conveniado: TDCChoiceEdit;
+    Panel32: TPanel;
+    Panel4: TPanel;
+    edt_FatorMult_ihe: TDCEdit;
+    edt_vlHonorario_ihe: TDCEdit;
+    edt_dtvalidade_ihe: TDCDateEdit;
+    btn_novo: TPDJButton;
+    cbx_cod_plano: TDCComboBox;
+    Panel5: TPanel;
+    edt_cod_itemservico: TDCChoiceEdit;
+    edt_descricao_itc: TDCEdit;
+    edt_PorteAnestesico_ihe: TDCEdit;
+    Panel1: TPanel;
+    edt_NumAuxiliares_ihe: TDCEdit;
+    edt_vlFilme_ihe: TDCEdit;
+    procedure edt_cod_conveniadoButtonClick(Sender: TObject);
+    procedure edt_cod_conveniadoExit(Sender: TObject);
+    procedure btn_novoClick(Sender: TObject);
+    procedure FormShow(Sender: TObject);
+    procedure edt_cod_itemservicoButtonClick(Sender: TObject);
+    procedure edt_cod_itemservicoExit(Sender: TObject);
+  private
+    { Private declarations }
+    FPesquisaItemSevico : String;
+    function CriticaParametros: boolean ;
+  public
+    { Public declarations }
+    FCod_Conv : String ;
+  end;
+
+var
+  Frm_Cad_ItemHonoraEspecial: TFrm_Cad_ItemHonoraEspecial;
+
+implementation
+uses Imp_Med_StatusConta, dtm_principal, Fun_Medico, Fun_ConsCadastro, Constantes,
+Imp_4050, Dlg_Mensagem, Fun_Obj, Fun_DB ;
+
+{$R *.DFM}
+
+
+function TFrm_Cad_ItemHonoraEspecial.CriticaParametros: boolean ;
+begin
+  result := true ;
+  if (not BAS_ValidarCampo(edt_cod_conveniado.name, 'O Código do Conveniado deve ser preenchido !', VLD_Preenchido )) or
+  (not BAS_ValidarCampo(edt_cod_itemservico.name, 'O Cod. Item Serviço deve ser preenchido !', VLD_Preenchido )) or
+  (not BAS_ValidarCampo(cbx_cod_plano.name, 'O Cod. Plano deve ser preenchido !', VLD_Preenchido )) or
+  (not BAS_ValidarCampo(edt_vlHonorario_ihe.name, 'O Vl. Honorário deve ser preenchido !', VLD_Preenchido )) or
+  (not BAS_ValidarCampo(edt_PorteAnestesico_ihe.name, 'O Porte Anestésico deve ser preenchido !', VLD_Preenchido )) or
+  (not BAS_ValidarCampo(edt_NumAuxiliares_ihe.name, 'O Nº de Auxiliares deve ser preenchido !', VLD_Preenchido )) or
+  (not BAS_ValidarCampo(edt_vlFilme_ihe.name, 'O Valor do Filme deve ser preenchido !', VLD_Preenchido )) or
+  (not BAS_ValidarCampo(edt_FatorMult_ihe.name, 'O Fator Multiplicador deve ser preenchido !', VLD_Preenchido )) or
+  (not BAS_ValidarCampo(edt_dtvalidade_ihe.name, 'A Data de Validade deve ser preenchida !', VLD_DataPreenchida )) then
+    Exit;
+  result := false ;
+end;
+
+procedure TFrm_Cad_ItemHonoraEspecial.edt_cod_conveniadoButtonClick(
+  Sender: TObject);
+begin
+  inherited;
+  Obj_SetFormObjValueByName(Self, 'edt_cod_conveniado',
+  Cons_ConsultaCadastro(self, 'tbl'+Copy('edt_cod_conveniado',8,length('edt_cod_conveniado')),
+  'cod_conveniado, nome_con', 'Cod. Conveniado, Nome do Conveniado',
+  'Localizar Conveniado', '', true));
+  edt_cod_conveniadoExit(self);
+end;
+
+procedure TFrm_Cad_ItemHonoraEspecial.edt_cod_conveniadoExit(
+  Sender: TObject);
+begin
+  inherited;
+  if edt_cod_conveniado.text <> '' then
+    edt_nome_con.text := Get_NomeConveniadoAtivo(edt_cod_conveniado.text);
+end;
+
+procedure TFrm_Cad_ItemHonoraEspecial.btn_novoClick(Sender: TObject);
+begin
+  inherited;
+  if CriticaParametros then
+    Exit;
+  try
+    if not(DB_OpenSQL('select cod_itemservico from tbl_itemhonorario where cod_conveniado = '+
+    edt_cod_conveniado.Text+' and cod_itemservico = '+edt_cod_itemservico.Text) > 0) then
+    begin
+      Dlg_Alerta('ATENÇÃO ! Não é possível cadastrar Honorários Especiais para Itens não cadastrados para o Conveniado!',self);
+      Exit;
+    end;
+    if DB_OpenSQL('select * from tbl_itemhonoraespecial where cod_conveniado = '+edt_cod_conveniado.Text+
+    ' and cod_itemservico = '+edt_cod_itemservico.Text+' and cod_plano = '+cbx_cod_plano.valueItem+
+      ' and dtvalidade_ihe = '+DB_FormatDataSQL(edt_dtvalidade_ihe.Text, ftDate)) > 0 then
+      if not Dlg_YesNo('ATENÇÃO ! Ocorreu um erro ao tentar alterar o Item de Honorário ! '+
+      'Possívelmente existem honorários para a mesma data de Validade Selecionada. Deseja Sobrescrever os Valores de Honorários para a Mesma Data de Validade ?', self) then Exit;
+      if not DB_ExecSQL('delete from tbl_itemhonoraespecial where cod_conveniado = '+edt_cod_conveniado.Text+
+        ' and cod_itemservico = '+edt_cod_itemservico.Text+' and cod_plano = '+cbx_cod_plano.valueItem+
+        ' and dtvalidade_ihe = '+DB_FormatDataSQL(edt_dtvalidade_ihe.Text, ftDate)) then
+          raise Exception.Create(EXP_SQLInvalido);
+    if not DB_ExecSQL('insert into tbl_itemhonoraespecial (cod_conveniado, cod_itemservico, '+
+      'cod_plano, vlHonorario_ihe, PorteAnestesico_ihe, NumAuxiliares_ihe, vlFilme_ihe, '+
+      'FatorMult_ihe, dtvalidade_ihe) values ('+edt_cod_conveniado.Text+', '+edt_cod_itemservico.Text+
+      ', '+cbx_cod_plano.ValueItem+', '+DB_FormatDataSQL(edt_vlHonorario_ihe.Text,ftFloat)+', '+edt_PorteAnestesico_ihe.Text+
+      ', '+edt_NumAuxiliares_ihe.Text+', '+DB_FormatDataSQL(edt_vlFilme_ihe.Text, ftFloat)+', '+DB_FormatDataSQL(edt_FatorMult_ihe.Text, ftFloat)+
+      ', '+DB_FormatDataSQL(edt_dtvalidade_ihe.Text, ftDate)+')') then
+        raise Exception.Create(EXP_SQLInvalido);
+    Dlg_Ok('Operação concluida com Sucesso !',self);
+    Obj_EmptyEditTag(self,0);
+    BAS_CarregarCombo('cbx_cod_plano', 'nome_pla');
+  except
+    Dlg_Erro('Ocorreu um erro ao tentar Incluir/Alterar o Item de Honorário. NÃO FOI POSSÍVEL SALVAR', self);
+    DB_RollBack;
+  end;
+end;
+
+procedure TFrm_Cad_ItemHonoraEspecial.FormShow(Sender: TObject);
+begin
+  inherited;
+  BAS_CarregarCombo('cbx_cod_plano', 'nome_pla');
+  if FCod_Conv <> '' then begin
+    edt_cod_conveniado.Text := FCod_Conv;
+    edt_cod_conveniadoExit(self);
+  end;
+end;
+
+procedure TFrm_Cad_ItemHonoraEspecial.edt_cod_itemservicoButtonClick(
+  Sender: TObject);
+begin
+  inherited;
+  FPesquisaItemSevico := 'select i.cod_itemservico, cod_padrao, nome_its, apelido_its, max(dtvalidade_hit) '+
+  ' from tbl_itemservico i inner join tbl_Itemhonorario it on i.cod_itemservico = it.cod_itemservico '+
+  ' where i.cod_itemservico > 1';
+  FPesquisaTit := 'Cod. ItemServiço, Cod. Padrao, Descrição do Item de Serviço/Procedimento, Apelido, Dt. Validade';
+  if (edt_cod_conveniado.text = '') or (edt_cod_conveniado.Text = '0') then
+    FPesquisaSQL  := FPesquisaItemSevico+' group by i.cod_itemservico, cod_padrao, nome_its, apelido_its'
+  else
+    FPesquisaSQL  := FPesquisaItemSevico+' and cod_conveniado = '+edt_cod_conveniado.text+' group by i.cod_itemservico, cod_padrao, nome_its, apelido_its';
+  edt_cod_itemservico.text := Cons_ConsultaCadastro(self, 'tbl'+Copy(FEditChave,8,length(FEditChave)), FPesquisa, FPesquisaTit, FTitPesquisa, FPesquisaSQL, true);
+  edt_cod_itemservicoExit(self);
+end;
+
+procedure TFrm_Cad_ItemHonoraEspecial.edt_cod_itemservicoExit(
+  Sender: TObject);
+begin
+  inherited;
+  if edt_cod_itemservico.text <> '' then
+  edt_descricao_itc.text := Get_DescricaoServico(edt_cod_itemservico.text);
+end;
+
+end.
+

@@ -1,0 +1,186 @@
+inherited Frm_Cad_Favorito: TFrm_Cad_Favorito
+  Top = -3
+  Caption = 'Frm_Cad_Favorito'
+  ClientHeight = 582
+  ClientWidth = 798
+  Scaled = False
+  PixelsPerInch = 96
+  TextHeight = 13
+  inherited Pnl_Titulo2: TPanel
+    Width = 798
+    inherited Image1: TImage
+      Width = 796
+    end
+  end
+  inherited Panel2: TPanel
+    Top = 530
+    Width = 798
+    inherited Image3: TImage
+      Width = 796
+    end
+    inherited btn_novo: TPDJButton
+      Enabled = False
+      Visible = False
+    end
+    inherited btn_alterar: TPDJButton
+      Left = 4
+    end
+    inherited btn_salvar: TPDJButton
+      Left = 117
+    end
+    inherited btn_cancelar: TPDJButton
+      Left = 229
+    end
+    inherited btn_excluir: TPDJButton
+      Left = 342
+      Visible = False
+    end
+  end
+  inherited Panel3: TPanel
+    Width = 798
+    Height = 489
+    object Panel4: TPanel
+      Tag = -1
+      Left = 1
+      Top = 33
+      Width = 795
+      Height = 456
+      Alignment = taLeftJustify
+      TabOrder = 0
+      object Label1: TLabel
+        Left = 20
+        Top = 205
+        Width = 67
+        Height = 13
+        Caption = 'Nome da Tela'
+      end
+      object DBGrid1: TDBGrid
+        Left = 17
+        Top = 8
+        Width = 528
+        Height = 185
+        DataSource = DataSource1
+        TabOrder = 0
+        TitleFont.Charset = DEFAULT_CHARSET
+        TitleFont.Color = clWindowText
+        TitleFont.Height = -11
+        TitleFont.Name = 'MS Sans Serif'
+        TitleFont.Style = []
+        Columns = <
+          item
+            Expanded = False
+            FieldName = 'cod_telasistema'
+            Visible = True
+          end
+          item
+            Expanded = False
+            FieldName = 'nome_tls'
+            Width = 373
+            Visible = True
+          end>
+      end
+      object btn_adicionarTela: TPDJButton
+        Left = 19
+        Top = 241
+        Width = 109
+        Height = 25
+        Hint = 'Calcula a Data de Validade de Carteira do Beneficiário'
+        RepeatInterval = 50
+        RepeatStartInterval = 50
+        NumGlyphs = 1
+        NumGlyphsHot = 1
+        Caption = '&Adicionar Tela'
+        ParentFont = False
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clBlack
+        Font.Height = -11
+        Font.Name = 'MS Sans Serif'
+        Font.Style = [fsBold]
+        OnClick = btn_adicionarTelaClick
+        TabOrder = 1
+      end
+      object btn_RemoverTela: TPDJButton
+        Left = 136
+        Top = 241
+        Width = 109
+        Height = 25
+        Hint = 'Calcula a Data de Validade de Carteira do Beneficiário'
+        RepeatInterval = 50
+        RepeatStartInterval = 50
+        NumGlyphs = 1
+        NumGlyphsHot = 1
+        Caption = '&Remover'
+        ParentFont = False
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clBlack
+        Font.Height = -11
+        Font.Name = 'MS Sans Serif'
+        Font.Style = [fsBold]
+        OnClick = btn_RemoverTelaClick
+        TabOrder = 2
+      end
+      object cbx_cod_telasistema: TDCComboBox
+        Tag = -5
+        Left = 113
+        Top = 201
+        Width = 432
+        Height = 21
+        TabOrder = 3
+        OnKeyDown = cbx_cod_telasistemaKeyDown
+        ValueItem = ''
+        ItemHeight = 0
+        Style = csDropDownList
+        ShowCheckBox = True
+      end
+    end
+    object panel1: TPanel
+      Tag = -2
+      Left = 1
+      Top = 1
+      Width = 795
+      Height = 32
+      Alignment = taLeftJustify
+      Caption = 
+        '    Cod. Usuario                                                ' +
+        '      Nome'
+      TabOrder = 1
+      object edt_cod_usuario: TDCChoiceEdit
+        Tag = -2
+        Left = 108
+        Top = 5
+        Width = 93
+        Height = 21
+        Hint = 
+          'Digite o código que se deseja alterar ou clique no botão para pe' +
+          'squisar'
+        MaxLength = 15
+        TabOrder = 0
+        OnExit = edt_cod_usuarioExit
+        Alignment = taRightJustify
+        OnButtonClick = edt_cod_padraoButtonClick
+        EditMask = '9999999'
+      end
+      object edt_nome_usu: TDCEdit
+        Tag = -5
+        Left = 280
+        Top = 5
+        Width = 263
+        Height = 21
+        TabStop = False
+        Color = clInfoBk
+        MaxLength = 12
+        ReadOnly = True
+        TabOrder = 1
+      end
+    end
+  end
+  inherited StB_Principal: TStatusBar
+    Top = 563
+    Width = 798
+  end
+  object DataSource1: TDataSource
+    DataSet = fdt_principal4.spc_cons_adm_favorito
+    Left = 625
+    Top = 138
+  end
+end

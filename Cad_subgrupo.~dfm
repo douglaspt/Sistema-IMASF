@@ -1,0 +1,110 @@
+inherited Frm_Cad_subgrupo: TFrm_Cad_subgrupo
+  Caption = 'Frm_Cad_subgrupo'
+  ClientWidth = 798
+  PixelsPerInch = 96
+  TextHeight = 13
+  inherited Pnl_Titulo2: TPanel
+    Width = 798
+    inherited Image1: TImage
+      Width = 796
+    end
+  end
+  inherited Panel2: TPanel
+    Width = 798
+    inherited Image3: TImage
+      Width = 796
+    end
+  end
+  inherited Panel3: TPanel
+    Width = 798
+    object Panel1: TPanel
+      Tag = -1
+      Left = 1
+      Top = 97
+      Width = 796
+      Height = 32
+      Alignment = taLeftJustify
+      Caption = '    Nome '
+      TabOrder = 3
+      object edt_nome_sgr: TDCEdit
+        Tag = -1
+        Left = 120
+        Top = 5
+        Width = 441
+        Height = 21
+        MaxLength = 180
+        TabOrder = 0
+        Text = 'edt_nome_sgr'
+      end
+    end
+    object Panel4: TPanel
+      Tag = -2
+      Left = 1
+      Top = 1
+      Width = 796
+      Height = 32
+      Alignment = taLeftJustify
+      Caption = '    Código '
+      TabOrder = 0
+      object edt_cod_subgrupo: TDCChoiceEdit
+        Tag = -2
+        Left = 120
+        Top = 5
+        Width = 93
+        Height = 21
+        Hint = 
+          'Digite o código que se deseja alterar ou clique no botão para pe' +
+          'squisar'
+        MaxLength = 10
+        TabOrder = 0
+        OnExit = edt_cod_subgrupoExit
+        Alignment = taRightJustify
+        OnButtonClick = edt_cod_subgrupoButtonClick
+        EditMask = '9999999'
+      end
+    end
+    object Panel5: TPanel
+      Tag = -1
+      Left = 1
+      Top = 33
+      Width = 796
+      Height = 32
+      Alignment = taLeftJustify
+      Caption = '    Código Grupo'
+      TabOrder = 1
+      object edt_cod_grupo: TDCEdit
+        Tag = -1
+        Left = 120
+        Top = 5
+        Width = 39
+        Height = 21
+        MaxLength = 4
+        TabOrder = 0
+        Text = 'DCEdit1'
+      end
+    end
+    object Panel6: TPanel
+      Tag = -1
+      Left = 1
+      Top = 65
+      Width = 796
+      Height = 32
+      Alignment = taLeftJustify
+      Caption = '    Código Grandegrupo'
+      TabOrder = 2
+      object edt_cod_grandegrupo: TDCEdit
+        Tag = -1
+        Left = 120
+        Top = 5
+        Width = 40
+        Height = 21
+        MaxLength = 4
+        TabOrder = 0
+        Text = 'edt_descricao_emp'
+      end
+    end
+  end
+  inherited StB_Principal: TStatusBar
+    Width = 798
+  end
+end

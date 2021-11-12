@@ -1,0 +1,461 @@
+unit Rel_3040;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Classes, Graphics, Controls, Forms, Dialogs,
+  Bas_TelaPadrao, ComCtrls, PDJButton, ExtCtrls, StdCtrls, DCChoice, DB,
+  Grids, DBGrids, Buttons, Mask, DBCtrls, jpeg;
+
+type
+  TFrm_Rel_3040 = class(TFrm_Bas_TelaPadrao)
+    Panel7: TPanel;
+    cbx_cod_mes: TDCComboBox;
+    edt_ano: TDCEdit;
+    PDJButton3: TPDJButton;
+    PDJButton1: TPDJButton;
+    PDJButton2: TPDJButton;
+    PDJButton4: TPDJButton;
+    PDJButton5: TPDJButton;
+    Panel5: TPanel;
+    cbx_cod_empresafolha: TDCComboBox;
+    PDJButton6: TPDJButton;
+    PDJButton7: TPDJButton;
+    PDJButton8: TPDJButton;
+    PDJButton9: TPDJButton;
+    btn_Descontosegurado: TPDJButton;
+    PDJButton10: TPDJButton;
+    PDJButton11: TPDJButton;
+    PDJButton12: TPDJButton;
+    PDJButton13: TPDJButton;
+    procedure FormShow(Sender: TObject);
+    procedure PDJButton3Click(Sender: TObject);
+    procedure PDJButton1Click(Sender: TObject);
+    procedure PDJButton2Click(Sender: TObject);
+    procedure PDJButton4Click(Sender: TObject);
+    procedure PDJButton5Click(Sender: TObject);
+    procedure PDJButton6Click(Sender: TObject);
+    procedure PDJButton7Click(Sender: TObject);
+    procedure PDJButton8Click(Sender: TObject);
+    procedure PDJButton9Click(Sender: TObject);
+    procedure btn_DescontoseguradoClick(Sender: TObject);
+    procedure PDJButton10Click(Sender: TObject);
+    procedure PDJButton11Click(Sender: TObject);
+    procedure PDJButton12Click(Sender: TObject);
+    procedure PDJButton13Click(Sender: TObject);
+  private
+    { Private declarations }
+    function CriticaParametros : Boolean ;
+  public
+    { Public declarations }
+     MesReferencia1, MesReferencia2, Empresa, FMesReferencia, FAnoReferencia, FEmpresaFolha : String ;
+
+  end;
+
+var
+  Frm_Rel_3040: TFrm_Rel_3040;
+
+implementation
+uses Imp_Med_StatusConta, dtm_principal, Fun_Medico, Fun_ConsCadastro, Constantes,
+dtm_principal2, Imp_4055, dtm_principal3, Imp_4066, Imp_4067, Imp_4079, Imp_4080,
+Imp_4081, Dlg_Mensagem, Imp_4082, Imp_4083, Imp_4084, Imp_4085, Imp_4075, Fun_Data,
+dtm_principal4, Imp_4095, Imp_4096, Imp_4116, Imp_4051, dtm_principal5, Fun_Obj ;
+
+{$R *.DFM}
+
+
+
+procedure TFrm_Rel_3040.FormShow(Sender: TObject);
+begin
+  inherited;
+  BAS_CarregarCombo('cbx_cod_mes', 'nome_mes');
+  BAS_CarregarCombo('cb2_cod_mes', 'nome_mes');
+  BAS_CarregarCombo('cbx_cod_empresafolha', 'nome_emp');
+  if FAnoReferencia <> '' then
+    edt_ano.text := FAnoReferencia ;
+  if FMesReferencia <> '' then
+    Obj_SetFormObjValueByName(self, cbx_cod_mes.name, FMesReferencia);
+  if FEmpresaFolha <> '' then
+    Obj_SetFormObjValueByName(self, cbx_cod_empresafolha.name, FEmpresaFolha);
+end;
+
+function TFrm_Rel_3040.CriticaParametros : Boolean ;
+begin
+  result := (not BAS_ValidarCampo(cbx_cod_mes.name, 'Mes de Referência Inicial deve ser Preenchido !', VLD_Preenchido )) or
+  (not BAS_ValidarCampo(edt_ano.name, 'Ano de Referencia Inicial deve ser Preenchido !', VLD_Preenchido )) ;
+  end;
+
+
+procedure TFrm_Rel_3040.PDJButton3Click(Sender: TObject);
+begin
+  inherited;
+  if CriticaParametros then
+    Exit;
+  with fdt_principal3.spc_cons_adm_contribuicaonaogerada do
+  begin
+    close;
+    ParamByName('@dtreferencia_flh').AsString := cbx_cod_mes.valueItem + '/01/'+edt_ano.text;
+    ParamByName('@cod_empresafolha').AsString := cbx_cod_empresafolha.valueitem;
+    open;
+       if recordcount = 0 then begin
+      Dlg_Alerta ('Nenhum Registro foi encontrado', Self);
+      close;
+      exit;
+    end;
+  end;
+  Frm_Imp_4066 := TFrm_Imp_4066.Create(Self);
+  Frm_Imp_4066.MesReferencia1 := cbx_cod_mes.text+'/'+edt_ano.text;
+  Frm_Imp_4066.Empresa := cbx_cod_empresafolha.text;
+  Frm_Imp_4066.QuickRep1.Preview;
+  Frm_Imp_4066.Release;
+  fdt_principal3.spc_cons_adm_contribuicaonaogerada.close;
+end;
+
+procedure TFrm_Rel_3040.PDJButton1Click(Sender: TObject);
+begin
+  inherited;
+    if CriticaParametros then
+    Exit;
+  with fdt_principal3.spc_cons_adm_descontozerado do
+  begin
+    close;
+    ParamByName('@dtreferencia_flh').AsString := cbx_cod_mes.valueItem + '/01/'+edt_ano.text;
+    ParamByName('@cod_empresafolha').AsString := cbx_cod_empresafolha.valueitem;
+    open;
+       if recordcount = 0 then begin
+      Dlg_Alerta ('Nenhum Registro foi encontrado', Self);
+      close;
+      exit;
+    end;
+  end;
+  Frm_Imp_4067 := TFrm_Imp_4067.Create(Self);
+  Frm_Imp_4067.MesReferencia2 := cbx_cod_mes.text+'/'+edt_ano.text;
+  Frm_Imp_4067.Empresa := cbx_cod_empresafolha.text;
+  Frm_Imp_4067.QuickRep1.Preview;
+  Frm_Imp_4067.Release;
+  fdt_principal3.spc_cons_adm_descontozerado.close;
+end;
+
+
+
+procedure TFrm_Rel_3040.PDJButton2Click(Sender: TObject);
+begin
+  inherited;
+  if CriticaParametros then
+    Exit;
+  with fdt_principal3.spc_cons_adm_descontovlgrande do
+  begin
+    close;
+    ParamByName('@dtreferencia_flh').AsString := cbx_cod_mes.valueItem + '/01/'+edt_ano.text;
+    ParamByName('@valor').AsInteger := 1000;
+    ParamByName('@cod_empresafolha').AsString := cbx_cod_empresafolha.valueitem;
+
+    open;
+       if recordcount = 0 then begin
+      Dlg_Alerta ('Nenhum Registro foi encontrado', Self);
+      close;
+      exit;
+    end;
+  end;
+  Frm_Imp_4079 := TFrm_Imp_4079.Create(Self);
+  Frm_Imp_4079.MesReferencia2 := cbx_cod_mes.text+'/'+edt_ano.text;
+  Frm_Imp_4079.Empresa := cbx_cod_empresafolha.text;
+  Frm_Imp_4079.QuickRep1.Preview;
+  Frm_Imp_4079.Release;
+  fdt_principal3.spc_cons_adm_descontovlgrande.close;
+
+end;
+
+procedure TFrm_Rel_3040.PDJButton4Click(Sender: TObject);
+begin
+  inherited;
+  if CriticaParametros then
+    Exit;
+  with fdt_principal3.spc_cons_adm_divergenciavalores do
+  begin
+    close;
+    ParamByName('@dtreferencia').AsString := cbx_cod_mes.valueItem + '/01/'+edt_ano.text;
+    ParamByName('@cod_empresafolha').AsString := cbx_cod_empresafolha.valueitem;
+    open;
+       if recordcount = 0 then begin
+      Dlg_Alerta ('Nenhum Registro foi encontrado', Self);
+      close;
+      exit;
+    end;
+  end;
+  Frm_Imp_4080 := TFrm_Imp_4080.Create(Self);
+  Frm_Imp_4080.MesReferencia2 := cbx_cod_mes.text+'/'+edt_ano.text;
+  Frm_Imp_4080.Empresa := cbx_cod_empresafolha.text;
+  Frm_Imp_4080.QuickRep1.Preview;
+  Frm_Imp_4080.Release;
+  fdt_principal3.spc_cons_adm_divergenciavalores.close;
+end;
+
+procedure TFrm_Rel_3040.PDJButton5Click(Sender: TObject);
+begin
+  inherited;
+  if CriticaParametros then
+    Exit;
+  with fdt_principal3.spc_cons_adm_descEmpFolhaDif do
+  begin
+    close;
+    ParamByName('@dtreferencia_flh').AsString := cbx_cod_mes.valueItem + '/01/'+edt_ano.text;
+    ParamByName('@cod_empresafolha').AsString := cbx_cod_empresafolha.valueitem;
+    open;
+       if recordcount = 0 then begin
+      Dlg_Alerta ('Nenhum Registro foi encontrado', Self);
+      close;
+      exit;
+    end;
+  end;
+  Frm_Imp_4081 := TFrm_Imp_4081.Create(Self);
+  Frm_Imp_4081.MesReferencia2 := cbx_cod_mes.text+'/'+edt_ano.text;
+  Frm_Imp_4081.Empresa := cbx_cod_empresafolha.text;
+  Frm_Imp_4081.QuickRep1.Preview;
+  Frm_Imp_4081.Release;
+  fdt_principal3.spc_cons_adm_divergenciavalores.close;
+end;
+
+procedure TFrm_Rel_3040.PDJButton6Click(Sender: TObject);
+begin
+  inherited;
+  if CriticaParametros then
+    exit;
+  with fdt_principal3.spc_cons_adm_BenCanceladoFalecido do
+  begin
+    close;
+    ParamByName('@dtreferencia_flh').AsString := cbx_cod_mes.valueItem + '/01/'+edt_ano.text;
+    ParamByName('@cod_empresafolha').AsString := cbx_cod_empresafolha.valueitem;
+    open;
+    if recordcount = 0 then begin
+      Dlg_Alerta ('Nenhum Registro foi encontrado', Self);
+      close;
+      exit;
+    end;
+  end;
+  Frm_Imp_4082 := TFrm_Imp_4082.Create(Self);
+  Frm_Imp_4082.MesReferencia2 := cbx_cod_mes.text+'/'+edt_ano.text;
+  Frm_Imp_4082.Empresa := cbx_cod_empresafolha.text;
+  Frm_Imp_4082.QuickRep1.Preview;
+  Frm_Imp_4082.Release;
+  fdt_principal3.spc_cons_adm_BenCanceladoFalecido.close;
+end;
+
+procedure TFrm_Rel_3040.PDJButton7Click(Sender: TObject);
+begin
+  inherited;
+  if CriticaParametros then
+    exit;
+  with fdt_principal3.spc_cons_adm_inscritos do
+  begin
+    close;
+    ParamByName('@dtreferencia_flh').AsString := cbx_cod_mes.valueItem + '/01/'+edt_ano.text;
+    ParamByName('@cod_empresafolha').AsString := cbx_cod_empresafolha.valueitem;
+    open;
+    if recordcount = 0 then begin
+      Dlg_Alerta ('Nenhum Registro foi encontrado', Self);
+      close;
+      exit;
+    end;
+  end;
+  Frm_Imp_4083 := TFrm_Imp_4083.Create(Self);
+  Frm_Imp_4083.MesReferencia2 := cbx_cod_mes.text+'/'+edt_ano.text;
+  Frm_Imp_4083.Empresa := cbx_cod_empresafolha.text;
+  Frm_Imp_4083.QuickRep1.Preview;
+  Frm_Imp_4083.Release;
+  fdt_principal3.spc_cons_adm_inscritos.close;
+end;
+
+procedure TFrm_Rel_3040.PDJButton8Click(Sender: TObject);
+begin
+  inherited;
+  if CriticaParametros then
+    exit;
+  with fdt_principal3.spc_cons_adm_mudarplano do
+  begin
+    close;
+    ParamByName('@dtreferencia_flh').AsString := cbx_cod_mes.valueItem + '/01/'+edt_ano.text;
+    ParamByName('@cod_empresafolha').AsString := cbx_cod_empresafolha.valueitem;
+    open;
+    if recordcount = 0 then begin
+      Dlg_Alerta ('Nenhum Registro foi encontrado', Self);
+      close;
+      exit;
+    end;
+  end;
+  Frm_Imp_4084 := TFrm_Imp_4084.Create(Self);
+  Frm_Imp_4084.MesReferencia2 := cbx_cod_mes.text+'/'+edt_ano.text;
+  Frm_Imp_4084.Empresa := cbx_cod_empresafolha.text;
+  Frm_Imp_4084.QuickRep1.Preview;
+  Frm_Imp_4084.Release;
+  fdt_principal3.spc_cons_adm_mudarplano.close;
+end;
+
+procedure TFrm_Rel_3040.PDJButton9Click(Sender: TObject);
+begin
+  inherited;
+  if CriticaParametros then
+    exit;
+  with fdt_principal3.spc_cons_adm_Ben18anos do
+  begin
+    close;
+    ParamByName('@dtreferencia_flh').AsString := cbx_cod_mes.valueItem + '/01/'+edt_ano.text;
+    ParamByName('@cod_empresafolha').AsString := cbx_cod_empresafolha.valueitem;
+    open;
+    if recordcount = 0 then begin
+      Dlg_Alerta ('Nenhum Registro foi encontrado', Self);
+      close;
+      exit;
+    end;
+  end;
+  Frm_Imp_4085 := TFrm_Imp_4085.Create(Self);
+  Frm_Imp_4085.MesReferencia2 := cbx_cod_mes.text+'/'+edt_ano.text;
+  Frm_Imp_4085.Empresa := cbx_cod_empresafolha.text;
+  Frm_Imp_4085.QuickRep1.Preview;
+  Frm_Imp_4085.Release;
+  fdt_principal3.spc_cons_adm_Ben18anos.close;
+
+end;
+
+procedure TFrm_Rel_3040.btn_DescontoseguradoClick(Sender: TObject);
+begin
+  inherited;
+  if CriticaParametros then
+    Exit;
+  with Fdt_principal.spc_cons_adm_descontofolha02 do
+  begin
+    close;
+    ParamByName('@inscricao_ben').AsString := '0';
+    ParamByName('@titulacartei_ben').AsString := '0';
+    ParamByName('@dtreferenciaInicial_flh').AsString := FormatDateTime('mm/dd/yyyy',(Data_Subtrai1mes(StrToDate('01/'+cbx_cod_mes.valueItem+ '/'+edt_ano.text)))) ;
+    ParamByName('@dtreferenciaFinal_flh').AsString := FormatDateTime('mm/dd/yyyy',(Data_Subtrai1mes (StrToDate('01/'+cbx_cod_mes.valueItem +'/'+edt_ano.text)))) ;
+    ParamByName('@cod_empresafolha').AsString := cbx_cod_empresafolha.valueitem;
+    ParamByName('@cod_tarifa').AsString := '';
+    ParamByName('@cod_sitdesconto').AsString := '1';
+    ParamByName('@dtpagto_flh').AsString := '';
+    ParamByName('@dtdesconto_flh').AsString := '';
+    ParamByName('@cod_usuario').AsString := '' ;
+    ParamByName('@cod_order').AsInteger := 0 ;
+    open;
+    if FieldByName('inscricao_ben').AsString = '' then begin
+      Dlg_Alerta('Nenhum registro encontrado', self);
+      close;
+      exit;
+    end;
+  end;
+  Frm_Imp_4075 := TFrm_Imp_4075.Create(Self);
+  Frm_Imp_4075.FEmpresaFolha := cbx_cod_empresafolha.text ;
+  Frm_Imp_4075.QuickRep1.Preview;
+  Frm_Imp_4075.Release;
+end;
+
+procedure TFrm_Rel_3040.PDJButton10Click(Sender: TObject);
+begin
+  inherited;
+  if CriticaParametros then
+    Exit;
+  with fdt_principal4.spc_cons_adm_BenefiForaDoMesAnterior do
+  begin
+    close;
+    ParamByName('@dtreferencia_flh').AsString := cbx_cod_mes.valueItem + '/01/'+edt_ano.text;
+    ParamByName('@cod_empresafolha').AsString := cbx_cod_empresafolha.valueitem;
+    open;
+       if recordcount = 0 then begin
+      Dlg_Alerta ('Nenhum Registro foi encontrado', Self);
+      close;
+      exit;
+    end;
+  end;
+  Frm_Imp_4095 := TFrm_Imp_4095.Create(Self);
+  Frm_Imp_4095.MesReferencia2 := cbx_cod_mes.text+'/'+edt_ano.text;
+  Frm_Imp_4095.Empresa := cbx_cod_empresafolha.text;
+  Frm_Imp_4095.QuickRep1.Preview;
+  Frm_Imp_4095.Release;
+  fdt_principal4.spc_cons_adm_BenefiForaDoMesAnterior.close;
+end;
+
+procedure TFrm_Rel_3040.PDJButton11Click(Sender: TObject);
+begin
+  inherited;
+  if CriticaParametros then
+    Exit;
+  with fdt_principal4.spc_cons_adm_descontosMatricuraErrada do
+  begin
+    close;
+    ParamByName('@dtreferencia').AsString := cbx_cod_mes.valueItem + '/01/'+edt_ano.text;
+    ParamByName('@cod_empresafolha').AsString := cbx_cod_empresafolha.valueitem;
+    open;
+       if recordcount = 0 then begin
+      Dlg_Alerta ('Nenhum Registro foi encontrado', Self);
+      close;
+      exit;
+    end;
+  end;
+  Frm_Imp_4096 := TFrm_Imp_4096.Create(Self);
+  Frm_Imp_4096.MesReferencia1 := cbx_cod_mes.text+'/'+edt_ano.text;
+  Frm_Imp_4096.Empresa := cbx_cod_empresafolha.text;
+  Frm_Imp_4096.QuickRep1.Preview;
+  Frm_Imp_4096.Release;
+  fdt_principal4.spc_cons_adm_descontosMatricuraErrada.close;
+end;
+
+procedure TFrm_Rel_3040.PDJButton12Click(Sender: TObject);
+begin
+  inherited;
+ if CriticaParametros then
+    Exit;
+ if cbx_cod_empresafolha.Text = '' then begin
+   Dlg_Alerta('A Empresa precisa ser Preenchida!',self);
+   Exit;
+ end;
+  with fdt_principal4.spc_cons_adm_descontosduplicados do
+  begin
+    close;
+    ParamByName('@dtreferencia_flh').AsString := cbx_cod_mes.valueItem + '/01/'+edt_ano.text;
+    ParamByName('@cod_empresafolha').AsString := cbx_cod_empresafolha.valueitem;
+    open;
+       if recordcount = 0 then begin
+      Dlg_Alerta ('Nenhum Registro foi encontrado', Self);
+      close;
+      exit;
+    end;
+  end;
+  Frm_Imp_4116 := TFrm_Imp_4116.Create(Self);
+  Frm_Imp_4116.MesReferencia1 := cbx_cod_mes.text+'/'+edt_ano.text;
+  Frm_Imp_4116.Empresa := cbx_cod_empresafolha.text;
+  Frm_Imp_4116.QuickRep1.Preview;
+  Frm_Imp_4116.Release;
+  fdt_principal4.spc_cons_adm_descontosduplicados.close;
+end;
+
+procedure TFrm_Rel_3040.PDJButton13Click(Sender: TObject);
+begin
+  inherited;
+ if CriticaParametros then
+    Exit;
+ if cbx_cod_empresafolha.Text = '' then begin
+   Dlg_Alerta('A Empresa precisa ser Preenchida!',self);
+   Exit;
+ end;
+  with fdt_principal5.spc_cons_adm_descontosduplicadosMesAnterior do
+  begin
+    close;
+    ParamByName('@dtreferencia_flh').AsString := cbx_cod_mes.valueItem + '/01/'+edt_ano.text;
+    ParamByName('@cod_empresafolha').AsString := cbx_cod_empresafolha.valueitem;
+    open;
+       if recordcount = 0 then begin
+      Dlg_Alerta ('Nenhum Registro foi encontrado', Self);
+      close;
+      exit;
+    end;
+  end;
+  Frm_Imp_4051 := TFrm_Imp_4051.Create(Self);
+  Frm_Imp_4051.MesReferencia1 := cbx_cod_mes.text+'/'+edt_ano.text;
+  Frm_Imp_4051.Empresa := cbx_cod_empresafolha.text;
+  Frm_Imp_4051.QuickRep1.Preview;
+  Frm_Imp_4051.Release;
+  fdt_principal5.spc_cons_adm_descontosduplicadosMesAnterior.close;
+end;
+
+end.
+

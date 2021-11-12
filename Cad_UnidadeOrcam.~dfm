@@ -1,0 +1,314 @@
+inherited Frm_Cad_UnidadeOrcam: TFrm_Cad_UnidadeOrcam
+  Left = 2
+  Caption = 'Frm_Cad_UnidadeOrcam'
+  ClientWidth = 798
+  Scaled = False
+  PixelsPerInch = 96
+  TextHeight = 13
+  inherited Pnl_Titulo2: TPanel
+    Width = 798
+    inherited Image1: TImage
+      Width = 796
+    end
+  end
+  inherited Panel2: TPanel
+    Width = 798
+    inherited Image3: TImage
+      Width = 796
+    end
+  end
+  inherited Panel3: TPanel
+    Width = 798
+    object Panel4: TPanel
+      Tag = -2
+      Left = 1
+      Top = 1
+      Width = 796
+      Height = 32
+      Alignment = taLeftJustify
+      Caption = '    Cod. Unidade '
+      TabOrder = 0
+      object edt_cod_unidadeOrcam: TDCChoiceEdit
+        Tag = -2
+        Left = 120
+        Top = 5
+        Width = 93
+        Height = 21
+        Hint = 
+          'Digite o código que se deseja alterar ou clique no botão para pe' +
+          'squisar'
+        MaxLength = 10
+        TabOrder = 0
+        Alignment = taRightJustify
+        OnButtonClick = edt_cod_unidadeOrcamButtonClick
+      end
+    end
+    object Panel5: TPanel
+      Tag = -1
+      Left = 1
+      Top = 33
+      Width = 796
+      Height = 32
+      Alignment = taLeftJustify
+      Caption = '    Descrição'
+      TabOrder = 1
+      object edt_descUnidade_uno: TDCEdit
+        Tag = -1
+        Left = 120
+        Top = 5
+        Width = 401
+        Height = 21
+        MaxLength = 250
+        TabOrder = 0
+        Text = 'DCEdit1'
+      end
+    end
+    object Panel1: TPanel
+      Tag = -1
+      Left = 1
+      Top = 65
+      Width = 796
+      Height = 32
+      Alignment = taLeftJustify
+      Caption = '    Ano Exercício'
+      TabOrder = 2
+      object edt_exercicio_uno: TDCEdit
+        Tag = -1
+        Left = 120
+        Top = 5
+        Width = 65
+        Height = 21
+        MaxLength = 250
+        TabOrder = 0
+      end
+    end
+    object Panel6: TPanel
+      Tag = -1
+      Left = 1
+      Top = 97
+      Width = 796
+      Height = 399
+      Alignment = taLeftJustify
+      TabOrder = 3
+      object lbl_tlcontas: TLabel
+        Left = 518
+        Top = 244
+        Width = 114
+        Height = 13
+        Caption = 'Valor Total Unidade'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clBlue
+        Font.Height = -11
+        Font.Name = 'MS Sans Serif'
+        Font.Style = [fsBold]
+        ParentFont = False
+      end
+      object btn_adicionar_dtc: TPDJButton
+        Left = 15
+        Top = 299
+        Width = 109
+        Height = 25
+        Hint = 'Calcula a Data de Validade de Carteira do Beneficiário'
+        RepeatInterval = 50
+        RepeatStartInterval = 50
+        NumGlyphs = 1
+        NumGlyphsHot = 1
+        Caption = '&Adicionar '
+        ParentFont = False
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clBlack
+        Font.Height = -11
+        Font.Name = 'MS Sans Serif'
+        Font.Style = [fsBold]
+        OnClick = btn_adicionar_dtcClick
+        TabOrder = 1
+      end
+      object btn_alterar_dtc: TPDJButton
+        Left = 128
+        Top = 299
+        Width = 109
+        Height = 25
+        Hint = 'Calcula a Data de Validade de Carteira do Beneficiário'
+        RepeatInterval = 50
+        RepeatStartInterval = 50
+        NumGlyphs = 1
+        NumGlyphsHot = 1
+        Caption = 'A&lterar '
+        ParentFont = False
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clBlack
+        Font.Height = -11
+        Font.Name = 'MS Sans Serif'
+        Font.Style = [fsBold]
+        OnClick = btn_alterar_dtcClick
+        TabOrder = 2
+      end
+      object btn_remover_dtc: TPDJButton
+        Left = 466
+        Top = 299
+        Width = 109
+        Height = 25
+        Hint = 'Calcula a Data de Validade de Carteira do Beneficiário'
+        RepeatInterval = 50
+        RepeatStartInterval = 50
+        NumGlyphs = 1
+        NumGlyphsHot = 1
+        Caption = '&Remover'
+        ParentFont = False
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clBlack
+        Font.Height = -11
+        Font.Name = 'MS Sans Serif'
+        Font.Style = [fsBold]
+        OnClick = btn_remover_dtcClick
+        TabOrder = 3
+      end
+      object btn_salvar_dtc: TPDJButton
+        Left = 240
+        Top = 299
+        Width = 109
+        Height = 25
+        Hint = 'Calcula a Data de Validade de Carteira do Beneficiário'
+        RepeatInterval = 50
+        RepeatStartInterval = 50
+        NumGlyphs = 1
+        NumGlyphsHot = 1
+        Enabled = False
+        Caption = '&Salvar'
+        ParentFont = False
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clBlack
+        Font.Height = -11
+        Font.Name = 'MS Sans Serif'
+        Font.Style = [fsBold]
+        OnClick = btn_salvar_dtcClick
+        TabOrder = 4
+      end
+      object btn_cancelar_dtc: TPDJButton
+        Left = 353
+        Top = 299
+        Width = 109
+        Height = 25
+        Hint = 'Calcula a Data de Validade de Carteira do Beneficiário'
+        RepeatInterval = 50
+        RepeatStartInterval = 50
+        NumGlyphs = 1
+        NumGlyphsHot = 1
+        Enabled = False
+        Caption = '&Cancelar'
+        ParentFont = False
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clBlack
+        Font.Height = -11
+        Font.Name = 'MS Sans Serif'
+        Font.Style = [fsBold]
+        OnClick = btn_cancelar_dtcClick
+        TabOrder = 5
+      end
+      object Panel7: TPanel
+        Tag = -1
+        Left = 12
+        Top = 21
+        Width = 767
+        Height = 32
+        Alignment = taLeftJustify
+        Caption = '    Cod. Dotacao'
+        TabOrder = 6
+        object cbx_cod_dotacaoBase: TDCComboBox
+          Left = 108
+          Top = 5
+          Width = 229
+          Height = 21
+          Hint = 'INSCRIÇÃO NO BÁSICO, INTERMEDIÁRIO OU ESPECIAL'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -11
+          Font.Name = 'MS Sans Serif'
+          Font.Style = [fsBold]
+          ParentFont = False
+          ParentShowHint = False
+          ShowHint = True
+          TabOrder = 0
+          ValueItem = ''
+          ItemHeight = 0
+          Style = csDropDownList
+          ShowCheckBox = True
+        end
+      end
+      object Panel8: TPanel
+        Tag = -1
+        Left = 12
+        Top = 53
+        Width = 767
+        Height = 32
+        Alignment = taLeftJustify
+        Caption = '    Valor'
+        TabOrder = 7
+        object edt_valor_dtc: TDCEdit
+          Left = 108
+          Top = 5
+          Width = 128
+          Height = 21
+          MaxLength = 60
+          TabOrder = 0
+        end
+      end
+      object dbg_dotacao: TDBGrid
+        Left = 8
+        Top = 10
+        Width = 774
+        Height = 222
+        DataSource = DataSource1
+        Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgRowSelect, dgConfirmDelete, dgCancelOnExit]
+        TabOrder = 0
+        TitleFont.Charset = DEFAULT_CHARSET
+        TitleFont.Color = clWindowText
+        TitleFont.Height = -11
+        TitleFont.Name = 'MS Sans Serif'
+        TitleFont.Style = []
+        Columns = <
+          item
+            Expanded = False
+            FieldName = 'dotacao'
+            Width = 153
+            Visible = True
+          end
+          item
+            Expanded = False
+            FieldName = 'Proj_Ativ_OpEsp'
+            Width = 490
+            Visible = True
+          end
+          item
+            Expanded = False
+            FieldName = 'valor_dtc'
+            Width = 95
+            Visible = True
+          end>
+      end
+      object edt_vlTotal: TDCEdit
+        Left = 650
+        Top = 238
+        Width = 129
+        Height = 21
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clRed
+        Font.Height = -11
+        Font.Name = 'MS Sans Serif'
+        Font.Style = [fsBold]
+        ParentFont = False
+        ReadOnly = True
+        TabOrder = 8
+        Alignment = taRightJustify
+      end
+    end
+  end
+  inherited StB_Principal: TStatusBar
+    Width = 798
+  end
+  object DataSource1: TDataSource
+    DataSet = fdt_principal4.spc_cons_adm_dotacao
+    Left = 625
+    Top = 181
+  end
+end

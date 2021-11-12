@@ -1,0 +1,631 @@
+inherited Frm_Cad_PlanoItemValor: TFrm_Cad_PlanoItemValor
+  Left = -3
+  Top = 2
+  Caption = 'Frm_Cad_PlanoItemValor'
+  ClientWidth = 798
+  PixelsPerInch = 96
+  TextHeight = 13
+  inherited Pnl_Titulo2: TPanel
+    Width = 798
+    inherited Image1: TImage
+      Width = 796
+    end
+  end
+  inherited Panel2: TPanel
+    Width = 798
+    inherited Image3: TImage
+      Width = 796
+    end
+  end
+  inherited Panel3: TPanel
+    Width = 798
+    object Panel1: TPanel
+      Tag = -1
+      Left = 1
+      Top = 65
+      Width = 796
+      Height = 32
+      Align = alTop
+      Alignment = taLeftJustify
+      Caption = '    Nome Completo'
+      TabOrder = 2
+      object edt_descricao_pla: TDCEdit
+        Tag = -1
+        Left = 120
+        Top = 5
+        Width = 429
+        Height = 21
+        Enabled = False
+        MaxLength = 50
+        TabOrder = 0
+        Text = 'edt_descricao_pla'
+      end
+    end
+    object Panel4: TPanel
+      Tag = -2
+      Left = 1
+      Top = 1
+      Width = 796
+      Height = 32
+      Align = alTop
+      Alignment = taLeftJustify
+      Caption = '    Código do Plano'
+      TabOrder = 0
+      object edt_cod_plano: TDCChoiceEdit
+        Tag = -2
+        Left = 120
+        Top = 5
+        Width = 93
+        Height = 21
+        Hint = 
+          'Digite o código que se deseja alterar ou clique no botão para pe' +
+          'squisar'
+        MaxLength = 10
+        TabOrder = 0
+        Alignment = taRightJustify
+        OnButtonClick = edt_cod_planoButtonClick
+        EditMask = '9999999'
+      end
+    end
+    object Panel5: TPanel
+      Tag = -1
+      Left = 1
+      Top = 33
+      Width = 796
+      Height = 32
+      Align = alTop
+      Alignment = taLeftJustify
+      Caption = '    Nome do Plano'
+      TabOrder = 1
+      object edt_nome_pla: TDCEdit
+        Tag = -1
+        Left = 120
+        Top = 5
+        Width = 185
+        Height = 21
+        Enabled = False
+        MaxLength = 12
+        TabOrder = 0
+        Text = 'DCEdit1'
+      end
+    end
+    object Panel6: TPanel
+      Tag = -1
+      Left = 1
+      Top = 136
+      Width = 796
+      Height = 351
+      Align = alBottom
+      Alignment = taLeftJustify
+      TabOrder = 3
+      object Label5: TLabel
+        Left = 4
+        Top = 12
+        Width = 234
+        Height = 13
+        Caption = 'TABELA DE PREÇOS PARA OS PLANOS'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -11
+        Font.Name = 'MS Sans Serif'
+        Font.Style = [fsBold]
+        ParentFont = False
+      end
+      object btn_adicionarPreco: TPDJButton
+        Left = 9
+        Top = 320
+        Width = 132
+        Height = 25
+        Hint = 'Calcula a Data de Validade de Carteira do Beneficiário'
+        RepeatInterval = 50
+        RepeatStartInterval = 50
+        NumGlyphs = 1
+        NumGlyphsHot = 1
+        Caption = '&Adicionar Preço'
+        ParentFont = False
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clBlack
+        Font.Height = -11
+        Font.Name = 'MS Sans Serif'
+        Font.Style = [fsBold]
+        OnClick = btn_adicionarPrecoClick
+        TabOrder = 1
+      end
+      object btn_alterarPreco: TPDJButton
+        Left = 145
+        Top = 320
+        Width = 132
+        Height = 25
+        Hint = 'Calcula a Data de Validade de Carteira do Beneficiário'
+        RepeatInterval = 50
+        RepeatStartInterval = 50
+        NumGlyphs = 1
+        NumGlyphsHot = 1
+        Caption = 'Alterar &Preço'
+        ParentFont = False
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clBlack
+        Font.Height = -11
+        Font.Name = 'MS Sans Serif'
+        Font.Style = [fsBold]
+        OnClick = btn_alterarPrecoClick
+        TabOrder = 2
+      end
+      object btn_excluirPreco: TPDJButton
+        Left = 561
+        Top = 320
+        Width = 132
+        Height = 25
+        Hint = 'Calcula a Data de Validade de Carteira do Beneficiário'
+        RepeatInterval = 50
+        RepeatStartInterval = 50
+        NumGlyphs = 1
+        NumGlyphsHot = 1
+        Caption = '&Excluir Preço'
+        ParentFont = False
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clBlack
+        Font.Height = -11
+        Font.Name = 'MS Sans Serif'
+        Font.Style = [fsBold]
+        OnClick = btn_excluirPrecoClick
+        TabOrder = 3
+      end
+      object btn_salvarPreco: TPDJButton
+        Left = 285
+        Top = 320
+        Width = 132
+        Height = 25
+        Hint = 'Calcula a Data de Validade de Carteira do Beneficiário'
+        RepeatInterval = 50
+        RepeatStartInterval = 50
+        NumGlyphs = 1
+        NumGlyphsHot = 1
+        Enabled = False
+        Caption = '&Salvar Preço'
+        ParentFont = False
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clBlack
+        Font.Height = -11
+        Font.Name = 'MS Sans Serif'
+        Font.Style = [fsBold]
+        OnClick = btn_salvarPrecoClick
+        TabOrder = 4
+      end
+      object btn_cancelarPreco: TPDJButton
+        Left = 421
+        Top = 320
+        Width = 132
+        Height = 25
+        Hint = 'Calcula a Data de Validade de Carteira do Beneficiário'
+        RepeatInterval = 50
+        RepeatStartInterval = 50
+        NumGlyphs = 1
+        NumGlyphsHot = 1
+        Enabled = False
+        Caption = '&Cancelar Preço'
+        ParentFont = False
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clBlack
+        Font.Height = -11
+        Font.Name = 'MS Sans Serif'
+        Font.Style = [fsBold]
+        OnClick = btn_cancelarPrecoClick
+        TabOrder = 5
+      end
+      object PageControl1: TPageControl
+        Left = 4
+        Top = 32
+        Width = 785
+        Height = 285
+        ActivePage = TabSheet1
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -11
+        Font.Name = 'MS Sans Serif'
+        Font.Style = [fsBold]
+        ParentFont = False
+        TabOrder = 6
+        object TabSheet1: TTabSheet
+          Caption = 'Valores do Plano'
+          object Panel11: TPanel
+            Tag = -1
+            Left = 0
+            Top = 217
+            Width = 773
+            Height = 35
+            Alignment = taLeftJustify
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clBlack
+            Font.Height = -11
+            Font.Name = 'MS Sans Serif'
+            Font.Style = []
+            ParentFont = False
+            TabOrder = 0
+            object Label7: TLabel
+              Left = 8
+              Top = 8
+              Width = 118
+              Height = 13
+              Caption = 'FORMA DE COBRANÇA'
+            end
+            object rdB_maior: TRadioButton
+              Left = 148
+              Top = 10
+              Width = 113
+              Height = 17
+              Caption = 'Cobrar Valor Maior'
+              Checked = True
+              TabOrder = 0
+              TabStop = True
+            end
+            object RdB_fixado: TRadioButton
+              Left = 332
+              Top = 10
+              Width = 113
+              Height = 17
+              Caption = 'Cobrar Valor Fixado'
+              TabOrder = 1
+            end
+            object Rdb_Contribuicao: TRadioButton
+              Left = 524
+              Top = 10
+              Width = 193
+              Height = 17
+              Caption = 'Cobrar sobre Base de Contribuição'
+              TabOrder = 2
+            end
+          end
+          object Panel10: TPanel
+            Tag = -1
+            Left = 0
+            Top = 155
+            Width = 773
+            Height = 62
+            Alignment = taLeftJustify
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clBlack
+            Font.Height = -11
+            Font.Name = 'MS Sans Serif'
+            Font.Style = []
+            ParentFont = False
+            TabOrder = 1
+            object Label3: TLabel
+              Left = 8
+              Top = 8
+              Width = 280
+              Height = 13
+              Caption = 'VALOR SOBRE A BASE DE CONTRIBUIÇÃO ( SALÁRIO )'
+            end
+            object Label4: TLabel
+              Left = 8
+              Top = 28
+              Width = 101
+              Height = 13
+              Caption = 'Valor do Dependente'
+            end
+            object Label6: TLabel
+              Left = 252
+              Top = 28
+              Width = 99
+              Height = 13
+              Caption = '% sobre Contribuição'
+            end
+            object edt_vldependente_piv: TDCEdit
+              Tag = -5
+              Left = 116
+              Top = 25
+              Width = 125
+              Height = 21
+              MaxLength = 30
+              TabOrder = 0
+            end
+            object edt_percentual_piv: TDCEdit
+              Tag = -5
+              Left = 360
+              Top = 25
+              Width = 45
+              Height = 21
+              MaxLength = 30
+              TabOrder = 1
+            end
+          end
+          object Panel9: TPanel
+            Tag = -1
+            Left = 0
+            Top = 96
+            Width = 773
+            Height = 59
+            Alignment = taLeftJustify
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clBlack
+            Font.Height = -11
+            Font.Name = 'MS Sans Serif'
+            Font.Style = []
+            ParentFont = False
+            TabOrder = 2
+            object Label1: TLabel
+              Left = 8
+              Top = 8
+              Width = 78
+              Height = 13
+              Caption = 'VALOR FIXADO'
+            end
+            object Label2: TLabel
+              Left = 84
+              Top = 28
+              Width = 24
+              Height = 13
+              Caption = 'Valor'
+            end
+            object edt_vlfixo_piv: TDCEdit
+              Tag = -5
+              Left = 116
+              Top = 25
+              Width = 125
+              Height = 21
+              MaxLength = 30
+              TabOrder = 0
+            end
+          end
+          object Panel8: TPanel
+            Tag = -1
+            Left = 0
+            Top = 64
+            Width = 773
+            Height = 32
+            Alignment = taLeftJustify
+            Caption = 
+              '  De                                                   à        ' +
+              '              anos'
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clBlack
+            Font.Height = -11
+            Font.Name = 'MS Sans Serif'
+            Font.Style = []
+            ParentFont = False
+            TabOrder = 3
+            object edt_faixaIni_piv: TDCEdit
+              Tag = -5
+              Left = 116
+              Top = 5
+              Width = 45
+              Height = 21
+              MaxLength = 30
+              TabOrder = 0
+            end
+            object edt_faixaFin_piv: TDCEdit
+              Tag = -5
+              Left = 196
+              Top = 5
+              Width = 45
+              Height = 21
+              MaxLength = 30
+              TabOrder = 1
+            end
+          end
+          object Panel33: TPanel
+            Tag = -1
+            Left = 0
+            Top = 0
+            Width = 773
+            Height = 32
+            Alignment = taLeftJustify
+            Caption = '  Descrição'
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clBlack
+            Font.Height = -11
+            Font.Name = 'MS Sans Serif'
+            Font.Style = []
+            ParentFont = False
+            TabOrder = 4
+            object edt_descricao_piv: TDCEdit
+              Tag = -5
+              Left = 116
+              Top = 5
+              Width = 421
+              Height = 21
+              MaxLength = 50
+              TabOrder = 0
+            end
+          end
+          object Panel7: TPanel
+            Tag = -1
+            Left = 0
+            Top = 32
+            Width = 773
+            Height = 32
+            Alignment = taLeftJustify
+            Caption = '  Tipo de Dependente'
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clBlack
+            Font.Height = -11
+            Font.Name = 'MS Sans Serif'
+            Font.Style = []
+            ParentFont = False
+            TabOrder = 5
+            object cbx_cod_tipodependente: TDCComboBox
+              Tag = -5
+              Left = 116
+              Top = 5
+              Width = 126
+              Height = 21
+              TabOrder = 0
+              ValueItem = ''
+              ItemHeight = 0
+              Style = csDropDown
+              ShowCheckBox = True
+            end
+          end
+        end
+        object TabSheet2: TTabSheet
+          Caption = 'Empresas do Plano'
+          ImageIndex = 1
+          OnShow = TabSheet2Show
+          object DBGrid1: TDBGrid
+            Left = 0
+            Top = 8
+            Width = 768
+            Height = 213
+            Hint = 'Clique duas vezes '
+            DataSource = DataSource2
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -11
+            Font.Name = 'MS Sans Serif'
+            Font.Style = []
+            Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgRowSelect, dgAlwaysShowSelection, dgConfirmDelete, dgCancelOnExit, dgMultiSelect]
+            ParentFont = False
+            TabOrder = 0
+            TitleFont.Charset = DEFAULT_CHARSET
+            TitleFont.Color = clWindowText
+            TitleFont.Height = -11
+            TitleFont.Name = 'MS Sans Serif'
+            TitleFont.Style = [fsBold]
+            Columns = <
+              item
+                Expanded = False
+                FieldName = 'nome_emp'
+                Width = 286
+                Visible = True
+              end>
+          end
+          object cbx_cod_empresa: TDCComboBox
+            Tag = -5
+            Left = 4
+            Top = 229
+            Width = 241
+            Height = 21
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -11
+            Font.Name = 'MS Sans Serif'
+            Font.Style = []
+            ParentFont = False
+            TabOrder = 1
+            ValueItem = ''
+            ItemHeight = 0
+            Style = csDropDownList
+            ShowCheckBox = True
+          end
+          object PDJButton1: TPDJButton
+            Left = 249
+            Top = 228
+            Width = 132
+            Height = 25
+            Hint = 'Calcula a Data de Validade de Carteira do Beneficiário'
+            RepeatInterval = 50
+            RepeatStartInterval = 50
+            NumGlyphs = 1
+            NumGlyphsHot = 1
+            Caption = '&Adicionar Empresa'
+            ParentFont = False
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clBlack
+            Font.Height = -11
+            Font.Name = 'MS Sans Serif'
+            Font.Style = [fsBold]
+            OnClick = PDJButton1Click
+            TabOrder = 2
+          end
+          object PDJButton2: TPDJButton
+            Left = 389
+            Top = 228
+            Width = 132
+            Height = 25
+            Hint = 'Calcula a Data de Validade de Carteira do Beneficiário'
+            RepeatInterval = 50
+            RepeatStartInterval = 50
+            NumGlyphs = 1
+            NumGlyphsHot = 1
+            Caption = '&Remover Empresa'
+            ParentFont = False
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clBlack
+            Font.Height = -11
+            Font.Name = 'MS Sans Serif'
+            Font.Style = [fsBold]
+            OnClick = PDJButton2Click
+            TabOrder = 3
+          end
+        end
+      end
+      object DBG_matricula: TDBGrid
+        Left = 4
+        Top = 24
+        Width = 785
+        Height = 293
+        Hint = 'Clique duas vezes '
+        DataSource = DataSource1
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -11
+        Font.Name = 'MS Sans Serif'
+        Font.Style = []
+        Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgRowSelect, dgAlwaysShowSelection, dgConfirmDelete, dgCancelOnExit, dgMultiSelect]
+        ParentFont = False
+        TabOrder = 0
+        TitleFont.Charset = DEFAULT_CHARSET
+        TitleFont.Color = clWindowText
+        TitleFont.Height = -11
+        TitleFont.Name = 'MS Sans Serif'
+        TitleFont.Style = [fsBold]
+        Columns = <
+          item
+            Expanded = False
+            FieldName = 'descricao_piv'
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clNavy
+            Font.Height = -11
+            Font.Name = 'MS Sans Serif'
+            Font.Style = [fsBold]
+            Width = 413
+            Visible = True
+          end
+          item
+            Expanded = False
+            FieldName = 'vlfixo_piv'
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clBlue
+            Font.Height = -11
+            Font.Name = 'MS Sans Serif'
+            Font.Style = [fsBold]
+            Visible = True
+          end
+          item
+            Expanded = False
+            FieldName = 'vldependente_piv'
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clGreen
+            Font.Height = -11
+            Font.Name = 'MS Sans Serif'
+            Font.Style = [fsBold]
+            Visible = True
+          end
+          item
+            Expanded = False
+            FieldName = 'percentual_piv'
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clGreen
+            Font.Height = -11
+            Font.Name = 'MS Sans Serif'
+            Font.Style = [fsBold]
+            Visible = True
+          end>
+      end
+    end
+  end
+  inherited StB_Principal: TStatusBar
+    Width = 798
+  end
+  object DataSource1: TDataSource
+    DataSet = Fdt_principal.spc_cons_adm_planoitemvalor
+    Left = 93
+    Top = 361
+  end
+  object DataSource2: TDataSource
+    DataSet = Fdt_principal.spc_cons_adm_planoempresa
+    Left = 121
+    Top = 361
+  end
+end

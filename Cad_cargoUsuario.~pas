@@ -1,0 +1,60 @@
+unit Cad_cargoUsuario;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Classes, Graphics, Controls, Forms, Dialogs,
+  Bas_Cadastro, ComCtrls, PDJButton, ExtCtrls, StdCtrls, QuickRpt,  BEdit, jpeg,
+  Buttons, BChoiceEdit, BDateTime, BEditButton;
+
+type
+  TFrm_Cad_cargoUsuario = class(TFrm_Bas_Cadastro)
+    Panel4: TPanel;
+    Panel5: TPanel;
+    edt_descricao_cgu: TBEdit;
+    edt_cod_cargoUsuario: TEditButton;
+    procedure FormCreate(Sender: TObject);
+    procedure edt_cod_cargoUsuarioButtonClick(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+    function BAS_ValidarCadastro: boolean ;             override ;
+  end;
+
+var
+  Frm_Cad_cargoUsuario: TFrm_Cad_cargoUsuario;
+
+implementation
+uses Constantes;
+{$R *.DFM}
+
+procedure TFrm_Cad_cargoUsuario.FormCreate(Sender: TObject);
+begin
+  FTitulo       := 'Cadastro de Cargos' ;
+  FEditChave    := 'edt_cod_cargoUsuario' ;
+  FEditAlteracao:= 'edt_cod_cargoUsuario' ;
+  FUltFoco      := 'edt_descricao_cgu' ;
+  FTitPesquisa  := 'Localizar Cargos' ;
+  FPesquisa     := 'cod_cargoUsuario, descricao_cgu' ;
+  FPesquisaTit  := 'Código, Descrição' ;
+  inherited;
+
+end;
+
+function TFrm_Cad_cargoUsuario.BAS_ValidarCadastro: boolean ;
+begin
+  result := true ;
+  if (not BAS_ValidarCampo(edt_cod_cid.name, 'O código deve ser preenchido !', VLD_Preenchido )) or
+  (not BAS_ValidarCampo(edt_nome_cid.name, 'A Descrição deve ser preenchida !', VLD_Preenchido )) then
+    Exit;
+  result := false ;
+end;
+
+procedure TFrm_Cad_cargoUsuario.edt_cod_cargoUsuarioButtonClick(Sender: TObject);
+begin
+  inherited;
+  btn_alterarClick(self);
+end;
+
+end.

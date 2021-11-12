@@ -1,0 +1,70 @@
+unit Mov_2032;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Classes, Graphics, Controls, Forms, Dialogs,
+  Bas_TelaPadrao, ComCtrls, PDJButton, ExtCtrls, StdCtrls, DCChoice, DB,
+  Grids, DBGrids, Buttons, Mask, DBCtrls, jpeg;
+
+type
+  TFrm_Mov_2032 = class(TFrm_Bas_TelaPadrao)
+    Panel7: TPanel;
+    edt_cod_autorizainternacao: TDCEdit;
+    btn_excluir: TPDJButton;
+    Panel1: TPanel;
+    edt_nome_ben: TDCEdit;
+    edt_inscricao: TDCEdit;
+    procedure edt_cod_autorizainternacaoKeyDown(Sender: TObject; var Key: Word;
+      Shift: TShiftState);
+    procedure btn_excluirClick(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  Frm_Mov_2032: TFrm_Mov_2032;
+
+implementation
+uses dtm_principal, DLG_Mensagem, Fun_DB, FUN_STR, Constantes, Fun_beneficiario, Fun_Acesso,
+  dtm_principal4, Fun_Obj ;
+
+{$R *.DFM}
+
+procedure TFrm_Mov_2032.edt_cod_autorizainternacaoKeyDown(Sender: TObject;
+  var Key: Word; Shift: TShiftState);
+begin
+  inherited;
+  if (Key = 13) and (edt_cod_autorizainternacao.Text <> '') then begin
+    DB_OpenSQL('select b.inscricao_ben, b.nome_ben from tbl_autorizainternacao a, tbl_beneficiario b'+
+    ' where a.cod_beneficiario = b.cod_beneficiario and a.cod_autorizainternacao = '+edt_cod_autorizainternacao.Text);
+    edt_inscricao.Text := Tab.fieldByName('inscricao_ben').AsString;
+    edt_nome_ben.text := Tab.fieldByName('nome_ben').AsString;
+  end;
+end;
+
+procedure TFrm_Mov_2032.btn_excluirClick(Sender: TObject);
+begin
+  inherited;
+  if (edt_cod_autorizainternacao.Text = '') then begin
+    Dlg_Alerta('O Código da Internação deve ser Preenchido',self);
+    Exit;
+  end;
+  if not Dlg_YesNo('Tem serteza que deseja excluir a Internação',self) then Exit;
+  DB_ExecSQL('delete from tbl_concessaointernacao where cod_autorizainternacao = '+
+  edt_cod_autorizainternacao.Text);
+  DB_ExecSQL('delete from tbl_controleuti where cod_autorizainternacao = '+
+  edt_cod_autorizainternacao.Text);
+  DB_ExecSQL('delete from tbl_altainternacao where cod_autorizainternacao = '+
+  edt_cod_autorizainternacao.Text);
+  DB_ExecSQL('delete from tbl_autorizainternacao where cod_autorizainternacao = '+
+  edt_cod_autorizainternacao.Text);
+  Obj_EmptyEdit(self);
+end;
+
+end.
+
+
+

@@ -1,0 +1,180 @@
+inherited Frm_Cad_itemHonorarioCrm: TFrm_Cad_itemHonorarioCrm
+  Left = 0
+  Top = 0
+  Caption = 'Frm_Cad_itemHonorarioCrm'
+  OldCreateOrder = True
+  PixelsPerInch = 96
+  TextHeight = 13
+  inherited Panel2: TPanel
+    object btn_novo: TPDJButton
+      Left = 4
+      Top = 4
+      Width = 162
+      Height = 25
+      Hint = 'Adicionar Novo Registro'
+      RepeatInterval = 50
+      RepeatStartInterval = 50
+      NumGlyphs = 1
+      NumGlyphsHot = 1
+      Glyph.Data = {
+        8A010000424D8A01000000000000760000002800000018000000170000000100
+        04000000000014010000130B0000130B00001000000000000000000000000000
+        8000008000000080800080000000800080008080000080808000C0C0C0000000
+        FF0000FF000000FFFF00FF000000FF00FF00FFFF0000FFFFFF00888888888888
+        8888888888888888888777777777777777778888880000000000000000078888
+        880FFFFFFFFFFFFFFF078888880F000FF000FF000F078888880FFFFFFFFFFFFF
+        FF078888880F000FF000FF000F078888880FFFFFFFFFFFFFFF078888880F000F
+        F000FF000F07888887BFFFFFFFFFFFFFFF07BF8887FBF0BFF000FF000F078788
+        87BFFF7BFFFFFFFFFF0788B887FFF7B4444444444447888FB7BB7FF44FFF44FF
+        F44777777BFBB44444444444444888B87FBFF777777888888888888BFBFFBFBF
+        B88888888888888FB7BB7B8888888888888888FB87F887B88888888888888FB8
+        87B8887B8888888888888B8887F88887B88888888888888887B8888888888888
+        8888888887888888888888888888}
+      GlyphHot.Data = {
+        8A010000424D8A01000000000000760000002800000018000000170000000100
+        04000000000014010000130B0000130B00001000000000000000000000000000
+        8000008000000080800080000000800080008080000080808000C0C0C0000000
+        FF0000FF000000FFFF00FF000000FF00FF00FFFF0000FFFFFF00888888888888
+        8888888888888888888777777777777777778888884444444444444444478888
+        884FFFFFFFFFFFFFFF478888884F444FF444FF444F478888884FFFFFFFFFFFFF
+        FF478888884F444FF444FF444F478888884FFFFFFFFFFFFFFF478888884F444F
+        F444FF444F47888887BFFFFFFFFFFFFFFF47BF8887FBF4BFF444FF444F478788
+        87BFFF7BFFFFFFFFFF4788B887FFF7BCCCCCCCCCCCC7888FB7BB7FFCCFFFCCFF
+        FCC777777BFBBCCCCCCCCCCCCCC888B87FBFF777777888888888888BFBFFBFBF
+        B88888888888888FB7BB7B8888888888888888FB87F887B88888888888888FB8
+        87B8887B8888888888888B8887F88887B88888888888888887B8888888888888
+        8888888887888888888888888888}
+      Caption = '&Incluir / Alterar'
+      OnClick = btn_novoClick
+      TabOrder = 1
+    end
+  end
+  inherited Panel3: TPanel
+    object Panel9: TPanel
+      Tag = -1
+      Left = 1
+      Top = 1
+      Width = 798
+      Height = 32
+      Align = alTop
+      Alignment = taLeftJustify
+      Caption = '    Cod. Conveniado'
+      TabOrder = 0
+      object edt_nome_con: TDCEdit
+        Left = 236
+        Top = 5
+        Width = 426
+        Height = 21
+        TabStop = False
+        Color = clInfoBk
+        MaxLength = 80
+        ReadOnly = True
+        TabOrder = 1
+      end
+      object edt_cod_conveniado: TDCChoiceEdit
+        Left = 120
+        Top = 5
+        Width = 110
+        Height = 21
+        Hint = 
+          'Digite o código que se deseja alterar ou clique no botão para pe' +
+          'squisar'
+        MaxLength = 10
+        TabOrder = 0
+        OnExit = edt_cod_conveniadoExit
+        Alignment = taRightJustify
+        OnButtonClick = edt_cod_conveniadoButtonClick
+      end
+    end
+    object Panel32: TPanel
+      Tag = -1
+      Left = 1
+      Top = 66
+      Width = 798
+      Height = 33
+      Alignment = taLeftJustify
+      Caption = 
+        '    Cod. CRM                                                    ' +
+        '           Vl. Honorário                                        ' +
+        '         Dt. Validade    '
+      TabOrder = 2
+      object edt_vlHonorario_ihc: TDCEdit
+        Left = 330
+        Top = 5
+        Width = 108
+        Height = 21
+        MaxLength = 250
+        TabOrder = 1
+      end
+      object edt_cod_crm: TDCEdit
+        Left = 120
+        Top = 5
+        Width = 110
+        Height = 21
+        MaxLength = 250
+        TabOrder = 0
+      end
+      object edt_dtvalidade_ihc: TDCDateEdit
+        Left = 537
+        Top = 5
+        Width = 126
+        Height = 21
+        TabOrder = 2
+        Checked = True
+        Kind = dkDate
+        ShowWeekDay = True
+      end
+    end
+    object Panel5: TPanel
+      Tag = -1
+      Left = 1
+      Top = 33
+      Width = 798
+      Height = 33
+      Alignment = taLeftJustify
+      Caption = '    Item de Serviço'
+      TabOrder = 1
+      object edt_cod_itemservico: TDCChoiceEdit
+        Left = 120
+        Top = 5
+        Width = 110
+        Height = 21
+        Hint = 
+          'Digite o código que se deseja alterar ou clique no botão para pe' +
+          'squisar'
+        MaxLength = 10
+        TabOrder = 0
+        OnExit = edt_cod_itemservicoExit
+        Alignment = taRightJustify
+        OnButtonClick = edt_cod_itemservicoButtonClick
+      end
+      object edt_descricao_itc: TDCEdit
+        Left = 236
+        Top = 5
+        Width = 426
+        Height = 21
+        TabStop = False
+        Color = clInfoBk
+        MaxLength = 80
+        ReadOnly = True
+        TabOrder = 1
+      end
+    end
+  end
+  inherited StB_Principal: TStatusBar
+    Panels = <
+      item
+        Text = 'mensagens'
+        Width = 550
+      end
+      item
+        Alignment = taCenter
+        Text = 'Data'
+        Width = 125
+      end
+      item
+        Text = 'Cod Tela'
+        Width = 50
+      end>
+  end
+end

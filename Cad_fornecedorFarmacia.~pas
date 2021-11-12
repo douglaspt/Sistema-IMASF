@@ -1,0 +1,121 @@
+unit Cad_fornecedorFarmacia;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Classes, Graphics, Controls, Forms, Dialogs,
+  Bas_Cadastro, ComCtrls, PDJButton, ExtCtrls, DCChoice, StdCtrls, QuickRpt,
+  jpeg;
+
+type
+  TFrm_Cad_fornecedorFarmacia = class(TFrm_Bas_Cadastro)
+    Panel4: TPanel;
+    edt_cod_fornecedorFarmacia: TDCChoiceEdit;
+    Panel1: TPanel;
+    edt_razaoSocial_ffa: TDCEdit;
+    Panel7: TPanel;
+    edt_endereco_ffa: TDCEdit;
+    Panel8: TPanel;
+    edt_cep_ffa: TDCEdit;
+    Panel9: TPanel;
+    edt_ramal1_ffa: TDCEdit;
+    edt_cod_fornecedorSIAF: TDCEdit;
+    edt_cidade_ffa: TDCEdit;
+    edt_sigla_uf: TDCEdit;
+    edt_ddd_ffa: TDCEdit;
+    edt_fone1_ffa: TDCEdit;
+    edt_fone2_ffa: TDCEdit;
+    edt_fone3_ffa: TDCEdit;
+    edt_ramal2_ffa: TDCEdit;
+    edt_ramal3_ffa: TDCEdit;
+    edt_fax_ffa: TDCEdit;
+    Panel5: TPanel;
+    edt_obs_ffa: TDCEdit;
+    Panel10: TPanel;
+    edt_cgc_ffa: TDCEdit;
+    edt_inscricaoEstadual_ffa: TDCEdit;
+    edt_apelido_ffa: TDCEdit;
+    cbx_cod_sitFornecedorFarmacia: TDCComboBox;
+    procedure FormCreate(Sender: TObject);
+    procedure edt_cod_fornecedorFarmaciaButtonClick(Sender: TObject);
+    procedure btn_novoClick(Sender: TObject);
+    procedure btn_alterarClick(Sender: TObject);
+    procedure edt_cod_fornecedorFarmaciaKeyDown(Sender: TObject;
+      var Key: Word; Shift: TShiftState);
+  private
+    { Private declarations }
+    procedure CarregarCombo;
+  public
+    { Public declarations }
+    function BAS_ValidarCadastro: boolean ;             override ;
+  end;
+
+var
+  Frm_Cad_fornecedorFarmacia: TFrm_Cad_fornecedorFarmacia;
+
+implementation
+uses Constantes, Bas_Impressao, dtm_principal5;
+{$R *.DFM}
+
+procedure TFrm_Cad_fornecedorFarmacia.FormCreate(Sender: TObject);
+begin
+  FTitulo       := 'Cadastro de Fornecedores da Farmácia do IMASF' ;
+  FEditChave    := 'edt_cod_fornecedorFarmacia' ;
+  FEditAlteracao:= 'edt_cod_fornecedorSIAF' ;
+  FUltFoco      := 'edt_cod_sitFornecedorFarmacia' ;
+  FTitPesquisa  := 'Localizar Fornecedores' ;
+  FPesquisa     := 'cod_fornecedorFarmacia, cod_fornecedorSIAF, razaoSocial_ffa, cod_sitFornecedorFarmacia' ;
+  FPesquisaTit  := 'Código, Cod. Forn. SIAF, Razão Social, Situação' ;
+  inherited;
+
+end;
+
+function TFrm_Cad_fornecedorFarmacia.BAS_ValidarCadastro: boolean ;
+begin
+  result := true ;
+  if (not BAS_ValidarCampo(edt_cod_fornecedorFarmacia.name, 'O código deve ser preenchido !', VLD_Preenchido )) or
+  (not BAS_ValidarCampo(edt_cod_fornecedorSIAF.name, 'O Código do Fornecedor SIAF deve ser preenchido !', VLD_Preenchido )) then
+    Exit;
+  result := false ;
+end;
+
+procedure TFrm_Cad_fornecedorFarmacia.CarregarCombo;
+begin
+  cbx_cod_sitFornecedorFarmacia.Items.Add('Ativo');
+  cbx_cod_sitFornecedorFarmacia.ValItems.Add('1');
+  cbx_cod_sitFornecedorFarmacia.Items.Add('Inativo');
+  cbx_cod_sitFornecedorFarmacia.ValItems.Add('3');
+end;
+
+
+procedure TFrm_Cad_fornecedorFarmacia.edt_cod_fornecedorFarmaciaButtonClick(Sender: TObject);
+begin
+  inherited;
+  btn_alterarClick(self);
+end;
+
+procedure TFrm_Cad_fornecedorFarmacia.btn_novoClick(Sender: TObject);
+begin
+  inherited;
+  CarregarCombo;
+  edt_cod_fornecedorFarmacia.Enabled := false;
+  edt_cod_fornecedorSIAF.SetFocus;
+end;
+
+procedure TFrm_Cad_fornecedorFarmacia.btn_alterarClick(Sender: TObject);
+begin
+  CarregarCombo;
+  inherited;
+
+end;
+
+procedure TFrm_Cad_fornecedorFarmacia.edt_cod_fornecedorFarmaciaKeyDown(
+  Sender: TObject; var Key: Word; Shift: TShiftState);
+begin
+  inherited;
+  if FStatus = FST_Normal then
+    if key = 13 then
+      edt_cod_fornecedorFarmaciaButtonClick(self);
+end;
+
+end.

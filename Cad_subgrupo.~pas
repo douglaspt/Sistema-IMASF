@@ -1,0 +1,76 @@
+unit Cad_subgrupo;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Classes, Graphics, Controls, Forms, Dialogs,
+  Bas_Cadastro, ComCtrls, PDJButton, ExtCtrls, DCChoice, StdCtrls, jpeg;
+
+type
+  TFrm_Cad_subgrupo = class(TFrm_Bas_Cadastro)
+    Panel1: TPanel;
+    Panel4: TPanel;
+    edt_cod_subgrupo: TDCChoiceEdit;
+    edt_nome_sgr: TDCEdit;
+    Panel5: TPanel;
+    edt_cod_grupo: TDCEdit;
+    Panel6: TPanel;
+    edt_cod_grandegrupo: TDCEdit;
+    procedure FormCreate(Sender: TObject);
+    procedure edt_cod_subgrupoButtonClick(Sender: TObject);
+    procedure edt_cod_subgrupoExit(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+    function BAS_ValidarCadastro: boolean ;             override ;
+  end;
+
+var
+  Frm_Cad_subgrupo: TFrm_Cad_subgrupo;
+
+implementation
+uses Constantes;
+{$R *.DFM}
+
+procedure TFrm_Cad_subgrupo.FormCreate(Sender: TObject);
+begin
+  FTitulo       := 'Cadastro de Subgrupo' ;
+  FEditChave    := 'edt_cod_subgrupo' ;
+  FEditAlteracao:= 'edt_cod_grupo' ;
+  FUltFoco      := 'edt_nome_sgr' ;
+  FTitPesquisa  := 'Localizar Subgrupo' ;
+  FPesquisa     := 'cod_subgrupo, cod_grupo, cod_grandegrupo, nome_sgr' ;
+  FPesquisaTit  := 'Código, Código Grupo, Código Grandegrupo, Nome' ;
+  inherited;
+
+end;
+
+function TFrm_Cad_subgrupo.BAS_ValidarCadastro: boolean ;
+begin
+  result := true ;
+  if (not BAS_ValidarCampo(edt_cod_subgrupo.name, 'O código deve ser preenchido !', VLD_Preenchido )) or
+  (not BAS_ValidarCampo(edt_cod_grupo.name, 'O Campo Grupo deve ser preenchido !', VLD_Preenchido )) or
+  (not BAS_ValidarCampo(edt_cod_grandegrupo.name, 'O Campo Grandegrupo deve ser preenchido !', VLD_Preenchido )) or
+  (not BAS_ValidarCampo(edt_nome_sgr.name, 'O nome deve ser preenchido !', VLD_Preenchido )) then
+    Exit;
+  result := false ;
+end;
+
+procedure TFrm_Cad_subgrupo.edt_cod_subgrupoButtonClick(Sender: TObject);
+begin
+  inherited;
+  btn_alterarClick(self);
+end;
+
+procedure TFrm_Cad_subgrupo.edt_cod_subgrupoExit(Sender: TObject);
+begin
+  inherited;
+  if FStatus = FST_Novo then
+  begin
+    edt_cod_grupo.Text := copy(edt_cod_subgrupo.Text,2,2);
+    edt_cod_grandegrupo.Text := copy(edt_cod_subgrupo.text,1,1);
+  end;
+end;
+
+end.

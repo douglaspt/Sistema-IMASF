@@ -1,0 +1,101 @@
+inherited Frm_Cad_grauparent: TFrm_Cad_grauparent
+  Caption = 'Frm_Cad_grauparent'
+  PixelsPerInch = 96
+  TextHeight = 13
+  inherited Panel3: TPanel
+    object Panel4: TPanel
+      Tag = -2
+      Left = 1
+      Top = 1
+      Width = 798
+      Height = 32
+      Align = alTop
+      Alignment = taLeftJustify
+      Caption = '    Grau de Parentesco'
+      TabOrder = 0
+      object edt_cod_grauparent: TDCChoiceEdit
+        Tag = -2
+        Left = 120
+        Top = 5
+        Width = 93
+        Height = 21
+        Hint = 
+          'Digite o código que se deseja alterar ou clique no botão para pe' +
+          'squisar'
+        MaxLength = 10
+        TabOrder = 0
+        Alignment = taRightJustify
+        OnButtonClick = edt_cod_grauparentButtonClick
+        EditMask = '9999999'
+      end
+    end
+    object Panel1: TPanel
+      Tag = -1
+      Left = 1
+      Top = 97
+      Width = 798
+      Height = 32
+      Alignment = taLeftJustify
+      Caption = '     Observação'
+      TabOrder = 3
+      object edt_obs_gra: TDCEdit
+        Tag = -1
+        Left = 120
+        Top = 5
+        Width = 465
+        Height = 21
+        MaxLength = 60
+        TabOrder = 0
+      end
+    end
+    object Panel6: TPanel
+      Tag = -1
+      Left = 1
+      Top = 65
+      Width = 798
+      Height = 32
+      Alignment = taLeftJustify
+      Caption = '     Situação'
+      TabOrder = 2
+      object cbx_cod_statusAtivo: TDCComboBox
+        Tag = -1
+        Left = 120
+        Top = 5
+        Width = 150
+        Height = 21
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -11
+        Font.Name = 'MS Sans Serif'
+        Font.Style = []
+        ParentFont = False
+        ParentShowHint = False
+        ShowHint = True
+        TabOrder = 0
+        ValueItem = ''
+        ItemHeight = 0
+        Style = csDropDown
+        ShowCheckBox = True
+      end
+    end
+    object Panel5: TPanel
+      Tag = -1
+      Left = 1
+      Top = 33
+      Width = 798
+      Height = 32
+      Alignment = taLeftJustify
+      Caption = '     Descrição'
+      TabOrder = 1
+      object edt_nome_gra: TDCEdit
+        Tag = -1
+        Left = 120
+        Top = 5
+        Width = 185
+        Height = 21
+        MaxLength = 20
+        TabOrder = 0
+      end
+    end
+  end
+end

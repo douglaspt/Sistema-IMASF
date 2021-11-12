@@ -1,0 +1,178 @@
+unit Mov_2051;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Classes, Graphics, Controls, Forms, Dialogs,
+  Bas_TelaPadrao, ComCtrls, PDJButton, ExtCtrls, StdCtrls, DCChoice, DB,
+  Grids, DBGrids, Buttons, Mask, DBCtrls, jpeg, BComboBox;
+
+type
+  TFrm_Mov_2051 = class(TFrm_Bas_TelaPadrao)
+    DataSource1: TDataSource;
+    Image2: TImage;
+    Panel6: TPanel;
+    Panel7: TPanel;
+    edt_criticaBeneficiario: TDCEdit;
+    btn_novo_med: TPDJButton;
+    btn_alterar_med: TPDJButton;
+    btn_Remover_med: TPDJButton;
+    btn_Salvar_med: TPDJButton;
+    btn_cancelar_med: TPDJButton;
+    dbg_conveniado: TDBGrid;
+    Panel4: TPanel;
+    edt_cod_conveniado: TDCChoiceEdit;
+    edt_nome_con: TDCEdit;
+    edt_criticaCRM: TDCEdit;
+    edt_criticaConveniado: TDCEdit;
+    edt_criticaItem: TDCEdit;
+    procedure FormShow(Sender: TObject);
+    procedure btn_novo_medClick(Sender: TObject);
+    procedure btn_alterar_medClick(Sender: TObject);
+    procedure btn_Salvar_medClick(Sender: TObject);
+    procedure btn_cancelar_medClick(Sender: TObject);
+    procedure btn_Remover_medClick(Sender: TObject);
+    procedure edt_cod_conveniadoButtonClick(Sender: TObject);
+    procedure edt_cod_conveniadoExit(Sender: TObject);
+  private
+    { Private declarations }
+    FPesquisaSQLDefalt : String ;
+    FStatus2 : Integer ;
+    procedure BotoesOnOff(b:boolean);
+  public
+    { Public declarations }
+  end;
+
+var
+  Frm_Mov_2051: TFrm_Mov_2051;
+
+implementation
+uses dtm_principal, DLG_Mensagem, Fun_DB, FUN_STR, Constantes, Fun_beneficiario, Fun_Acesso,
+  dtm_principal4, Fun_Obj, dtm_principal6, Fun_ConsCadastro, Fun_Data, Fun_Medico ;
+
+{$R *.DFM}
+
+procedure TFrm_Mov_2051.FormShow(Sender: TObject);
+begin
+  inherited;
+  fdt_principal6.spc_cons_med_corpoClinicoAmbulatorio.open;
+  dbg_conveniado.SetFocus;
+  with fdt_principal4.spc_cons_med_criticaAutorizacaoItem do begin
+    Close;
+    Open;
+  end;
+end;
+
+procedure TFrm_Mov_2051.BotoesOnOff(b:boolean);
+begin
+  btn_novo_med.Enabled := b ;
+  btn_alterar_med.Enabled := b ;
+  btn_Salvar_med.Enabled := not b ;
+  btn_cancelar_med.Enabled := not b;
+  btn_Remover_med.Enabled := b ;
+  dbg_conveniado.visible := b ;
+end;
+
+procedure TFrm_Mov_2051.btn_novo_medClick(Sender: TObject);
+begin
+  inherited;
+  FStatus := FST_Novo;
+  BotoesOnOff(false);
+  edt_cod_conveniado.Enabled := true;
+  edt_cod_conveniado.SetFocus;
+  edt_criticaConveniado.Text := 'N';
+  edt_criticaBeneficiario.Text := 'N';
+  edt_criticaCRM.Text := 'N';
+  edt_criticaItem.Text := 'N';
+  EscreveLog(btn_novo_med.name);
+end;
+
+procedure TFrm_Mov_2051.btn_alterar_medClick(Sender: TObject);
+begin
+  inherited;
+  FStatus := FST_Alteracao;
+  with fdt_principal4.spc_cons_med_criticaAutorizacaoItem do begin
+    BotoesOnOff(false);
+    edt_cod_conveniado.text := FieldByName('cod_conveniado').AsString ;
+    edt_criticaConveniado.Text := FieldByName('criticaConveniado').AsString ;
+    edt_criticaBeneficiario.text := FieldByName('criticaBeneficiario').AsString ;
+     edt_criticaCRM.Text := FieldByName('criticaCRM').AsString ;
+     edt_criticaItem.Text := FieldByName('criticaItem').AsString ;
+    end;
+    edt_cod_conveniado.enabled := false;
+    edt_criticaConveniado.SetFocus;
+    EscreveLog(btn_alterar_med.name);
+end;
+
+procedure TFrm_Mov_2051.btn_Salvar_medClick(Sender: TObject);
+begin
+  inherited;
+ if not BAS_ValidarCampo(edt_cod_conveniado.name, 'É necessário preencher o Código do Conveniado!', VLD_Preenchido) or
+   not BAS_ValidarCampo(edt_criticaConveniado.name, 'É necessário preencher a Critica do Convenido com S ou N!', VLD_Preenchido) or
+   not BAS_ValidarCampo(edt_criticaBeneficiario.name, 'É necessário preencher a Critica do Beneficiario com S ou N!', VLD_Preenchido) or
+   not BAS_ValidarCampo(edt_criticaCRM.name, 'É necessário preencher a Critica do CRM com S ou N!', VLD_Preenchido) or
+   not BAS_ValidarCampo(edt_criticaItem.name, 'É necessário preencher a Critica do Procedimento com S ou N!', VLD_Preenchido) then
+     exit ;
+  if not Dlg_YesNo('Tem Certeza que Deseja Salvar?', Self) then Exit;
+  if FStatus = FST_Novo then
+  DB_ExecSQL('insert into tbl_criticaAutorizacaoItem ('+
+  'cod_conveniado, criticaConveniado, criticaBeneficiario, criticaCRM, criticaItem) values ('+
+  STR_RemoveChar(edt_cod_conveniado.text,'-')+','''+edt_criticaConveniado.text+''','''+edt_criticaBeneficiario.Text+
+  ''', '''+edt_criticaCRM.Text+''', '''+edt_criticaItem.Text+''')')
+  else
+      DB_ExecSQL('update tbl_criticaAutorizacaoItem set '+
+    ' criticaConveniado = '''+edt_criticaConveniado.Text+''', '+
+    ' criticaBeneficiario = '''+edt_criticaBeneficiario.text+''','+
+    ' criticaCRM = '''+edt_criticaCRM.text+''', '+
+    ' criticaItem = '''+edt_criticaItem.text+
+    ''' where cod_conveniado = '+STR_RemoveChar(edt_cod_conveniado.text,'-'));
+  with fdt_principal4.spc_cons_med_criticaAutorizacaoItem do begin
+    Close;
+    Open;
+  end;
+  BotoesOnOff(true);
+  dbg_conveniado.SetFocus;
+  EscreveLog(btn_Salvar_med.name);
+end;
+
+procedure TFrm_Mov_2051.btn_cancelar_medClick(Sender: TObject);
+begin
+  inherited;
+  BotoesOnOff(true);
+  dbg_conveniado.SetFocus;
+  EscreveLog(btn_cancelar_med.name);
+end;
+
+procedure TFrm_Mov_2051.btn_Remover_medClick(Sender: TObject);
+begin
+  inherited;
+  if Dlg_YesNo('Tem Certeza que deseja Remover o Registro ?', Self) then begin
+    DB_ExecSQL('delete from tbl_criticaAutorizacaoItem where cod_conveniado = '+
+    fdt_principal4.spc_cons_med_criticaAutorizacaoItem.fieldByName('cod_conveniado').AsString);
+    fdt_principal4.spc_cons_med_criticaAutorizacaoItem.close;
+    fdt_principal4.spc_cons_med_criticaAutorizacaoItem.open;
+  end;
+  dbg_conveniado.SetFocus;
+  EscreveLog(btn_Remover_med.name);
+end;
+
+procedure TFrm_Mov_2051.edt_cod_conveniadoButtonClick(Sender: TObject);
+begin
+  inherited;
+  FPesquisaSQL := 'select cod_conveniado, nome_con, razao_con from tbl_conveniado where cod_sitconveniado = 1';
+  edt_cod_conveniado.text := Cons_ConsultaCadastro(self, 'tbl_conveniado', FPesquisa,
+  'Cod.Conv, Nome do Conveniado, Razão Social', 'Localizar Conveniados', FPesquisaSQL, true);
+  edt_cod_conveniadoExit(self);
+end;
+
+procedure TFrm_Mov_2051.edt_cod_conveniadoExit(Sender: TObject);
+begin
+  inherited;
+  if edt_cod_conveniado.text <> '' then
+    edt_nome_con.text := Get_NomeConveniadoAtivo(STR_RemoveChar(edt_cod_conveniado.text,'-'));
+end;
+
+end.
+
+
+

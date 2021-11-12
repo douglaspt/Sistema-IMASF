@@ -1,0 +1,262 @@
+inherited Frm_Cad_PrestadorSM: TFrm_Cad_PrestadorSM
+  Left = 1
+  Top = -4
+  Caption = 'Frm_Cad_PrestadorSM'
+  ClientHeight = 577
+  ClientWidth = 790
+  PixelsPerInch = 96
+  TextHeight = 13
+  inherited Pnl_Titulo: TPanel
+    Width = 790
+    inherited Image1: TImage
+      Width = 788
+    end
+  end
+  inherited Panel2: TPanel
+    Top = 525
+    Width = 790
+    inherited Image3: TImage
+      Width = 788
+    end
+  end
+  inherited Panel3: TPanel
+    Width = 790
+    Height = 484
+    object Panel1: TPanel
+      Tag = -1
+      Left = 1
+      Top = 65
+      Width = 788
+      Height = 32
+      Alignment = taLeftJustify
+      Caption = '    Nome Completo'
+      TabOrder = 2
+      object edt_nome_psm: TDCEdit
+        Tag = -1
+        Left = 120
+        Top = 5
+        Width = 429
+        Height = 21
+        MaxLength = 50
+        TabOrder = 0
+        Text = 'edt_nome_psm'
+      end
+    end
+    object Panel4: TPanel
+      Tag = -2
+      Left = 1
+      Top = 1
+      Width = 788
+      Height = 32
+      Alignment = taLeftJustify
+      Caption = '    Código do Prestador'
+      TabOrder = 0
+      object edt_cod_prestadorSM: TDCChoiceEdit
+        Tag = -2
+        Left = 120
+        Top = 5
+        Width = 93
+        Height = 21
+        Hint = 
+          'Digite o código que se deseja alterar ou clique no botão para pe' +
+          'squisar'
+        MaxLength = 10
+        TabOrder = 0
+        Alignment = taRightJustify
+        OnButtonClick = edt_cod_prestadorSMButtonClick
+        EditMask = '9999999'
+      end
+    end
+    object Panel5: TPanel
+      Tag = -1
+      Left = 1
+      Top = 33
+      Width = 788
+      Height = 32
+      Alignment = taLeftJustify
+      Caption = '    Nome Reduzido'
+      TabOrder = 1
+      object edt_nomereduzido_psm: TDCEdit
+        Tag = -1
+        Left = 120
+        Top = 5
+        Width = 185
+        Height = 21
+        MaxLength = 12
+        TabOrder = 0
+        Text = 'DCEdit1'
+      end
+    end
+    object Panel6: TPanel
+      Tag = -1
+      Left = 1
+      Top = 97
+      Width = 788
+      Height = 32
+      Alignment = taLeftJustify
+      Caption = '    Razão Social'
+      TabOrder = 3
+      object edt_razao_psm: TDCEdit
+        Tag = -1
+        Left = 120
+        Top = 5
+        Width = 429
+        Height = 21
+        MaxLength = 50
+        TabOrder = 0
+        Text = 'edt_descricao_pla'
+      end
+    end
+    object Panel7: TPanel
+      Tag = -1
+      Left = 1
+      Top = 129
+      Width = 788
+      Height = 32
+      Alignment = taLeftJustify
+      Caption = '    C.N.P.J.'
+      TabOrder = 4
+      object edt_cnpj_psm: TDCEdit
+        Tag = -1
+        Left = 121
+        Top = 5
+        Width = 173
+        Height = 21
+        MaxLength = 60
+        TabOrder = 0
+      end
+    end
+    object Panel8: TPanel
+      Tag = -1
+      Left = 1
+      Top = 161
+      Width = 788
+      Height = 32
+      Alignment = taLeftJustify
+      Caption = '    Telefone'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -11
+      Font.Name = 'MS Sans Serif'
+      Font.Style = []
+      ParentFont = False
+      TabOrder = 5
+      object edt_telefone_psm: TDCEdit
+        Tag = -1
+        Left = 120
+        Top = 5
+        Width = 173
+        Height = 21
+        MaxLength = 60
+        TabOrder = 0
+      end
+    end
+    object Panel18: TPanel
+      Tag = -1
+      Left = 1
+      Top = 257
+      Width = 788
+      Height = 32
+      Alignment = taLeftJustify
+      Caption = 
+        '    Estado                                                      ' +
+        '                CEP'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -11
+      Font.Name = 'MS Sans Serif'
+      Font.Style = []
+      ParentFont = False
+      TabOrder = 6
+      object edt_cep_psm: TDCEdit
+        Tag = -1
+        Left = 280
+        Top = 5
+        Width = 109
+        Height = 21
+        MaxLength = 60
+        TabOrder = 1
+        Text = 'edt_cnpj_con'
+      end
+      object cbx_cod_uf: TDCComboBox
+        Tag = -1
+        Left = 120
+        Top = 5
+        Width = 69
+        Height = 21
+        TabOrder = 0
+        ValueItem = ''
+        ItemHeight = 0
+        Style = csOwnerDrawFixed
+        ShowCheckBox = True
+      end
+    end
+    object Panel16: TPanel
+      Tag = -1
+      Left = 1
+      Top = 193
+      Width = 788
+      Height = 32
+      Alignment = taLeftJustify
+      Caption = '    Endereço'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -11
+      Font.Name = 'MS Sans Serif'
+      Font.Style = []
+      ParentFont = False
+      TabOrder = 7
+      object edt_endereco_psm: TDCEdit
+        Tag = -1
+        Left = 120
+        Top = 5
+        Width = 429
+        Height = 21
+        MaxLength = 60
+        TabOrder = 0
+      end
+    end
+    object Panel17: TPanel
+      Tag = -1
+      Left = 1
+      Top = 225
+      Width = 788
+      Height = 32
+      Alignment = taLeftJustify
+      Caption = 
+        '    Bairro                                                      ' +
+        '                                                                ' +
+        '                   Cidade'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -11
+      Font.Name = 'MS Sans Serif'
+      Font.Style = []
+      ParentFont = False
+      TabOrder = 8
+      object edt_bairro_psm: TDCEdit
+        Tag = -1
+        Left = 120
+        Top = 5
+        Width = 269
+        Height = 21
+        MaxLength = 60
+        TabOrder = 0
+        Text = 'edt_razao_con'
+      end
+      object edt_cidade_psm: TDCEdit
+        Tag = -1
+        Left = 492
+        Top = 5
+        Width = 269
+        Height = 21
+        MaxLength = 60
+        TabOrder = 1
+      end
+    end
+  end
+  inherited StB_Principal: TStatusBar
+    Top = 558
+    Width = 790
+  end
+end

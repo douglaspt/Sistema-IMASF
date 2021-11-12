@@ -1,0 +1,95 @@
+unit Cad_PrestadorSM;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Classes, Graphics, Controls, Forms, Dialogs,
+  Bas_Cadastro, ComCtrls, PDJButton, ExtCtrls, DCChoice, StdCtrls;
+
+type
+  TFrm_Cad_PrestadorSM = class(TFrm_Bas_Cadastro)
+    Panel1: TPanel;
+    Panel4: TPanel;
+    edt_cod_prestadorSM: TDCChoiceEdit;
+    edt_nome_psm: TDCEdit;
+    Panel5: TPanel;
+    edt_nomereduzido_psm: TDCEdit;
+    Panel6: TPanel;
+    edt_razao_psm: TDCEdit;
+    Panel7: TPanel;
+    edt_cnpj_psm: TDCEdit;
+    Panel8: TPanel;
+    edt_telefone_psm: TDCEdit;
+    Panel18: TPanel;
+    edt_cep_psm: TDCEdit;
+    cbx_cod_uf: TDCComboBox;
+    Panel16: TPanel;
+    edt_endereco_psm: TDCEdit;
+    Panel17: TPanel;
+    edt_bairro_psm: TDCEdit;
+    edt_cidade_psm: TDCEdit;
+    procedure FormCreate(Sender: TObject);
+    procedure edt_cod_prestadorSMButtonClick(Sender: TObject);
+    procedure FormShow(Sender: TObject);
+  private
+    { Private declarations }
+    procedure CarregarCombos;
+  public
+    { Public declarations }
+    procedure BAS_Alterar(Frm:Tform);                   override ;
+    procedure BAS_Novo(Frm:Tform);                      override ;
+  end;
+
+var
+  Frm_Cad_PrestadorSM: TFrm_Cad_PrestadorSM;
+
+implementation
+uses Fun_obj;
+{$R *.DFM}
+
+procedure TFrm_Cad_PrestadorSM.FormCreate(Sender: TObject);
+begin
+  FTitulo       := 'Cadastro de Prestadores de Serviços Médicos' ;
+  FEditChave    := 'edt_cod_prestadorSM' ;
+  FEditAlteracao:= 'edt_nome_psm' ;
+  FUltFoco      := 'edt_cep_psm' ;
+  FTitPesquisa  := 'Localizar Prestador de Serviço Médico' ;
+  FPesquisa     := 'cod_prestadorSM, nomereduzido_psm, nome_psm, razao_psm' ;
+  FPesquisaTit  := 'Código, Nome reduzido, Nome do Prestador, Razão Social' ;
+  inherited;
+
+end;
+
+procedure TFrm_Cad_PrestadorSM.edt_cod_prestadorSMButtonClick(Sender: TObject);
+begin
+  inherited;
+  btn_alterarClick(self);
+end;
+
+procedure TFrm_Cad_PrestadorSM.CarregarCombos;
+begin
+  Obj_LoadCombo(Self, 'cbx_cod_uf', 'sigla_uf', 'cod_uf', 'tbl_uf');
+end;
+
+procedure TFrm_Cad_PrestadorSM.BAS_Novo(Frm:Tform);
+begin
+  inherited;
+    CarregarCombos;
+end;
+
+procedure TFrm_Cad_PrestadorSM.BAS_Alterar(Frm:Tform);
+  var
+    conv : string ;
+begin
+  CarregarCombos;
+  inherited ;
+
+end;
+
+procedure TFrm_Cad_PrestadorSM.FormShow(Sender: TObject);
+begin
+  inherited;
+  CarregarCombos;
+end;
+
+end.

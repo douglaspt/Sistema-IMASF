@@ -1,0 +1,49 @@
+unit Cad_formaadm;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Classes, Graphics, Controls, Forms, Dialogs,
+  Bas_Cadastro, ComCtrls, PDJButton, ExtCtrls, DCChoice, StdCtrls;
+
+type
+  TFrm_Cad_formaadm = class(TFrm_Bas_Cadastro)
+    Panel4: TPanel;
+    edt_cod_formaadm: TDCChoiceEdit;
+    Panel5: TPanel;
+    edt_nome_fad: TDCEdit;
+    procedure FormCreate(Sender: TObject);
+    procedure edt_cod_formaadmButtonClick(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  Frm_Cad_formaadm: TFrm_Cad_formaadm;
+
+implementation
+
+{$R *.DFM}
+
+procedure TFrm_Cad_formaadm.FormCreate(Sender: TObject);
+begin
+  FTitulo       := 'Cadastro de Forma de Admissão' ;
+  FEditChave    := 'edt_cod_formaadm' ;
+  FEditAlteracao:= 'edt_nome_fad' ;
+  FUltFoco      := 'edt_nome_fad';
+  FTitPesquisa  := 'Localizar Forma de Admissão' ;
+  FPesquisa     := 'cod_formaadm, nome_fad' ;
+  FPesquisaTit  := 'Código, Descrição' ;
+  inherited;
+
+end;
+
+procedure TFrm_Cad_formaadm.edt_cod_formaadmButtonClick(Sender: TObject);
+begin
+  inherited;
+  btn_alterarClick(self);
+end;
+
+end.

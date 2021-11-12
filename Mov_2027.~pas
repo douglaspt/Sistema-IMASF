@@ -1,0 +1,72 @@
+unit Mov_2027;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Classes, Graphics, Controls, Forms, Dialogs,
+  Bas_TelaPadrao, ComCtrls, PDJButton, ExtCtrls, StdCtrls, DCChoice, DB,
+  Grids, DBGrids, Buttons, Mask, DBCtrls, jpeg;
+
+type
+  TFrm_Mov_2027 = class(TFrm_Bas_TelaPadrao)
+    Panel7: TPanel;
+    edt_cod_descontofolha: TDCEdit;
+    edt_parcelan_par: TDCEdit;
+    btn_reagendar: TPDJButton;
+    Panel1: TPanel;
+    edt_meses: TDCEdit;
+    procedure btn_reagendarClick(Sender: TObject);
+    procedure FormShow(Sender: TObject);
+  private
+    { Private declarations }
+    function CriticaParametros : Boolean ;
+  public
+    { Public declarations }
+    wCod_Desconto, wParcela : String ;
+  end;
+
+var
+  Frm_Mov_2027: TFrm_Mov_2027;
+
+implementation
+uses dtm_principal, DLG_Mensagem, Fun_DB, FUN_STR, Constantes, Fun_beneficiario, Fun_Acesso,
+ dtm_principal3 ;
+
+{$R *.DFM}
+
+
+function TFrm_Mov_2027.CriticaParametros : Boolean ;
+begin
+  result :=(not BAS_ValidarCampo(edt_cod_descontofolha.name, 'O Código do Desconto deve ser Preenchido !', VLD_Preenchido )) or
+  (not BAS_ValidarCampo(edt_parcelan_par.name, 'O Parcelamento deve ser Preenchido !', VLD_Preenchido ));
+
+end;
+
+procedure TFrm_Mov_2027.btn_reagendarClick(Sender: TObject);
+var
+  i : integer;
+begin
+    if CriticaParametros then
+    Exit;
+    for i := 1 to STR_StrToInt(edt_meses.Text) do 
+      DB_ExecSQL('exec spc_cont_reagendarParcelamento '+edt_cod_descontofolha.text+', '+
+      edt_parcelan_par.text) ;
+    Dlg_Ok('Reagendamento Efetuado',self);
+    EscreveLog(btn_reagendar.name);
+end;
+
+procedure TFrm_Mov_2027.FormShow(Sender: TObject);
+begin
+  inherited;
+  if (wCod_Desconto <> '') then
+  begin
+    edt_cod_descontofolha.text := wCod_Desconto ;
+    edt_parcelan_par.Text := wParcela ;
+  end;
+
+end;
+
+end.
+
+
+

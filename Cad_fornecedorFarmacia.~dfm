@@ -1,0 +1,324 @@
+inherited Frm_Cad_fornecedorFarmacia: TFrm_Cad_fornecedorFarmacia
+  Left = 2
+  Top = 3
+  Caption = 'Frm_Cad_fornecedorFarmacia'
+  ClientWidth = 798
+  Scaled = False
+  PixelsPerInch = 96
+  TextHeight = 13
+  inherited Pnl_Titulo2: TPanel
+    Width = 798
+    inherited Image1: TImage
+      Width = 796
+    end
+  end
+  inherited Panel2: TPanel
+    Width = 798
+    inherited Image3: TImage
+      Width = 796
+    end
+  end
+  inherited Panel3: TPanel
+    Width = 798
+    object Panel4: TPanel
+      Tag = -2
+      Left = 1
+      Top = 1
+      Width = 796
+      Height = 32
+      Alignment = taLeftJustify
+      Caption = '    Código '
+      TabOrder = 0
+      object edt_cod_fornecedorFarmacia: TDCChoiceEdit
+        Tag = -3
+        Left = 110
+        Top = 5
+        Width = 93
+        Height = 21
+        Hint = 
+          'Digite o código que se deseja alterar ou clique no botão para pe' +
+          'squisar'
+        MaxLength = 10
+        TabOrder = 0
+        OnKeyDown = edt_cod_fornecedorFarmaciaKeyDown
+        Alignment = taRightJustify
+        OnButtonClick = edt_cod_fornecedorFarmaciaButtonClick
+      end
+    end
+    object Panel1: TPanel
+      Tag = -1
+      Left = 1
+      Top = 33
+      Width = 796
+      Height = 32
+      Alignment = taLeftJustify
+      Caption = 
+        '    Cod. Fornecedor                                Razão Social ' +
+        '                                                                ' +
+        '                                                 Apelido '
+      TabOrder = 1
+      object edt_razaoSocial_ffa: TDCEdit
+        Tag = -1
+        Left = 262
+        Top = 5
+        Width = 310
+        Height = 21
+        CharCase = ecUpperCase
+        MaxLength = 250
+        TabOrder = 1
+      end
+      object edt_cod_fornecedorSIAF: TDCEdit
+        Tag = -1
+        Left = 110
+        Top = 5
+        Width = 56
+        Height = 21
+        CharCase = ecUpperCase
+        MaxLength = 250
+        TabOrder = 0
+      end
+      object edt_apelido_ffa: TDCEdit
+        Tag = -1
+        Left = 642
+        Top = 5
+        Width = 133
+        Height = 21
+        CharCase = ecUpperCase
+        MaxLength = 250
+        TabOrder = 2
+      end
+    end
+    object Panel7: TPanel
+      Tag = -1
+      Left = 1
+      Top = 65
+      Width = 796
+      Height = 32
+      Alignment = taLeftJustify
+      Caption = 
+        '    Endereço                                                    ' +
+        '                                                                ' +
+        ' Cidade                                                         ' +
+        '                            UF'
+      TabOrder = 2
+      object edt_endereco_ffa: TDCEdit
+        Tag = -1
+        Left = 110
+        Top = 5
+        Width = 272
+        Height = 21
+        CharCase = ecUpperCase
+        MaxLength = 250
+        TabOrder = 0
+      end
+      object edt_cidade_ffa: TDCEdit
+        Tag = -1
+        Left = 459
+        Top = 5
+        Width = 205
+        Height = 21
+        CharCase = ecUpperCase
+        MaxLength = 250
+        TabOrder = 1
+      end
+      object edt_sigla_uf: TDCEdit
+        Tag = -1
+        Left = 732
+        Top = 5
+        Width = 43
+        Height = 21
+        CharCase = ecUpperCase
+        MaxLength = 250
+        TabOrder = 2
+      end
+    end
+    object Panel8: TPanel
+      Tag = -1
+      Left = 2
+      Top = 97
+      Width = 796
+      Height = 32
+      Alignment = taLeftJustify
+      Caption = 
+        '    CEP                                                         ' +
+        '    DDD                          Fone1                          ' +
+        '                 Fone2                                          ' +
+        '   Fone3'
+      TabOrder = 3
+      object edt_cep_ffa: TDCEdit
+        Tag = -1
+        Left = 110
+        Top = 5
+        Width = 90
+        Height = 21
+        CharCase = ecUpperCase
+        MaxLength = 250
+        TabOrder = 0
+      end
+      object edt_ddd_ffa: TDCEdit
+        Tag = -1
+        Left = 252
+        Top = 5
+        Width = 40
+        Height = 21
+        CharCase = ecUpperCase
+        MaxLength = 250
+        TabOrder = 1
+      end
+      object edt_fone1_ffa: TDCEdit
+        Tag = -1
+        Left = 365
+        Top = 5
+        Width = 90
+        Height = 21
+        CharCase = ecUpperCase
+        MaxLength = 250
+        TabOrder = 2
+      end
+      object edt_fone2_ffa: TDCEdit
+        Tag = -1
+        Left = 523
+        Top = 5
+        Width = 90
+        Height = 21
+        CharCase = ecUpperCase
+        MaxLength = 250
+        TabOrder = 3
+      end
+      object edt_fone3_ffa: TDCEdit
+        Tag = -1
+        Left = 685
+        Top = 5
+        Width = 90
+        Height = 21
+        CharCase = ecUpperCase
+        MaxLength = 250
+        TabOrder = 4
+      end
+    end
+    object Panel9: TPanel
+      Tag = -1
+      Left = 2
+      Top = 129
+      Width = 796
+      Height = 32
+      Alignment = taLeftJustify
+      Caption = 
+        '    Ramal1                                                      ' +
+        '                                 Ramal2                         ' +
+        '                 Ramal3                                         ' +
+        '       FAX'
+      TabOrder = 4
+      object edt_ramal1_ffa: TDCEdit
+        Tag = -1
+        Left = 110
+        Top = 5
+        Width = 90
+        Height = 21
+        CharCase = ecUpperCase
+        MaxLength = 250
+        TabOrder = 0
+      end
+      object edt_ramal2_ffa: TDCEdit
+        Tag = -1
+        Left = 364
+        Top = 5
+        Width = 90
+        Height = 21
+        CharCase = ecUpperCase
+        MaxLength = 250
+        TabOrder = 1
+      end
+      object edt_ramal3_ffa: TDCEdit
+        Tag = -1
+        Left = 523
+        Top = 5
+        Width = 90
+        Height = 21
+        CharCase = ecUpperCase
+        MaxLength = 250
+        TabOrder = 2
+      end
+      object edt_fax_ffa: TDCEdit
+        Tag = -1
+        Left = 685
+        Top = 5
+        Width = 90
+        Height = 21
+        CharCase = ecUpperCase
+        MaxLength = 250
+        TabOrder = 3
+      end
+    end
+    object Panel5: TPanel
+      Tag = -1
+      Left = 2
+      Top = 161
+      Width = 796
+      Height = 32
+      Alignment = taLeftJustify
+      Caption = '    Observação '
+      TabOrder = 5
+      object edt_obs_ffa: TDCEdit
+        Tag = -1
+        Left = 110
+        Top = 5
+        Width = 665
+        Height = 21
+        CharCase = ecUpperCase
+        MaxLength = 250
+        TabOrder = 0
+      end
+    end
+    object Panel10: TPanel
+      Tag = -1
+      Left = 2
+      Top = 193
+      Width = 796
+      Height = 32
+      Alignment = taLeftJustify
+      Caption = 
+        '    CGC                                                         ' +
+        '                         Insc. Estadual                         ' +
+        '                                          Situação'
+      TabOrder = 6
+      object edt_cgc_ffa: TDCEdit
+        Tag = -1
+        Left = 110
+        Top = 5
+        Width = 137
+        Height = 21
+        CharCase = ecUpperCase
+        MaxLength = 250
+        TabOrder = 0
+      end
+      object edt_inscricaoEstadual_ffa: TDCEdit
+        Tag = -1
+        Left = 368
+        Top = 5
+        Width = 137
+        Height = 21
+        CharCase = ecUpperCase
+        MaxLength = 250
+        TabOrder = 1
+      end
+      object cbx_cod_sitFornecedorFarmacia: TDCComboBox
+        Tag = -1
+        Left = 632
+        Top = 5
+        Width = 143
+        Height = 21
+        TabOrder = 2
+        Items.Strings = (
+          '')
+        ValueItem = ''
+        ItemHeight = 0
+        Style = csOwnerDrawFixed
+        ShowCheckBox = True
+      end
+    end
+  end
+  inherited StB_Principal: TStatusBar
+    Width = 798
+  end
+end

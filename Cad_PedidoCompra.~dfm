@@ -1,0 +1,515 @@
+inherited Frm_Cad_PedidoCompra: TFrm_Cad_PedidoCompra
+  Left = 0
+  Top = -1
+  Caption = 'Frm_Cad_PedidoCompra'
+  ClientHeight = 573
+  ClientWidth = 792
+  Scaled = False
+  OnClose = FormClose
+  PixelsPerInch = 96
+  TextHeight = 13
+  inherited Pnl_Titulo2: TPanel
+    Width = 792
+    inherited Image1: TImage
+      Width = 790
+    end
+  end
+  inherited Panel2: TPanel
+    Top = 521
+    Width = 792
+    inherited Image3: TImage
+      Width = 790
+    end
+    inherited btn_excluir: TPDJButton
+      Visible = False
+    end
+    object btn_imprimir: TPDJButton
+      Left = 573
+      Top = 4
+      Width = 108
+      Height = 25
+      RepeatInterval = 50
+      RepeatStartInterval = 50
+      Caption = 'Imprimir'
+      ParentFont = False
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -11
+      Font.Name = 'MS Sans Serif'
+      Font.Style = [fsBold]
+      OnClick = btn_imprimirClick
+      TabOrder = 6
+    end
+  end
+  inherited Panel3: TPanel
+    Width = 792
+    Height = 480
+    object Panel4: TPanel
+      Tag = -2
+      Left = 1
+      Top = 1
+      Width = 800
+      Height = 32
+      Alignment = taLeftJustify
+      Caption = 
+        '    Ano                                                Unidade  ' +
+        '                                                                ' +
+        '                  Cod. Pedido                                   ' +
+        '          '
+      TabOrder = 0
+      object lbl_npedido: TLabel
+        Left = 634
+        Top = 9
+        Width = 3
+        Height = 13
+      end
+      object edt_cod_PedidoCompra: TDCChoiceEdit
+        Tag = -2
+        Left = 538
+        Top = 6
+        Width = 84
+        Height = 21
+        Hint = 
+          'Digite o código que se deseja alterar ou clique no botão para pe' +
+          'squisar'
+        MaxLength = 12
+        TabOrder = 2
+        OnKeyDown = edt_cod_PedidoCompraKeyDown
+        Alignment = taRightJustify
+        OnButtonClick = edt_cod_PedidoCompraButtonClick
+      end
+      object cbx_cod_unidadeOrcam: TDCComboBox
+        Tag = -1
+        Left = 225
+        Top = 5
+        Width = 225
+        Height = 21
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -11
+        Font.Name = 'MS Sans Serif'
+        Font.Style = [fsBold]
+        ParentFont = False
+        ParentShowHint = False
+        ShowHint = True
+        TabOrder = 1
+        ValueItem = ''
+        ItemHeight = 0
+        Style = csDropDownList
+        ShowCheckBox = True
+      end
+      object edt_numPedido_pcs: TDCEdit
+        Tag = -1
+        Left = 706
+        Top = 6
+        Width = 75
+        Height = 21
+        MaxLength = 255
+        TabOrder = 3
+      end
+      object edt_ano: TDCEdit
+        Tag = -10
+        Left = 115
+        Top = 6
+        Width = 45
+        Height = 21
+        MaxLength = 255
+        TabOrder = 0
+        OnKeyDown = edt_anoKeyDown
+        EditMask = '9999'
+      end
+    end
+    object Panel11: TPanel
+      Tag = -1
+      Left = 1
+      Top = 65
+      Width = 798
+      Height = 32
+      Alignment = taLeftJustify
+      Caption = 
+        '    Setor                                                       ' +
+        '                                                                ' +
+        '          Responsável                  '
+      TabOrder = 2
+      object cbx_cod_setorImasf: TDCComboBox
+        Tag = -1
+        Left = 115
+        Top = 5
+        Width = 286
+        Height = 21
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -11
+        Font.Name = 'MS Sans Serif'
+        Font.Style = [fsBold]
+        ParentFont = False
+        ParentShowHint = False
+        ShowHint = True
+        TabOrder = 0
+        OnExit = cbx_cod_setorImasfExit
+        ValueItem = ''
+        ItemHeight = 0
+        Style = csDropDownList
+        ShowCheckBox = True
+      end
+      object cbx_cod_usuario: TDCComboBox
+        Tag = -1
+        Left = 520
+        Top = 5
+        Width = 225
+        Height = 21
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -11
+        Font.Name = 'MS Sans Serif'
+        Font.Style = [fsBold]
+        ParentFont = False
+        ParentShowHint = False
+        ShowHint = True
+        TabOrder = 1
+        ValueItem = ''
+        ItemHeight = 0
+        Style = csDropDownList
+        ShowCheckBox = True
+      end
+    end
+    object Panel9: TPanel
+      Tag = -1
+      Left = 1
+      Top = 129
+      Width = 800
+      Height = 32
+      Alignment = taLeftJustify
+      Caption = '     Justificativa '
+      TabOrder = 4
+      object edt_justificativa_pcs: TDCEdit
+        Tag = -1
+        Left = 115
+        Top = 5
+        Width = 629
+        Height = 21
+        MaxLength = 255
+        TabOrder = 0
+      end
+    end
+    object Panel1: TPanel
+      Tag = -1
+      Left = 1
+      Top = 33
+      Width = 798
+      Height = 32
+      Alignment = taLeftJustify
+      Caption = 
+        '    Cod. Dotação                                                ' +
+        '                                                                ' +
+        '   Data de Entrada'
+      TabOrder = 1
+      object cbx_cod_dotacaoContabil: TDCComboBox
+        Tag = -1
+        Left = 115
+        Top = 5
+        Width = 287
+        Height = 21
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -11
+        Font.Name = 'MS Sans Serif'
+        Font.Style = [fsBold]
+        ParentFont = False
+        ParentShowHint = False
+        ShowHint = True
+        TabOrder = 0
+        ValueItem = ''
+        ItemHeight = 0
+        Style = csDropDownList
+        ShowCheckBox = True
+      end
+      object edt_dtSolicitacao_pcs: TDCDateEdit
+        Tag = -1
+        Left = 520
+        Top = 5
+        Width = 138
+        Height = 21
+        TabOrder = 1
+        Checked = True
+        Kind = dkDate
+        ShowWeekDay = True
+      end
+    end
+    object Panel5: TPanel
+      Tag = -1
+      Left = 1
+      Top = 161
+      Width = 799
+      Height = 382
+      TabOrder = 5
+      object Panel6: TPanel
+        Tag = -1
+        Left = 14
+        Top = 73
+        Width = 647
+        Height = 32
+        Alignment = taLeftJustify
+        Caption = '    Discriminação '
+        TabOrder = 1
+        object edt_discriminacao_ipc: TDCEdit
+          Left = 119
+          Top = 5
+          Width = 518
+          Height = 21
+          MaxLength = 120
+          TabOrder = 0
+        end
+      end
+      object Panel8: TPanel
+        Tag = -1
+        Left = 14
+        Top = 41
+        Width = 647
+        Height = 32
+        Alignment = taLeftJustify
+        Caption = 
+          '    Seq. do Item                                                ' +
+          '   Qtde.'
+        TabOrder = 0
+        object edt_sequencia_ipc: TDCEdit
+          Left = 119
+          Top = 5
+          Width = 58
+          Height = 21
+          MaxLength = 85
+          TabOrder = 0
+          EditMask = '9999'
+        end
+        object edt_qtde_ipc: TDCEdit
+          Left = 273
+          Top = 5
+          Width = 58
+          Height = 21
+          MaxLength = 5
+          TabOrder = 1
+          EditMask = '9999'
+        end
+      end
+      object dbg_itemPedidoCompra: TDBGrid
+        Left = 272
+        Top = 246
+        Width = 73
+        Height = 19
+        DataSource = DataSource2
+        Options = [dgEditing, dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgConfirmDelete]
+        TabOrder = 2
+        TitleFont.Charset = DEFAULT_CHARSET
+        TitleFont.Color = clWindowText
+        TitleFont.Height = -11
+        TitleFont.Name = 'MS Sans Serif'
+        TitleFont.Style = []
+        Columns = <
+          item
+            Expanded = False
+            FieldName = 'sequencia_ipc'
+            Width = 48
+            Visible = True
+          end
+          item
+            Expanded = False
+            FieldName = 'qtde_ipc'
+            Width = 42
+            Visible = True
+          end
+          item
+            Expanded = False
+            FieldName = 'discriminacao_ipc'
+            Width = 645
+            Visible = True
+          end>
+      end
+      object pnl_alerta: TPanel
+        Left = 12
+        Top = 270
+        Width = 753
+        Height = 36
+        BevelOuter = bvLowered
+        Caption = 
+          '"ATENÇÃO"   Se você fez alguma alteração nas informações da tela' +
+          ' não esqueça de Salvar'
+        Color = clLime
+        Font.Charset = ANSI_CHARSET
+        Font.Color = clRed
+        Font.Height = -13
+        Font.Name = 'MS Sans Serif'
+        Font.Style = [fsBold]
+        ParentFont = False
+        TabOrder = 3
+        Visible = False
+      end
+      object DBNavigator1: TDBNavigator
+        Left = 8
+        Top = 240
+        Width = 240
+        Height = 25
+        TabOrder = 4
+      end
+      object DBGrid1: TDBGrid
+        Left = 8
+        Top = 8
+        Width = 697
+        Height = 225
+        TabOrder = 5
+        TitleFont.Charset = DEFAULT_CHARSET
+        TitleFont.Color = clWindowText
+        TitleFont.Height = -11
+        TitleFont.Name = 'MS Sans Serif'
+        TitleFont.Style = []
+        Columns = <
+          item
+            Expanded = False
+            FieldName = 'sequencia_ipc'
+            Visible = True
+          end
+          item
+            Expanded = False
+            FieldName = 'qtde_ipc'
+            Visible = True
+          end
+          item
+            Expanded = False
+            FieldName = 'discriminacao_ipc'
+            Width = 523
+            Visible = True
+          end>
+      end
+    end
+    object Panel7: TPanel
+      Tag = -1
+      Left = 1
+      Top = 97
+      Width = 800
+      Height = 32
+      Alignment = taLeftJustify
+      Caption = 
+        '     Chefe de Divisão                                           ' +
+        '                                                                ' +
+        '   Diretor'
+      TabOrder = 3
+      object cbx_cod_usuarioChefe: TDCComboBox
+        Tag = -1
+        Left = 115
+        Top = 5
+        Width = 286
+        Height = 21
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -11
+        Font.Name = 'MS Sans Serif'
+        Font.Style = [fsBold]
+        ParentFont = False
+        ParentShowHint = False
+        ShowHint = True
+        TabOrder = 0
+        ValueItem = ''
+        ItemHeight = 0
+        Style = csDropDownList
+        ShowCheckBox = True
+      end
+      object cbx_cod_usuarioDiretor: TDCComboBox
+        Tag = -1
+        Left = 520
+        Top = 5
+        Width = 225
+        Height = 21
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -11
+        Font.Name = 'MS Sans Serif'
+        Font.Style = [fsBold]
+        ParentFont = False
+        ParentShowHint = False
+        ShowHint = True
+        TabOrder = 1
+        ValueItem = ''
+        ItemHeight = 0
+        Style = csDropDownList
+        ShowCheckBox = True
+      end
+    end
+  end
+  inherited StB_Principal: TStatusBar
+    Top = 554
+    Width = 792
+  end
+  object Table1: TTable
+    AutoCalcFields = False
+    CachedUpdates = True
+    OnEditError = Table1EditError
+    OnNewRecord = Table1NewRecord
+    AutoRefresh = True
+    DatabaseName = 'bd_imasf'
+    SessionName = 'Default'
+    FieldDefs = <
+      item
+        Name = 'cod_PedidoCompra'
+        Attributes = [faRequired]
+        DataType = ftInteger
+      end
+      item
+        Name = 'numOrdem_ipc'
+        Attributes = [faRequired]
+        DataType = ftInteger
+      end
+      item
+        Name = 'discriminacao_ipc'
+        Attributes = [faRequired]
+        DataType = ftString
+        Size = 120
+      end
+      item
+        Name = 'qtde_ipc'
+        DataType = ftInteger
+      end
+      item
+        Name = 'sequencia_ipc'
+        DataType = ftInteger
+      end>
+    IndexDefs = <
+      item
+        Name = 'PK_tbl_itemPedidoCompra'
+        Fields = 'cod_PedidoCompra;numOrdem_ipc'
+        Options = [ixPrimary, ixUnique]
+      end>
+    IndexFieldNames = 'cod_PedidoCompra;numOrdem_ipc'
+    StoreDefs = True
+    TableName = 'dbo.tbl_itemPedidoCompra'
+    UpdateMode = upWhereChanged
+    Left = 721
+    Top = 394
+    object Table1cod_PedidoCompra: TIntegerField
+      FieldName = 'cod_PedidoCompra'
+      Required = True
+    end
+    object Table1numOrdem_ipc: TIntegerField
+      FieldName = 'numOrdem_ipc'
+      Required = True
+    end
+    object Table1discriminacao_ipc: TStringField
+      DisplayLabel = 'Discriminação'
+      FieldName = 'discriminacao_ipc'
+      Required = True
+      Size = 120
+    end
+    object Table1qtde_ipc: TIntegerField
+      DisplayLabel = 'Qtde.'
+      FieldName = 'qtde_ipc'
+    end
+    object Table1sequencia_ipc: TIntegerField
+      DisplayLabel = 'Seq.'
+      FieldName = 'sequencia_ipc'
+    end
+  end
+  object DataSource2: TDataSource
+    AutoEdit = False
+    DataSet = Table1
+    Left = 721
+    Top = 426
+  end
+end

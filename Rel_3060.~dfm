@@ -1,0 +1,253 @@
+inherited Frm_Rel_3060: TFrm_Rel_3060
+  Left = -1
+  Top = 2
+  Caption = 'Frm_Rel_3060'
+  ClientHeight = 576
+  OldCreateOrder = True
+  PixelsPerInch = 96
+  TextHeight = 13
+  inherited Panel2: TPanel
+    Top = 524
+  end
+  inherited Panel3: TPanel
+    Top = 137
+    Height = 387
+    object PDJButton3: TPDJButton
+      Left = 114
+      Top = 54
+      Width = 335
+      Height = 25
+      RepeatInterval = 50
+      RepeatStartInterval = 50
+      Caption = 'Imprimir Movimentação Cadastral (Simplificado)'
+      ParentFont = False
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -11
+      Font.Name = 'MS Sans Serif'
+      Font.Style = [fsBold]
+      OnClick = PDJButton3Click
+      TabOrder = 0
+    end
+    object PDJButton1: TPDJButton
+      Left = 114
+      Top = 138
+      Width = 335
+      Height = 25
+      RepeatInterval = 50
+      RepeatStartInterval = 50
+      Caption = 'Imprimir Edital'
+      ParentFont = False
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -11
+      Font.Name = 'MS Sans Serif'
+      Font.Style = [fsBold]
+      OnClick = PDJButton1Click
+      TabOrder = 1
+    end
+    object PDJButton2: TPDJButton
+      Left = 115
+      Top = 95
+      Width = 335
+      Height = 25
+      RepeatInterval = 50
+      RepeatStartInterval = 50
+      Caption = 'Imprimir Movimentação Cadastral (Detalhado)'
+      ParentFont = False
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -11
+      Font.Name = 'MS Sans Serif'
+      Font.Style = [fsBold]
+      OnClick = PDJButton2Click
+      TabOrder = 2
+    end
+    object rdg_buscar: TRadioGroup
+      Left = 560
+      Top = 48
+      Width = 185
+      Height = 123
+      Caption = 'Buscar por Data'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -11
+      Font.Name = 'MS Sans Serif'
+      Font.Style = [fsBold]
+      ItemIndex = 0
+      Items.Strings = (
+        'de Ocorrência'
+        'de Referência'
+        'do Sistema')
+      ParentFont = False
+      TabOrder = 3
+      OnClick = rdg_buscarClick
+    end
+    object GroupBox1: TGroupBox
+      Left = 104
+      Top = 241
+      Width = 640
+      Height = 61
+      TabOrder = 4
+      object PDJButton4: TPDJButton
+        Left = 8
+        Top = 20
+        Width = 335
+        Height = 25
+        RepeatInterval = 50
+        RepeatStartInterval = 50
+        Caption = 'Imprimir Relação de Motivos'
+        ParentFont = False
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -11
+        Font.Name = 'MS Sans Serif'
+        Font.Style = [fsBold]
+        OnClick = PDJButton4Click
+        TabOrder = 0
+      end
+      object ckb_InscCanc: TCheckBox
+        Left = 372
+        Top = 27
+        Width = 223
+        Height = 17
+        Caption = 'Imprimir apenas Inscrição e Cancelamento'
+        TabOrder = 1
+      end
+    end
+  end
+  inherited StB_Principal: TStatusBar
+    Top = 557
+    Panels = <
+      item
+        Text = 'mensagens'
+        Width = 550
+      end
+      item
+        Alignment = taCenter
+        Text = 'Data'
+        Width = 125
+      end
+      item
+        Text = 'Cod Tela'
+        Width = 50
+      end>
+  end
+  object pnl_ocorrencia: TPanel [4]
+    Tag = -1
+    Left = 0
+    Top = 41
+    Width = 800
+    Height = 32
+    Align = alTop
+    Alignment = taLeftJustify
+    Caption = 
+      '    Data de Ocorrência        de                                ' +
+      '                         até'
+    TabOrder = 4
+    object edt_dtOcorrenciaInicial: TDCDateEdit
+      Tag = -5
+      Left = 160
+      Top = 5
+      Width = 141
+      Height = 21
+      TabOrder = 0
+      Checked = True
+      Kind = dkDate
+      ShowWeekDay = True
+    end
+    object edt_dtOcorrenciaFinal: TDCDateEdit
+      Tag = -5
+      Left = 340
+      Top = 5
+      Width = 141
+      Height = 21
+      TabOrder = 1
+      Checked = True
+      Kind = dkDate
+      ShowWeekDay = True
+    end
+  end
+  object pnl_referencia: TPanel [5]
+    Tag = -1
+    Left = 0
+    Top = 73
+    Width = 800
+    Height = 32
+    Align = alTop
+    Alignment = taLeftJustify
+    Caption = '    Mês e Ano de Referência'
+    TabOrder = 5
+    Visible = False
+    object cbx_cod_mes: TDCComboBox
+      Tag = -1
+      Left = 160
+      Top = 5
+      Width = 175
+      Height = 21
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clBlack
+      Font.Height = -11
+      Font.Name = 'MS Sans Serif'
+      Font.Style = [fsBold]
+      ParentFont = False
+      TabOrder = 0
+      Items.Strings = (
+        '')
+      ValueItem = ''
+      ItemHeight = 0
+      Style = csOwnerDrawFixed
+      ShowCheckBox = True
+    end
+    object edt_ano: TDCEdit
+      Left = 340
+      Top = 5
+      Width = 61
+      Height = 21
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clBlack
+      Font.Height = -11
+      Font.Name = 'MS Sans Serif'
+      Font.Style = []
+      ParentFont = False
+      TabOrder = 1
+      EditMask = '9999'
+    end
+  end
+  object pnl_dtsistema: TPanel [6]
+    Tag = -1
+    Left = 0
+    Top = 105
+    Width = 800
+    Height = 32
+    Align = alTop
+    Alignment = taLeftJustify
+    Caption = 
+      '    Data do Sistema            de                               ' +
+      '                          até'
+    TabOrder = 6
+    Visible = False
+    object edt_dtsistemaInicial: TDCDateEdit
+      Tag = -5
+      Left = 160
+      Top = 5
+      Width = 141
+      Height = 21
+      TabOrder = 0
+      Checked = True
+      Kind = dkDate
+      ShowWeekDay = True
+    end
+    object edt_dtsistemaFinal: TDCDateEdit
+      Tag = -5
+      Left = 340
+      Top = 5
+      Width = 141
+      Height = 21
+      TabOrder = 1
+      Checked = True
+      Kind = dkDate
+      ShowWeekDay = True
+    end
+  end
+end

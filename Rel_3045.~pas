@@ -1,0 +1,138 @@
+unit Rel_3045;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Classes, Graphics, Controls, Forms, Dialogs,
+  Bas_TelaPadrao, ComCtrls, PDJButton, ExtCtrls, StdCtrls, DCChoice, DB,
+  Grids, DBGrids, Buttons, Mask, DBCtrls, jpeg, DBTables;
+
+type
+  TFrm_Rel_3045 = class(TFrm_Bas_TelaPadrao)
+    PDJButton3: TPDJButton;
+    Panel5: TPanel;
+    cbx_cod_mes: TDCComboBox;
+    edt_ano: TDCEdit;
+    DataSource1: TDataSource;
+    Table1: TTable;
+    Table1cod_PedidoCompra: TIntegerField;
+    Table1numOrdem_ipc: TIntegerField;
+    Table1discriminacao_ipc: TStringField;
+    Table1qtde_ipc: TIntegerField;
+    Table1sequencia_ipc: TIntegerField;
+    DBGrid1: TDBGrid;
+    DBNavigator1: TDBNavigator;
+    Button1: TButton;
+    Button2: TButton;
+//    procedure FormCreate(Sender: TObject);
+    procedure PDJButton3Click(Sender: TObject);
+    procedure FormShow(Sender: TObject);
+    procedure Button1Click(Sender: TObject);
+    procedure Table1NewRecord(DataSet: TDataSet);
+    procedure edt_anoKeyDown(Sender: TObject; var Key: Word;
+      Shift: TShiftState);
+    procedure Table1EditError(DataSet: TDataSet; E: EDatabaseError;
+      var Action: TDataAction);
+  private
+    { Private declarations }
+    function CriticaParametros : Boolean ;
+  public
+    { Public declarations }
+    FPeriodoInicial, FPeriodoFinal : String ;
+  end;
+
+var
+  Frm_Rel_3045: TFrm_Rel_3045;
+
+implementation
+uses Imp_Med_StatusConta, dtm_principal, Fun_Medico, Fun_ConsCadastro, Constantes,
+  dtm_principal2, Imp_4056, Fun_Data, dtm_principal3, Imp_4078, Dlg_Mensagem, Fun_Obj,
+  dtm_principal6, Bas_Impressao ;
+
+{$R *.DFM}
+    {
+procedure TFrm_Rel_3045.FormCreate(Sender: TObject);
+begin
+  FTitulo       := 'Relatório de Status das Contas' ;
+  FEditChave    := 'edt_cod_conveniado' ;
+  FTitPesquisa  := 'Localizar Conveniados' ;
+  FPesquisa     := 'cod_conveniado, nome_con, razao_con' ;
+  FPesquisaTit  := 'Código, Nome do Conveniado, Razão Social' ;
+  inherited;
+end; }
+
+function TFrm_Rel_3045.CriticaParametros : Boolean ;
+begin
+  result :=(not BAS_ValidarCampo(cbx_cod_mes.name, 'A Data de Referência deve ser Preenchida !', VLD_Preenchido ));
+  result :=(not BAS_ValidarCampo(edt_ano.name, 'A Data de Referência deve ser Preenchida !', VLD_Preenchido ));
+
+end;
+
+
+procedure TFrm_Rel_3045.PDJButton3Click(Sender: TObject);
+begin
+  inherited;
+  if CriticaParametros then
+    Exit;
+  with fdt_principal3.spc_cons_adm_falhasBaixa do
+  begin
+    close;
+    ParamByName('@dtreferencia_bne').AsString := cbx_cod_mes.valueItem + '/01/'+edt_ano.text ;
+    open;
+    if recordcount = 0 then begin
+      Dlg_Alerta ('Nenhum Registro foi encontrado', Self);
+      close;
+      exit;
+    end;
+  end;
+  Frm_Imp_4078 := TFrm_Imp_4078.Create(Self);
+  Frm_Imp_4078.QuickRep1.Preview;
+  Frm_Imp_4078.Release;
+  fdt_principal3.spc_cons_adm_falhasBaixa.close;
+end;
+
+procedure TFrm_Rel_3045.FormShow(Sender: TObject);
+begin
+  inherited;
+  Obj_LoadCombo(self,'cbx_cod_mes','nome_mes','cod_mes', 'tbl_mes');
+end;
+
+procedure TFrm_Rel_3045.Button1Click(Sender: TObject);
+begin
+  inherited;
+  Table1.Post;
+end;
+
+procedure TFrm_Rel_3045.Table1NewRecord(DataSet: TDataSet);
+var
+numOrdem : string;
+begin
+  inherited;
+     numOrdem := inttostr(table1.recordcount + 1);
+      Table1cod_PedidoCompra.Text := edt_ano.Text;
+      Table1numOrdem_ipc.Text := numOrdem;
+end;
+
+procedure TFrm_Rel_3045.edt_anoKeyDown(Sender: TObject; var Key: Word;
+  Shift: TShiftState);
+begin
+  inherited;
+  if key = 13 then
+  begin
+    Table1.close;
+    Table1.Filter := 'cod_PedidoCompra = ' +edt_ano.Text ;
+    Table1.Filtered := true ;
+    Table1.open;
+  end;
+end;
+
+procedure TFrm_Rel_3045.Table1EditError(DataSet: TDataSet;
+  E: EDatabaseError; var Action: TDataAction);
+begin
+  inherited;
+  if Table1discriminacao_ipc.Text = '' then
+    Table1.Cancel;
+end;
+
+end.
+

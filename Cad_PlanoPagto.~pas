@@ -1,0 +1,286 @@
+unit Cad_PlanoPagto;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Classes, Graphics, Controls, Forms, Dialogs,
+  Bas_Cadastro, ComCtrls, PDJButton, ExtCtrls, DCChoice, StdCtrls, Db,
+  Grids, DBGrids, jpeg;
+
+type
+  TFrm_Cad_PlanoPagto = class(TFrm_Bas_Cadastro)
+    Panel4: TPanel;
+    edt_cod_planopagto: TDCChoiceEdit;
+    Panel5: TPanel;
+    edt_nome_plp: TDCEdit;
+    Panel6: TPanel;
+    DataSource1: TDataSource;
+    Panel1: TPanel;
+    cbx_cod_plano: TDCComboBox;
+    btn_imprimir: TPDJButton;
+    Panel7: TPanel;
+    cbx_cod_statusAtivo: TDCComboBox;
+    PageControl1: TPageControl;
+    TabSheet1: TTabSheet;
+    TabSheet2: TTabSheet;
+    Panel8: TPanel;
+    edt_faixaIni_piv: TDCEdit;
+    edt_faixaFin_piv: TDCEdit;
+    Panel33: TPanel;
+    edt_descricao_piv: TDCEdit;
+    Panel9: TPanel;
+    edt_vlfixo_piv: TDCEdit;
+    Panel10: TPanel;
+    Label3: TLabel;
+    Label4: TLabel;
+    Label6: TLabel;
+    edt_vldependente_piv: TDCEdit;
+    edt_percentual_piv: TDCEdit;
+    Panel11: TPanel;
+    Label7: TLabel;
+    rdB_maior: TRadioButton;
+    RdB_fixado: TRadioButton;
+    Rdb_Contribuicao: TRadioButton;
+    DBG_matricula: TDBGrid;
+    btn_adicionarPreco: TPDJButton;
+    btn_alterarPreco: TPDJButton;
+    btn_salvarPreco: TPDJButton;
+    btn_cancelarPreco: TPDJButton;
+    btn_excluirPreco: TPDJButton;
+    dbg_historico: TDBGrid;
+    DataSource2: TDataSource;
+    Panel12: TPanel;
+    edt_obs_hpi: TDCEdit;
+    cbx_cod_mes: TDCComboBox;
+    edt_ano: TDCEdit;
+    procedure FormCreate(Sender: TObject);
+    procedure edt_cod_planopagtoButtonClick(Sender: TObject);
+    procedure btn_adicionarPrecoClick(Sender: TObject);
+    procedure btn_alterarPrecoClick(Sender: TObject);
+    procedure btn_salvarPrecoClick(Sender: TObject);
+    procedure btn_cancelarPrecoClick(Sender: TObject);
+    procedure btn_excluirPrecoClick(Sender: TObject);
+    procedure btn_novoClick(Sender: TObject);
+    procedure FormShow(Sender: TObject);
+    procedure btn_imprimirClick(Sender: TObject);
+    procedure edt_faixaFin_pivExit(Sender: TObject);
+  private
+    { Private declarations }
+    FValorOld : Double;
+    FObsOld : String;
+    procedure BotoesPrecoOnOff(b : boolean);
+  public
+    { Public declarations }     
+    procedure BAS_Alterar(Frm:Tform);                   override ;
+    procedure BAS_Novo(Frm:Tform);                      override ;    
+  end;
+
+var
+  Frm_Cad_PlanoPagto: TFrm_Cad_PlanoPagto;
+
+implementation
+uses Fun_DB, dtm_principal, Fun_Str, Fun_obj, DLG_Mensagem, constantes, Fun_Acesso,
+  Bas_Impressao, Fun_Data;
+{$R *.DFM}
+
+procedure TFrm_Cad_PlanoPagto.FormCreate(Sender: TObject);
+begin
+  FTitulo       := 'Cadastro de Planos de Pagamento' ;
+  FEditChave    := 'edt_cod_planopagto' ;
+  FEditAlteracao:= 'edt_nome_plp' ;
+//  FUltFoco      := 'edt_nome_plp' ;
+  FTitPesquisa  := 'Localizar Planos de Pagamento' ;
+  FPesquisa     := 'cod_planopagto, nome_plp' ;
+  FPesquisaTit  := 'Código, Nome do Plano' ;
+  inherited;
+
+end;
+
+procedure TFrm_Cad_PlanoPagto.BAS_Alterar(Frm:Tform);
+begin
+  BAS_CarregarCombo('cbx_cod_plano', 'nome_pla');
+  BAS_CarregarCombo('cbx_cod_statusAtivo', 'descricao_sta');
+ // BAS_CarregarCombo('cbx_cod_mes', 'nome_mes');
+  inherited ;
+  with Fdt_principal.spc_cons_adm_planoitemvalor do begin
+    Close;
+    parambyname('@cod_planopagto').asstring := edt_cod_planopagto.text ;
+    Open;
+  end;
+end;
+
+procedure TFrm_Cad_PlanoPagto.BAS_Novo(Frm:Tform);
+begin
+  BAS_CarregarCombo('cbx_cod_plano', 'nome_pla');
+  BAS_CarregarCombo('cbx_cod_statusAtivo', 'descricao_sta');
+  inherited ;
+
+end;
+
+procedure TFrm_Cad_PlanoPagto.edt_cod_planopagtoButtonClick(Sender: TObject);
+begin
+  inherited;
+  btn_alterarClick(self);
+end;
+
+procedure TFrm_Cad_PlanoPagto.BotoesPrecoOnOff(b : boolean);
+begin
+  btn_adicionarPreco.Enabled := not b ;
+  btn_alterarPreco.Enabled := not b ;
+  btn_salvarPreco.Enabled := b ;
+  btn_cancelarPreco.Enabled := b ;
+  btn_excluirPreco.Enabled := not b ;
+  DBG_matricula.Visible := not b ;
+end;
+
+
+procedure TFrm_Cad_PlanoPagto.btn_adicionarPrecoClick(Sender: TObject);
+begin
+  inherited;
+  BotoesPrecoOnOff(true);
+  edt_faixaFin_piv.Enabled := true ;
+  edt_faixaIni_piv.Enabled := true ;
+  Obj_EmptyEditTag(self, -5);
+  edt_faixaIni_piv.setfocus;
+  EscreveLog(btn_adicionarPreco.name);
+end;
+
+procedure TFrm_Cad_PlanoPagto.btn_alterarPrecoClick(Sender: TObject);
+begin
+  inherited;
+  BotoesPrecoOnOff(true);
+  BAS_CarregarCombo('cbx_cod_mes', 'nome_mes');
+  edt_faixaFin_piv.Enabled := false ;
+  edt_faixaIni_piv.Enabled := false ;
+  with Fdt_principal.spc_cons_adm_planoitemvalor do begin
+    edt_descricao_piv.text := fieldbyname('descricao_piv').asstring ;
+    edt_faixaIni_piv.text := fieldbyname('faixaIni_piv').asstring ;
+    edt_faixaFin_piv.text := fieldbyname('faixaFin_piv').asstring ;
+    edt_vlfixo_piv.text := fieldbyname('vlfixo_piv').asstring ;
+    edt_percentual_piv.text := fieldbyname('percentual_piv').asstring ;
+    edt_vldependente_piv.text := fieldbyname('vldependente_piv').asstring ;
+    rdB_maior.checked := fieldbyname('formacob_piv').asinteger = 0 ;
+    RdB_fixado.checked := fieldbyname('formacob_piv').asinteger = 1 ;
+    Rdb_Contribuicao.checked := fieldbyname('formacob_piv').asinteger = 2 ;
+    edt_obs_hpi.Text := fieldbyname('obs_piv').asstring;
+    FObsOld := edt_obs_hpi.Text;
+    FValorOld :=  fieldbyname('vlfixo_piv').asFloat;
+  end;
+  edt_descricao_piv.setfocus;
+  Obj_SetFormObjValueByName(self, cbx_cod_mes.name, FormatDateTime('m',Date));
+  edt_ano.Text := FormatDateTime('yyyy',Date);
+  EscreveLog(btn_alterarPreco.name);
+end;
+
+procedure TFrm_Cad_PlanoPagto.btn_salvarPrecoClick(Sender: TObject);
+var
+  wformacob_piv : string ;
+begin
+  inherited;
+  if (not BAS_ValidarCampo(edt_faixaIni_piv.name, 'A Idade Inicial deve ser Preenchida!', VLD_Preenchido )) or
+  (not BAS_ValidarCampo(edt_faixaFin_piv.name, 'A Idade Final deve ser Preenchida!', VLD_Preenchido )) or
+  (not BAS_ValidarCampo(edt_descricao_piv.name, 'A Descrição deve ser Preenchida!', VLD_Preenchido )) or
+  (not BAS_ValidarCampo(edt_vlfixo_piv.name, 'O Valor deve ser Preenchido!', VLD_Preenchido )) or
+  (not BAS_ValidarCampo(cbx_cod_mes.name, 'O Mês de Inicio deve ser Preenchido!', VLD_Preenchido )) or
+  (not BAS_ValidarCampo(edt_ano.name, 'O Ano de Inicio deve ser Preenchido!', VLD_Preenchido )) then
+    Exit;
+  BotoesPrecoOnOff(false);
+  if rdB_maior.Checked then
+    wformacob_piv := '0' ;
+  if RdB_fixado.Checked then
+    wformacob_piv := '1' ;
+  if Rdb_Contribuicao.Checked then
+    wformacob_piv := '2' ;
+  if edt_faixaIni_piv.Enabled then
+  begin
+    DB_ExecSql('insert into tbl_planoitemvalor ('+
+    ' cod_planopagto, descricao_piv, faixaIni_piv, faixaFin_piv, vlfixo_piv, '+
+    ' vldependente_piv, percentual_piv, formacob_piv, obs_piv) values ( '+
+    edt_cod_planopagto.text+', '''+edt_descricao_piv.text+''', '+
+    edt_faixaIni_piv.text+', '+edt_faixaFin_piv.text+', '''+STR_SubstChar(edt_vlfixo_piv.text, ',','.')+''', '''+
+    STR_SubstChar(edt_vldependente_piv.text, ',','.')+''', '''+STR_SubstChar(edt_percentual_piv.text, ',','.')+''', '+wformacob_piv+')');
+  end
+  else
+  begin
+    DB_ExecSql('update tbl_planoitemvalor set '+
+    ' descricao_piv = '''+edt_descricao_piv.text+''', vlfixo_piv = '''+STR_SubstChar(edt_vlfixo_piv.text, ',','.')+''', '+
+    ' vldependente_piv = '''+STR_SubstChar(edt_vldependente_piv.text, ',','.')+''', '+
+    ' percentual_piv = '''+STR_SubstChar(edt_percentual_piv.text, ',','.')+''', '+
+    ' formacob_piv = '+wformacob_piv+', '+
+    ' obs_piv = '+DB_FormatDataSQL(edt_obs_hpi.Text, ftString)+
+    ' where cod_planopagto = '+edt_cod_planopagto.text+' and '+
+    ' faixaIni_piv = '+edt_faixaIni_piv.text+' and faixaFin_piv = '+edt_faixaFin_piv.text);
+    //Salva Historico
+    if not ((FValorOld - 0.001 <= StrToFloat(STR_RemoveChar(edt_vlfixo_piv.Text,'.'))) and  (FValorOld + 0.001 >= StrToFloat(STR_RemoveChar(edt_vlfixo_piv.Text,'.')))) then
+    begin
+      Db_ExecSql('insert into tbl_histplanoitemvalor values ( '+
+      edt_cod_planopagto.text+', '''+edt_descricao_piv.text+''', '+
+      edt_faixaIni_piv.text+', '+edt_faixaFin_piv.text+', '+DB_FormatDataSQL(FValorOld, ftFloat)+', 0, 0, '+
+      wformacob_piv+','+DB_FormatDataSQL(Data_Subtrai1mes(StrtoDate('01/'+cbx_cod_mes.valueitem+'/'+FormatDateTime('yyyy',Date))),ftDate)+','+
+      inttoSTR(FCod_Usuario)+','''+FObsOld+''')');
+    end;
+  end;
+  with Fdt_principal.spc_cons_adm_planoitemvalor do begin
+    Close;
+    parambyname('@cod_planopagto').asstring := edt_cod_planopagto.text ;
+    Open;
+  end;
+  EscreveLog(btn_salvarPreco.name);
+end;
+
+procedure TFrm_Cad_PlanoPagto.btn_cancelarPrecoClick(Sender: TObject);
+begin
+  inherited;
+  BotoesPrecoOnOff(false);
+  EscreveLog(btn_cancelarPreco.name);
+end;
+
+procedure TFrm_Cad_PlanoPagto.btn_excluirPrecoClick(Sender: TObject);
+begin
+  inherited;
+  if Dlg_YesNo('Tem Certeza que deseja excluir essa Tabela?', Self) then begin
+    DB_ExecSQL('delete from tbl_planoitemvalor where '+
+    ' cod_planopagto = '+edt_cod_planopagto.text+' and '+
+    ' faixaIni_piv = '+edt_faixaIni_piv.text+' and faixaFin_piv = '+edt_faixaFin_piv.text);
+    Fdt_principal.spc_cons_adm_planoitemvalor.close;
+    Fdt_principal.spc_cons_adm_planoitemvalor.open;
+  end;
+  EscreveLog(btn_excluirPreco.name);
+end;
+
+procedure TFrm_Cad_PlanoPagto.btn_novoClick(Sender: TObject);
+begin
+  inherited;
+  Fdt_principal.spc_cons_adm_planoitemvalor.Close;
+end;
+
+procedure TFrm_Cad_PlanoPagto.FormShow(Sender: TObject);
+begin
+  inherited;
+  BAS_CarregarCombo('cbx_cod_statusAtivo', 'descricao_sta');
+  BAS_CarregarCombo('cbx_cod_plano', 'nome_pla');
+  BAS_CarregarCombo('cbx_cod_mes', 'nome_mes');
+ // Obj_SetFormObjValueByName(self, cbx_cod_mes.name, FormatDateTime('mm',Date));
+//  edt_ano.Text := FormatDateTime('yyyy',Date);
+end;
+
+procedure TFrm_Cad_PlanoPagto.btn_imprimirClick(Sender: TObject);
+begin
+  inherited;
+  if FStatus = FST_Alteracao then
+  begin
+    Frm_Bas_Impressao.frDBDataSet1.DataSet := Fdt_principal.spc_cons_adm_planoitemvalor;
+    Frm_Bas_Impressao.FCampo1 := edt_cod_planopagto.Text+'  -  '+edt_nome_plp.Text;
+    Frm_Bas_Impressao.FCampo2 := 'Plano de Benefícios   '+cbx_cod_plano.Text;
+    Frm_Bas_Impressao.showReport(4194);
+  end;
+end;
+
+procedure TFrm_Cad_PlanoPagto.edt_faixaFin_pivExit(Sender: TObject);
+begin
+  inherited;
+  if (edt_faixaIni_piv.Text <> '') and (edt_faixaFin_piv.Text <> '') then
+    edt_descricao_piv.Text := 'De '+edt_faixaIni_piv.Text+' a '+edt_faixaFin_piv.text+' anos';
+end;
+
+end.

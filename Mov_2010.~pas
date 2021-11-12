@@ -1,0 +1,106 @@
+unit Mov_2010;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Classes, Graphics, Controls, Forms, Dialogs,
+  Bas_TelaPadrao, ComCtrls, PDJButton, ExtCtrls, StdCtrls, DCChoice, DB,
+  Grids, DBGrids, Buttons, Mask, DBCtrls, jpeg;
+
+type
+  TFrm_Mov_2010 = class(TFrm_Bas_TelaPadrao)
+    Panel7: TPanel;
+    edt_cod_descontofolha: TDCEdit;
+    btn_cancelar: TPDJButton;
+    Panel1: TPanel;
+    edt_nome_ben: TDCEdit;
+    edt_carteira: TDCEdit;
+    Panel8: TPanel;
+    edt_nome_emp: TDCEdit;
+    edt_nome_tar: TDCEdit;
+    Panel11: TPanel;
+    edt_dtdesconto_flh: TDCDateEdit;
+    Panel5: TPanel;
+    edt_vldesconto_adf: TDCEdit;
+    Panel24: TPanel;
+    edt_matricula: TDCEdit;
+    edt_digito: TDCEdit;
+    SpeedButton6: TSpeedButton;
+    procedure btn_cancelarClick(Sender: TObject);
+    procedure SpeedButton6Click(Sender: TObject);
+    procedure FormShow(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+    FCodDesconto : String;
+  end;
+
+var
+  Frm_Mov_2010: TFrm_Mov_2010;
+
+implementation
+uses dtm_principal, DLG_Mensagem, Fun_DB, FUN_STR, Constantes, Fun_beneficiario, Fun_Acesso,
+  dtm_principal4, fun_desconto, Fun_obj ;
+
+{$R *.DFM}
+
+procedure TFrm_Mov_2010.btn_cancelarClick(Sender: TObject);
+begin
+  inherited;
+  if edt_cod_descontofolha.Text = '' then
+  begin
+    Dlg_Alerta('É necessário Digitar o Código do Desconto', self);
+  end
+  else
+  begin
+    if Dlg_YesNo('Tem certeza que deseja Cancelar os Parcelamentos em Aberto!', self) then
+    begin
+     if DB_ExecSQL('update tbl_parcelamento set cod_sitdesconto = 900 '+
+      ', cod_usuario = '+Str_IntToStr(Fcod_usuario)+
+      ' where cod_descontofolha ='+ edt_cod_descontofolha.text+' and cod_sitdesconto = 1') then
+     // Set_HistoricoDesconto(strToInt(edt_cod_descontofolha.text), Fcod_usuario, FCod_TelaSistema, 113);
+      Dlg_Ok('Parcelamentos Cancelados', self);
+      Obj_EmptyEdit(self);
+    end;
+  end;
+  EscreveLog(btn_cancelar.name);
+end;
+
+procedure TFrm_Mov_2010.SpeedButton6Click(Sender: TObject);
+begin
+  inherited;
+  if edt_cod_descontofolha.Text <> '' Then
+  begin
+    with fdt_principal4.spc_cons_adm_altecaonossoNumero do
+    begin
+      Close;
+      ParamByName('@cod_descontofolha').AsString := edt_cod_descontofolha.text;
+      Open;
+      edt_carteira.text := FormatarCarteirinha(
+      FieldByName('cod_empresa').AsString+FieldByName('cod_plano').AsString+
+      STR_RightAlign(FieldByName('inscricao_ben').AsString,#48,5)+
+      STR_RightAlign(FieldByName('titulacartei_ben').AsString,#48,2)+
+      FieldByName('digito_ben').AsString) ;
+      edt_nome_ben.Text := fieldbyname('nome_ben').AsString;
+      edt_matricula.Text := fieldByname('matriculadebito_seg').AsString;
+      edt_digito.Text := fieldbyname('digitomatdeb_seg').AsString;
+      edt_nome_emp.Text := fieldbyname('nome_emp').AsString;
+      edt_nome_tar.Text := fieldbyname('nome_tar').AsString;
+      edt_dtdesconto_flh.Text := fieldbyname('dtdesconto_flh').AsString;
+      edt_vldesconto_adf.Text := FormatFloat('###,###,##0.00', fieldbyname('vldesconto_adf').AsFloat);
+    end;
+  end;
+end;
+
+procedure TFrm_Mov_2010.FormShow(Sender: TObject);
+begin
+  inherited;
+  if FCodDesconto <> '' then
+    edt_cod_descontofolha.Text := FCodDesconto;
+end;
+
+end.
+
+
+

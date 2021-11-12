@@ -1,0 +1,70 @@
+inherited Frm_Cad_tipoedicao: TFrm_Cad_tipoedicao
+  Left = 2
+  Caption = 'Frm_Cad_tipoedicao'
+  ClientWidth = 798
+  PixelsPerInch = 96
+  TextHeight = 13
+  inherited Pnl_Titulo: TPanel
+    Width = 798
+    inherited Image1: TImage
+      Width = 796
+    end
+  end
+  inherited Panel2: TPanel
+    Width = 798
+    inherited Image3: TImage
+      Width = 796
+    end
+  end
+  inherited Panel3: TPanel
+    Width = 798
+    object Panel4: TPanel
+      Tag = -2
+      Left = 1
+      Top = 1
+      Width = 796
+      Height = 32
+      Alignment = taLeftJustify
+      Caption = '    Código '
+      TabOrder = 0
+      object edt_cod_tipoedicao: TDCChoiceEdit
+        Tag = -2
+        Left = 120
+        Top = 5
+        Width = 93
+        Height = 21
+        Hint = 
+          'Digite o código que se deseja alterar ou clique no botão para pe' +
+          'squisar'
+        MaxLength = 10
+        TabOrder = 0
+        Alignment = taRightJustify
+        OnButtonClick = edt_cod_tipoedicaoButtonClick
+        EditMask = '9999999'
+      end
+    end
+    object Panel5: TPanel
+      Tag = -1
+      Left = 1
+      Top = 33
+      Width = 796
+      Height = 32
+      Alignment = taLeftJustify
+      Caption = '    Descrição'
+      TabOrder = 1
+      object edt_descricao_ted: TDCEdit
+        Tag = -1
+        Left = 120
+        Top = 5
+        Width = 233
+        Height = 21
+        MaxLength = 40
+        TabOrder = 0
+        Text = 'DCEdit1'
+      end
+    end
+  end
+  inherited StB_Principal: TStatusBar
+    Width = 798
+  end
+end

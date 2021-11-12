@@ -1,0 +1,136 @@
+inherited Frm_Cad_sitbeneficiario: TFrm_Cad_sitbeneficiario
+  Caption = 'Frm_Cad_sitbeneficiario'
+  PixelsPerInch = 96
+  TextHeight = 13
+  inherited Panel3: TPanel
+    object Panel4: TPanel
+      Tag = -2
+      Left = 1
+      Top = 1
+      Width = 796
+      Height = 32
+      Alignment = taLeftJustify
+      Caption = '    Código da Situação'
+      TabOrder = 0
+      object edt_cod_sitbeneficiario: TDCChoiceEdit
+        Tag = -2
+        Left = 120
+        Top = 5
+        Width = 93
+        Height = 21
+        Hint = 
+          'Digite o código que se deseja alterar ou clique no botão para pe' +
+          'squisar'
+        MaxLength = 10
+        TabOrder = 0
+        Alignment = taRightJustify
+        OnButtonClick = edt_cod_sitbeneficiarioButtonClick
+        EditMask = '9999999'
+      end
+    end
+    object Panel5: TPanel
+      Tag = -1
+      Left = 1
+      Top = 33
+      Width = 796
+      Height = 32
+      Alignment = taLeftJustify
+      Caption = '     Descrição'
+      TabOrder = 1
+      object edt_nome_sit: TDCEdit
+        Tag = -1
+        Left = 120
+        Top = 5
+        Width = 225
+        Height = 21
+        MaxLength = 35
+        TabOrder = 0
+      end
+    end
+    object Panel1: TPanel
+      Tag = -1
+      Left = 1
+      Top = 65
+      Width = 796
+      Height = 64
+      Alignment = taLeftJustify
+      TabOrder = 2
+      object rdg_tipo_sit: TRadioGroup
+        Tag = -1
+        Left = 8
+        Top = 8
+        Width = 777
+        Height = 41
+        Caption = 'Situação'
+        Columns = 3
+        Items.Strings = (
+          'Normal'
+          'Suspenso'
+          'Cancelado')
+        TabOrder = 0
+      end
+    end
+    object Panel6: TPanel
+      Tag = -1
+      Left = 1
+      Top = 129
+      Width = 796
+      Height = 64
+      Alignment = taLeftJustify
+      TabOrder = 3
+      object GroupBox1: TGroupBox
+        Left = 8
+        Top = 4
+        Width = 775
+        Height = 53
+        Caption = 'Tipos de Bloqueios '
+        TabOrder = 0
+        object chb_blomedico_sit: TCheckBox
+          Tag = -1
+          Left = 200
+          Top = 24
+          Width = 97
+          Height = 17
+          Caption = 'Medico'
+          TabOrder = 0
+        end
+        object CheckBox1: TCheckBox
+          Left = 12
+          Top = 24
+          Width = 97
+          Height = 17
+          Caption = 'Administrativo'
+          TabOrder = 1
+          Visible = False
+        end
+        object chb_blofarmacia_sit: TCheckBox
+          Tag = -1
+          Left = 344
+          Top = 24
+          Width = 97
+          Height = 17
+          Caption = 'Farmácia'
+          TabOrder = 2
+        end
+        object chb_blolaboratorio_sit: TCheckBox
+          Tag = -1
+          Left = 492
+          Top = 24
+          Width = 97
+          Height = 17
+          Caption = 'Laboratório'
+          TabOrder = 3
+        end
+        object chb_bloodonto_sit: TCheckBox
+          Tag = -1
+          Left = 648
+          Top = 24
+          Width = 97
+          Height = 17
+          Caption = 'Odontológico'
+          TabOrder = 4
+        end
+      end
+    end
+  end
+end

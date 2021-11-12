@@ -1,0 +1,57 @@
+unit Imp_4094;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Classes, Graphics, Controls, Forms, Dialogs,
+  Imp_Basico, ExtCtrls, Qrctrls, QuickRpt;
+
+type
+  TFrm_Imp_4094 = class(TFrm_Imp_Basico)
+    QRSubDetail1: TQRSubDetail;
+    QRLabel6: TQRLabel;
+    QRLabel7: TQRLabel;
+    QRDBText3: TQRDBText;
+    QRDBText4: TQRDBText;
+    QRLabel18: TQRLabel;
+    QRLabel4: TQRLabel;
+    QRLabel17: TQRLabel;
+    QRLabel14: TQRLabel;
+    QRLabel3: TQRLabel;
+    QRLabel5: TQRLabel;
+    QRDBText1: TQRDBText;
+    QRDBText2: TQRDBText;
+    QRLabel8: TQRLabel;
+    QRDBText5: TQRDBText;
+    QRLabel9: TQRLabel;
+    QRDBText6: TQRDBText;
+    procedure QRLabel17Print(sender: TObject; var Value: String);
+    procedure QRLabel14Print(sender: TObject; var Value: String);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+ FPeriodoInicial, FPeriodoFinal : String ;
+
+  end;
+
+var
+  Frm_Imp_4094: TFrm_Imp_4094;
+
+implementation
+uses dtm_principal2;
+{$R *.DFM}
+
+procedure TFrm_Imp_4094.QRLabel17Print(sender: TObject; var Value: String);
+begin
+  inherited;
+  Value := FPeriodoInicial ;
+end;
+
+procedure TFrm_Imp_4094.QRLabel14Print(sender: TObject; var Value: String);
+begin
+  inherited;
+  Value := FPeriodoFinal;
+end;
+
+end.

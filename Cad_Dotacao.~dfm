@@ -1,0 +1,213 @@
+inherited Frm_Cad_Dotacao: TFrm_Cad_Dotacao
+  Left = 2
+  Caption = 'Frm_Cad_Dotacao'
+  ClientWidth = 798
+  Scaled = False
+  PixelsPerInch = 96
+  TextHeight = 13
+  inherited Pnl_Titulo2: TPanel
+    Width = 798
+    inherited Image1: TImage
+      Width = 796
+    end
+  end
+  inherited Panel2: TPanel
+    Width = 798
+    inherited Image3: TImage
+      Width = 796
+    end
+  end
+  inherited Panel3: TPanel
+    Width = 798
+    object Panel4: TPanel
+      Tag = -2
+      Left = 1
+      Top = 1
+      Width = 796
+      Height = 32
+      Alignment = taLeftJustify
+      Caption = '    Cod. Dotação'
+      TabOrder = 0
+      object edt_cod_dotacaoBase: TDCChoiceEdit
+        Tag = -3
+        Left = 130
+        Top = 5
+        Width = 137
+        Height = 21
+        Hint = 
+          'Digite o código que se deseja alterar ou clique no botão para pe' +
+          'squisar'
+        MaxLength = 10
+        TabOrder = 0
+        Alignment = taRightJustify
+        OnButtonClick = edt_cod_dotacaoBaseButtonClick
+      end
+    end
+    object Panel5: TPanel
+      Tag = -1
+      Left = 1
+      Top = 33
+      Width = 796
+      Height = 32
+      Alignment = taLeftJustify
+      Caption = '    Categoria Economica'
+      TabOrder = 1
+      object edt_cod_DtcCategEconomica: TMaskEdit
+        Tag = -1
+        Left = 130
+        Top = 5
+        Width = 70
+        Height = 21
+        EditMask = '9999\.99\.99;1;'
+        MaxLength = 10
+        TabOrder = 0
+        Text = '    .  .  '
+      end
+    end
+    object Panel1: TPanel
+      Tag = -1
+      Left = 2
+      Top = 65
+      Width = 796
+      Height = 32
+      Alignment = taLeftJustify
+      Caption = '    Função'
+      TabOrder = 2
+      object edt_cod_DtcFuncao: TDCEdit
+        Tag = -1
+        Left = 130
+        Top = 5
+        Width = 70
+        Height = 21
+        MaxLength = 250
+        TabOrder = 0
+        OnExit = edt_cod_DtcFuncaoExit
+      end
+    end
+    object Panel6: TPanel
+      Tag = -1
+      Left = 2
+      Top = 97
+      Width = 796
+      Height = 32
+      Alignment = taLeftJustify
+      Caption = '    Sub Função'
+      TabOrder = 3
+      object edt_cod_DtcSubFuncao: TDCEdit
+        Tag = -1
+        Left = 130
+        Top = 5
+        Width = 70
+        Height = 21
+        MaxLength = 250
+        TabOrder = 0
+        Text = 'DCEdit1'
+        OnExit = edt_cod_DtcSubFuncaoExit
+      end
+    end
+    object Panel8: TPanel
+      Tag = -1
+      Left = 2
+      Top = 193
+      Width = 796
+      Height = 32
+      Alignment = taLeftJustify
+      Caption = '    Projetos'
+      TabOrder = 6
+      object edt_descProjeto_dtc: TDCEdit
+        Tag = -1
+        Left = 130
+        Top = 5
+        Width = 420
+        Height = 21
+        MaxLength = 250
+        TabOrder = 0
+      end
+    end
+    object Panel9: TPanel
+      Tag = -1
+      Left = 2
+      Top = 257
+      Width = 796
+      Height = 32
+      Alignment = taLeftJustify
+      Caption = '    Operações Especiais'
+      TabOrder = 8
+      object edt_descEspecial_dtc: TDCEdit
+        Tag = -1
+        Left = 130
+        Top = 5
+        Width = 420
+        Height = 21
+        MaxLength = 250
+        TabOrder = 0
+        Text = 'DCEdit1'
+      end
+    end
+    object Panel10: TPanel
+      Tag = -1
+      Left = 2
+      Top = 129
+      Width = 796
+      Height = 32
+      Alignment = taLeftJustify
+      Caption = '    Programa'
+      TabOrder = 4
+      object edt_cod_DtcPrograma: TDCEdit
+        Tag = -1
+        Left = 130
+        Top = 5
+        Width = 70
+        Height = 21
+        MaxLength = 250
+        TabOrder = 0
+        Text = 'DCEdit1'
+        OnExit = edt_cod_DtcProgramaExit
+      end
+    end
+    object Panel7: TPanel
+      Tag = -1
+      Left = 2
+      Top = 161
+      Width = 796
+      Height = 32
+      Alignment = taLeftJustify
+      Caption = '    Projeto / Atividade'
+      TabOrder = 5
+      object edt_cod_DtcProjAtividade: TDCEdit
+        Tag = -1
+        Left = 130
+        Top = 5
+        Width = 70
+        Height = 21
+        MaxLength = 250
+        TabOrder = 0
+        Text = 'DCEdit1'
+        OnExit = edt_cod_DtcProjAtividadeExit
+      end
+    end
+    object Panel11: TPanel
+      Tag = -1
+      Left = 2
+      Top = 225
+      Width = 796
+      Height = 32
+      Alignment = taLeftJustify
+      Caption = '    Atividades'
+      TabOrder = 7
+      object edt_descAtividade_dtc: TDCEdit
+        Tag = -1
+        Left = 130
+        Top = 5
+        Width = 420
+        Height = 21
+        MaxLength = 250
+        TabOrder = 0
+        Text = 'DCEdit1'
+      end
+    end
+  end
+  inherited StB_Principal: TStatusBar
+    Width = 798
+  end
+end

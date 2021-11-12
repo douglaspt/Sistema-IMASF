@@ -1,0 +1,292 @@
+inherited Frm_Cad_SetorIMASF: TFrm_Cad_SetorIMASF
+  Caption = 'Frm_Cad_SetorIMASF'
+  OnClose = FormClose
+  PixelsPerInch = 96
+  TextHeight = 13
+  inherited Panel3: TPanel
+    object Panel4: TPanel
+      Tag = -2
+      Left = 1
+      Top = 1
+      Width = 798
+      Height = 32
+      Align = alTop
+      Alignment = taLeftJustify
+      Caption = '    Código do Setor'
+      TabOrder = 0
+      object edt_cod_setorimasf: TDCChoiceEdit
+        Tag = -2
+        Left = 150
+        Top = 5
+        Width = 93
+        Height = 21
+        Hint = 
+          'Digite o código que se deseja alterar ou clique no botão para pe' +
+          'squisar'
+        MaxLength = 10
+        TabOrder = 0
+        Alignment = taRightJustify
+        OnButtonClick = edt_cod_setorimasfButtonClick
+        EditMask = '9999999'
+      end
+    end
+    object Panel6: TPanel
+      Tag = -10
+      Left = 1
+      Top = 129
+      Width = 797
+      Height = 378
+      Alignment = taLeftJustify
+      TabOrder = 4
+      Visible = False
+      object btn_adicionar_dts: TPDJButton
+        Left = 15
+        Top = 246
+        Width = 109
+        Height = 25
+        Hint = 'Calcula a Data de Validade de Carteira do Beneficiário'
+        RepeatInterval = 50
+        RepeatStartInterval = 50
+        NumGlyphs = 1
+        NumGlyphsHot = 1
+        Caption = '&Adicionar '
+        ParentFont = False
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clBlack
+        Font.Height = -11
+        Font.Name = 'MS Sans Serif'
+        Font.Style = [fsBold]
+        OnClick = btn_adicionar_dtsClick
+        TabOrder = 1
+      end
+      object btn_alterar_dts: TPDJButton
+        Left = 128
+        Top = 246
+        Width = 109
+        Height = 25
+        Hint = 'Calcula a Data de Validade de Carteira do Beneficiário'
+        RepeatInterval = 50
+        RepeatStartInterval = 50
+        NumGlyphs = 1
+        NumGlyphsHot = 1
+        Caption = 'A&lterar '
+        ParentFont = False
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clBlack
+        Font.Height = -11
+        Font.Name = 'MS Sans Serif'
+        Font.Style = [fsBold]
+        OnClick = btn_alterar_dtsClick
+        TabOrder = 2
+      end
+      object btn_remover_dts: TPDJButton
+        Left = 466
+        Top = 246
+        Width = 109
+        Height = 25
+        Hint = 'Calcula a Data de Validade de Carteira do Beneficiário'
+        RepeatInterval = 50
+        RepeatStartInterval = 50
+        NumGlyphs = 1
+        NumGlyphsHot = 1
+        Caption = '&Remover'
+        ParentFont = False
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clBlack
+        Font.Height = -11
+        Font.Name = 'MS Sans Serif'
+        Font.Style = [fsBold]
+        OnClick = btn_remover_dtsClick
+        TabOrder = 3
+      end
+      object btn_salvar_dts: TPDJButton
+        Left = 240
+        Top = 246
+        Width = 109
+        Height = 25
+        Hint = 'Calcula a Data de Validade de Carteira do Beneficiário'
+        RepeatInterval = 50
+        RepeatStartInterval = 50
+        NumGlyphs = 1
+        NumGlyphsHot = 1
+        Enabled = False
+        Caption = '&Salvar'
+        ParentFont = False
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clBlack
+        Font.Height = -11
+        Font.Name = 'MS Sans Serif'
+        Font.Style = [fsBold]
+        OnClick = btn_salvar_dtsClick
+        TabOrder = 4
+      end
+      object btn_cancelar_dts: TPDJButton
+        Left = 353
+        Top = 246
+        Width = 109
+        Height = 25
+        Hint = 'Calcula a Data de Validade de Carteira do Beneficiário'
+        RepeatInterval = 50
+        RepeatStartInterval = 50
+        NumGlyphs = 1
+        NumGlyphsHot = 1
+        Enabled = False
+        Caption = '&Cancelar'
+        ParentFont = False
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clBlack
+        Font.Height = -11
+        Font.Name = 'MS Sans Serif'
+        Font.Style = [fsBold]
+        OnClick = btn_cancelar_dtsClick
+        TabOrder = 5
+      end
+      object Panel7: TPanel
+        Tag = -1
+        Left = 12
+        Top = 21
+        Width = 767
+        Height = 32
+        Alignment = taLeftJustify
+        Caption = '    Cod. Dotacao'
+        TabOrder = 6
+        object cbx_cod_dotacao: TDCComboBox
+          Left = 108
+          Top = 5
+          Width = 229
+          Height = 21
+          Hint = 'INSCRIÇÃO NO BÁSICO, INTERMEDIÁRIO OU ESPECIAL'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -11
+          Font.Name = 'MS Sans Serif'
+          Font.Style = [fsBold]
+          ParentFont = False
+          ParentShowHint = False
+          ShowHint = True
+          TabOrder = 0
+          ValueItem = ''
+          ItemHeight = 0
+          Style = csDropDownList
+          ShowCheckBox = True
+        end
+      end
+      object dbg_dotacaoSetor: TDBGrid
+        Left = 8
+        Top = 16
+        Width = 774
+        Height = 209
+        DataSource = DataSource1
+        Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgRowSelect, dgConfirmDelete, dgCancelOnExit]
+        TabOrder = 0
+        TitleFont.Charset = DEFAULT_CHARSET
+        TitleFont.Color = clWindowText
+        TitleFont.Height = -11
+        TitleFont.Name = 'MS Sans Serif'
+        TitleFont.Style = []
+        Columns = <
+          item
+            Expanded = False
+            FieldName = 'dotacao'
+            Visible = True
+          end
+          item
+            Expanded = False
+            FieldName = 'Proj_Ativ_OpEsp'
+            Width = 428
+            Visible = True
+          end
+          item
+            Expanded = False
+            FieldName = 'valor_dtc'
+            Width = 110
+            Visible = True
+          end>
+      end
+    end
+    object Panel8: TPanel
+      Tag = -1
+      Left = 1
+      Top = 65
+      Width = 798
+      Height = 32
+      Alignment = taLeftJustify
+      Caption = '    Responsável '
+      TabOrder = 2
+      object cbx_cod_usuarioChefe: TDCComboBox
+        Tag = -1
+        Left = 150
+        Top = 5
+        Width = 240
+        Height = 21
+        TabOrder = 0
+        Items.Strings = (
+          '0 - Disquete / Arquivo Magnético enviado pelo Conveniado'
+          '1 - Conta não recebida por meio Magnético e deverá ser digitada')
+        ValueItem = ''
+        ItemHeight = 0
+        Style = csDropDownList
+        ShowCheckBox = True
+      end
+      object chb_flag_sti: TCheckBox
+        Tag = -1
+        Left = 416
+        Top = 8
+        Width = 97
+        Height = 17
+        Caption = 'Ausente'
+        TabOrder = 1
+      end
+    end
+    object Panel1: TPanel
+      Tag = -1
+      Left = 1
+      Top = 97
+      Width = 798
+      Height = 32
+      Alignment = taLeftJustify
+      Caption = '    Responsável na ausência'
+      TabOrder = 3
+      object cbx_cod_usuarioResponsavel: TDCComboBox
+        Tag = -1
+        Left = 150
+        Top = 5
+        Width = 240
+        Height = 21
+        TabOrder = 0
+        Items.Strings = (
+          '0 - Disquete / Arquivo Magnético enviado pelo Conveniado'
+          '1 - Conta não recebida por meio Magnético e deverá ser digitada')
+        ValueItem = ''
+        ItemHeight = 0
+        Style = csDropDownList
+        ShowCheckBox = True
+      end
+    end
+    object Panel5: TPanel
+      Tag = -1
+      Left = 1
+      Top = 33
+      Width = 798
+      Height = 32
+      Alignment = taLeftJustify
+      Caption = '    Nome do Setor'
+      TabOrder = 1
+      object edt_nome_sti: TDCEdit
+        Tag = -1
+        Left = 150
+        Top = 5
+        Width = 240
+        Height = 21
+        MaxLength = 20
+        TabOrder = 0
+        Text = 'DCEdit1'
+      end
+    end
+  end
+  object DataSource1: TDataSource
+    DataSet = fdt_principal4.spc_cons_adm_dotacaoSetor
+    Left = 625
+    Top = 181
+  end
+end
